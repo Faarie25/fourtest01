@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FOUR | Design That Organizes Life. Precision in Every Corner.</title>
-    <meta name="description" content="FOUR is a modern brand offering space organization solutions—dari bedroom to workspace—combining minimalist design, maximum function, dan smart modularity.">
+    <meta name="description" content="FOUR is a modern brand offering space organization solutions—dari bedroom ke workspace—combining minimalist design, maximum function, dan smart modularity.">
     <!-- OpenGraph/SEO placeholders -->
     <meta property="og:title" content="FOUR | Precision in Every Corner">
     <meta property="og:description" content="Minimal form. Maximum function—built for modern desks and rooms.">
@@ -26,7 +26,7 @@
 
             /* Global Typography: System Font Stack (UGREEN-like consistency) */
             --font-sans: -apple-system, BlinkMacMacSystemFont, "Helvetica Neue", Helvetica, Arial,
-                        "SF Pro Display","SF Pro Text","Segoe UI", Roboto, "Noto Sans", sans-serif;
+                         "SF Pro Display","SF Pro Text","Segoe UI", Roboto, "Noto Sans", sans-serif;
         }
 
         /* Extend Tailwind Colors */
@@ -112,7 +112,7 @@
             overflow: hidden !important;     /* CRITICAL: Hide leaking shapes/pseudo-elements */
             box-sizing: border-box !important;
             line-height: 1 !important;        /* Prevent vertical misalignment */
-            position: relative !important;    /* For robust styling */
+            position: relative !important;     /* For robust styling */
 
             /* Default State: Pill, Transparent Background, Black Text, Gray Outline */
             font-weight: 600; /* Use semibold for consistency */
@@ -244,7 +244,7 @@
         /* Laci/Menu Utama - SLIDING LEFT (UGREEN Style: Full Width, Below Header) */
         #mobile-drawer {
             transform: translateX(-100vw);
-            transition: transform 0.3s ease-in-out;
+            transition: transform 0.3s ease-in-out; 
             /* Dimensions (Full Width, Height below header) */
             width: 100vw; /* FULL WIDTH */
             max-width: none; 
@@ -264,9 +264,48 @@
             z-index: 35; /* DI BAWAH header (z-40) */
         }
 
+        /* State normal open */
         #mobile-drawer-overlay.active #mobile-drawer {
+          transform: translateX(0);
+        }
+
+        /* State closing (slide out ke kiri) */
+        #mobile-drawer-overlay.closing #mobile-drawer {
+          transform: translateX(-100vw);
+        }
+
+        /* Overlay fade out saat closing */
+        #mobile-drawer-overlay.closing {
+          opacity: 0;
+          transition: opacity 0.3s ease-in-out;
+          pointer-events: none;
+        }
+        
+        /* ===== DRAWER ITEM ANIMATION (FINAL FIX) ===== */
+        
+        /* keadaan awal (sebelum active) */
+        #mobile-drawer .drawer-item {
+            opacity: 0;
+            transform: translateX(-24px); /* slide dari kiri */
+            transition: opacity 400ms ease, transform 400ms ease;
+            will-change: opacity, transform;
+        }
+
+        /* State saat aktif */
+        #mobile-drawer-overlay.active #mobile-drawer .drawer-item.is-visible {
+            opacity: 1;
             transform: translateX(0);
         }
+
+        /* Reduced motion respect */
+        @media (prefers-reduced-motion: reduce) {
+          #mobile-drawer .drawer-item {
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
+          }
+        }
+        /* ===== END DRAWER ITEM ANIMATION ===== */
 
         /* Style untuk Main Menu Items - UGREEN Spacing & Divider */
         .drawer-nav-item {
@@ -544,18 +583,18 @@
 
         .drawer-label{
           flex:1 1 auto !important;
-          min-width:0 !important;           /* penting untuk flex text */
-          white-space:nowrap !important;     /* jangan turun baris */
+          min-width:0 !important;         /* penting untuk flex text */
+          white-space:nowrap !important;   /* jangan turun baris */
           overflow:hidden !important;
           text-overflow:ellipsis !important; /* sempit, jadi ... */
         }
 
         /* Nav link inside drawer with smoother animation */
         #mobile-drawer a.drawer-nav-item {
-              transition: background-color 0.15s ease-in-out;
+             transition: background-color 0.15s ease-in-out;
         }
         #mobile-drawer a.drawer-nav-item:hover {
-              background-color: rgba(0, 0, 0, 0.04) !important;
+             background-color: rgba(0, 0, 0, 0.04) !important;
         }
 
 
@@ -572,7 +611,7 @@
         /* FIX MUTLAK: Tombol Silang (2) */
         #mobile-drawer-close-btn{
           position:relative !important;
-          z-index:100000 !important;     /* paling atas */
+          z-index:100000 !important;      /* paling atas */
           pointer-events:auto !important; /* pastikan bisa diklik */
           cursor:pointer !important;
         }
@@ -599,12 +638,12 @@
           justify-content: space-between !important;
 
           /* ini yang bikin "lapang" */
-          padding: 22px 20px !important;      /* UGREEN-like */
-          min-height: 68px !important;         /* bar tinggi */
+          padding: 22px 20px !important;       /* UGREEN-like */
+          min-height: 68px !important;           /* bar tinggi */
           line-height: 1.2 !important;
 
-          font-size: 22px !important;          /* lebih besar */
-          font-weight: 600 !important;         /* semibold */
+          font-size: 22px !important;            /* lebih besar */
+          font-weight: 600 !important;           /* semibold */
           color: #111 !important;
 
           border-bottom: 1px solid rgba(0,0,0,0.10) !important;
@@ -831,73 +870,101 @@
           .hero-progress-wrap{ bottom: 14px !important; }
         }
 
-        /* ===== UGREEN CATEGORY LINEUP STYLE (SECTION A) - FIX MUTLAK ===== */
-        .category-box {
-            /* Shape and Container */
-            display: flex !important;
-            flex-direction: column !important;
-            justify-content: flex-end !important; /* PUSH CONTENT TO BOTTOM */
-            align-items: center !important;
-            text-align: center !important;
-            
-            /* Style */
-            background-color: #F3F3F3 !important; /* Light gray/off-white */
-            border-radius: 0px !important; /* <-- FIX 1: Kotak Tajam */
-            
-            /* Height and Padding (Must be defined for uniform, large bar) */
-            height: 280px; /* Uniform height (UGREEN feel) */
-            padding: 32px !important; /* Lega padding */
-            transition: all 0.2s ease;
-            cursor: pointer;
-            box-shadow: none !important; /* No heavy shadow */
+        /* ===== UGREEN CATEGORY LINEUP STYLE (SECTION A) - FIX MUTLAK: 4:5 Aspect Ratio ===== */
+        .category-box{
+          display:flex !important;
+          flex-direction:column !important;
+          justify-content:flex-end !important;  /* judul nempel bawah */
+          align-items:center !important;
+          text-align:center !important;
+
+          background:#F3F3F3 !important;
+          border-radius:0 !important;
+
+          /* 🔒 FIX MUTLAK: 4:5 */
+          aspect-ratio: 4 / 5 !important;
+          width:100% !important;
+          height:auto !important;
+
+          padding:24px !important; /* sedikit lebih pas untuk 4:5 */
+          box-shadow:none !important;
+          transition:all .2s ease;
+          cursor:pointer !important;
+          overflow:hidden !important; /* jaga konten gak bocor */
+        }
+        .category-box:hover{ background:#EBECEE !important; }
+
+        /* PATCH B: Media area (for image) and label refinement */
+        .category-media{
+          width:100%;
+          flex:1 1 auto;              /* area atas untuk foto */
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          padding:18px 18px 10px;
         }
 
-        .category-box:hover {
-            background-color: #EBECEE !important; /* Subtle darker on hover */
+        .category-media img{
+          width:100%;
+          height:100%;
+          object-fit:contain;          /* aman untuk foto produk */
+          max-height:100%;
         }
 
-        .category-label {
-            /* 4. POSISI TEKS: Di bawah box, center */
-            font-size: 18px !important;
-            font-weight: 600 !important;
-            color: var(--color-matte-black) !important;
-            line-height: 1.2;
-            margin-top: 20px !important; /* Tambahkan sedikit jarak dari bottom edge */
+        .category-label{
+          width:100% !important;
+          font-size:16px !important;
+          font-weight:600 !important;
+          color: var(--color-matte-black) !important; /* Ensure color is set */
+          line-height:1.2 !important;
+          margin-top:12px !important;
+          margin-bottom:0 !important; /* Ensure tight fit at bottom */
 
-            /* <-- FIX 2: Single line text, no wrap */
-            white-space: nowrap !important;
-            overflow: hidden !important;
-            text-overflow: ellipsis !important;
-            display: block !important;
-            text-align: center !important;
+          white-space:nowrap !important;
+          overflow:hidden !important;
+          text-overflow:ellipsis !important;
+          text-align:center !important;
+          display: block !important; /* Ensure block display for width */
         }
-
+        
         /* Ensure the CTA buttons inside the categories are hidden if they exist */
         .category-box .btn-primary {
             display: none !important;
         }
         
-        /* ===== MOBILE HORIZONTAL SCROLL FIX (2) - SCROLL SNAP FIX MUTLAK ===== */
+        /* PATCH C: Responsive Grid Fixes for .lineup-container */
+        /* Desktop & tablet: grid normal, ensures all cards are same height */
+        .lineup-container{
+          align-items:stretch !important; /* semua kartu sama tinggi */
+        }
+        @media (min-width: 768px){
+          /* Explicitly enforce the grid for tablet/desktop to avoid layout collapse */
+          .lineup-container{
+            display:grid !important;
+            grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+            /* Remove flex properties potentially set globally on .lineup-container */
+            flex-wrap: wrap !important; 
+            overflow-x: visible !important;
+          }
+        }
+        /* Mobile: horizontal swipe + snap (reconfirming previous mobile styles) */
         @media (max-width: 767px) {
+          /* Reconfirming mobile horizontal scroll logic which was already robust, but adding overrides to ensure new desktop grid doesn't interfere */
           .lineup-container {
-            /* Override grid on mobile/tablet to enable horizontal flex scroll */
             display: flex !important;
             flex-wrap: nowrap !important;
             overflow-x: scroll !important;
             
-            /* Counteract parent px-4 padding (1rem) and then add padding inside the scroll container */
             margin: 0 -1rem !important; 
-            padding: 0 1rem 20px 1rem !important; /* Re-apply internal padding, add bottom padding for scroll area */
+            padding: 0 1rem 20px 1rem !important;
             
-            gap: 16px !important; /* Consistent gap between cards */
+            gap: 16px !important; 
             
-            /* SCROLL SNAP PROPERTIES */
             scroll-snap-type: x mandatory !important;
-            scroll-padding-left: 1rem !important; /* Snap start must match the left padding */
+            scroll-padding-left: 1rem !important; 
             scroll-behavior: smooth !important;
             -webkit-overflow-scrolling: touch !important;
 
-            /* Hide scrollbar */
             -ms-overflow-style: none;
             scrollbar-width: none; 
           }
@@ -917,6 +984,39 @@
             /* Remove margins inherited from grid */
             margin-right: 0 !important;
             margin-left: 0 !important;
+            height: auto !important; /* Use auto height based on aspect ratio */
+          }
+        }
+
+        /* ===== PATCH 1: DESKTOP CARD REVEAL (STAGGER) ===== */
+        @media (min-width: 768px){
+          .card-reveal{
+            opacity: 0;
+            transform: translateX(-24px);
+            transition: opacity .55s ease, transform .55s ease;
+            will-change: opacity, transform;
+          }
+          .card-reveal.is-visible{
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        /* ===== MOBILE: jangan pakai stagger per-card (biar simpel) ===== */
+        @media (max-width: 767px){
+          .card-reveal{
+            opacity: 1;
+            transform: none;
+            transition: none;
+          }
+        }
+
+        /* ===== Reduced motion ===== */
+        @media (prefers-reduced-motion: reduce){
+          .card-reveal{
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
           }
         }
         
@@ -935,7 +1035,7 @@
 
         /* The main card element style (Overriding parent black background style) */
         #four-principles .principle-card {
-            /* VISUAL MATCH: Explore Lineup */
+            /* VISUAL MATCH: Explore Lineup - Using old height for a different visual effect */
             display: flex !important;
             flex-direction: column !important;
             justify-content: space-between !important; /* Push label to bottom */
@@ -1128,7 +1228,7 @@
         .tab-button-ugreen {
              /* Tab Button Style (REVISED FONT/SPACING) */
             @apply px-0 py-3.5 text-lg font-semibold cursor-pointer z-10 
-                   relative transition duration-200 ease-in-out bg-transparent;
+                     relative transition duration-200 ease-in-out bg-transparent;
             color: var(--color-soft-gray) !important; /* Inactive color */
             letter-spacing: 0.04em; /* Match request */
             margin-bottom: -1px; /* Pull up to hide default border */
@@ -1165,99 +1265,10 @@
         }
         /* ===== END SECTION C STYLES ===== */
 
-        /* ===== FOUR ANCHOR NEW HORIZONTAL CARD SYSTEM STYLES (REPLACEMENT) ===== */
-
-        /* 1. Track Container (Horizontal Flex/Snap) */
-        /* Note: Using max-w-7xl px-4 container from HTML as base, CSS handles internal scroll */
-        .anchor-track {
-            display: flex;
-            flex-wrap: nowrap;
-            gap: 32px; /* Desktop gap-8 */
-            overflow-x: auto;
-            overflow-y: hidden;
-            -webkit-overflow-scrolling: touch;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            padding-bottom: 8px; /* Space for scrollbar if visible */
-            touch-action: pan-x;
-            /* Hide scrollbar */
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        .anchor-track::-webkit-scrollbar { display: none; }
-
-        /* 2. Card Style (Mirrors .category-box) */
-        .anchor-card {
-            /* Base style copied from .category-box */
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end; 
-            align-items: center;
-            text-align: center;
-            background-color: #F3F3F3; 
-            border-radius: 0px; 
-            height: 280px; /* Uniform height match */
-            padding: 32px;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            text-decoration: none;
-
-            /* Snap properties */
-            flex-shrink: 0;
-            scroll-snap-align: start;
-            scroll-snap-stop: always;
-            
-            /* Desktop Width: 4 cards in a row */
-            flex: 1 1 0; 
-        }
-        .anchor-card:hover {
-            background-color: #EBECEE;
-        }
-        
-        /* 3. Card Label (Anti-Wrap Text) */
-        .anchor-card-label {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--color-matte-black);
-            line-height: 1.2;
-            margin-top: 20px; 
-            
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: block;
-            text-align: center;
-            width: 100%;
-        }
-
-        /* 4. Mobile Responsive Fixes (Horizontal Scroll Activation) */
-        @media (max-width: 1023px) {
-            /* Overriding container padding for full swipe area only on mobile/tablet */
-            /* This is applied to the track when the parent container has px-4 (1rem) */
-            #visual-expansion-system {
-                /* Overrides max-w-6xl's auto margins */
-                margin-left: -1rem;
-                margin-right: -1rem;
-                max-width: none;
-            }
-            
-            .anchor-track {
-                /* Counteract parent -1rem margin, re-apply padding inside scroll area */
-                margin: 0 0 0 0 !important;
-                padding: 0 1rem 20px 1rem;
-                gap: 16px; /* Smaller gap on mobile */
-                scroll-padding-left: 1rem;
-            }
-
-            .anchor-card {
-                /* Fixed width for snap/swipe feel */
-                min-width: 70vw; 
-                height: 240px; 
-                /* Ensures flex sizing doesn't break horizontal scroll */
-                flex-basis: auto; 
-            }
-        }
-        /* End FOUR ANCHOR New Horizontal Card System Styles */
+        /* ===== FOUR ANCHOR NEW HORIZONTAL CARD SYSTEM STYLES (DELETED) ===== */
+        /* The previous CSS blocks for .anchor-track, .anchor-card, and their media queries were removed
+           to ensure consistency with .lineup-container and .category-box. */
+        /* ================================================================= */
 
         /* ===== SCROLL REVEAL ANIMATION STYLES (NEW) ===== */
         .reveal-title, .reveal-sub {
@@ -1299,7 +1310,7 @@
         .anchor-tab-button {
             /* Base Tab Button Style (Mirrors .tab-button-ugreen) */
             @apply px-0 py-3.5 text-base lg:text-lg font-semibold cursor-pointer z-10 
-                   relative transition duration-200 ease-in-out bg-transparent;
+                     relative transition duration-200 ease-in-out bg-transparent;
             color: var(--color-soft-gray) !important; /* Inactive color */
             letter-spacing: 0.04em; 
             margin-bottom: -1px; /* Pull up to hide default border */
@@ -1335,37 +1346,36 @@
             <!-- List Navigasi Mobile -->
             <nav class="flex flex-col space-y-0 overflow-y-auto flex-grow">
                 
-                <!-- MENU UTAMA (5 ITEMS) - REVISI MENU -->
-                <!-- onclick attributes removed -->
-                <a href="#explore-lineup" class="drawer-nav-item">
+                <!-- MENU UTAMA (5 ITEMS) - PATCH 2: ADD drawer-item class -->
+                <a href="#explore-lineup" class="drawer-nav-item drawer-item">
                     <span class="drawer-label">Explore</span>
                     <span class="drawer-chevron">
                         <svg class="w-4 h-4 drawer-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </span>
                 </a>
                 
-                <a href="#signature-collections" class="drawer-nav-item">
+                <a href="#signature-collections" class="drawer-nav-item drawer-item">
                     <span class="drawer-label">Collections</span>
                     <span class="drawer-chevron">
                         <svg class="w-4 h-4 drawer-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </span>
                 </a>
                 
-                <a href="#four-principles" class="drawer-nav-item">
+                <a href="#four-principles" class="drawer-nav-item drawer-item">
                     <span class="drawer-label">Principles</span>
                     <span class="drawer-chevron">
                         <svg class="w-4 h-4 drawer-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </span>
                 </a>
                 
-                <a href="#precision-design" class="drawer-nav-item">
+                <a href="#precision-design" class="drawer-nav-item drawer-item">
                     <span class="drawer-label">Driven</span>
                     <span class="drawer-chevron">
                         <svg class="w-4 h-4 drawer-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </span>
                 </a>
 
-                <a href="#newsroom" class="drawer-nav-item">
+                <a href="#newsroom" class="drawer-nav-item drawer-item">
                     <span class="drawer-label">Newsroom</span>
                     <span class="drawer-chevron">
                         <svg class="w-4 h-4 drawer-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
@@ -1373,11 +1383,12 @@
                 </a>
 
                 <!-- BAGIAN BAWAH (STORE & ACCOUNT) - SECTION TITLE BARU -->
-                <!-- Menggunakan tag h4 dengan kelas mutlak untuk styling jarak -->
-                <h4 class="store-links-title drawer-section-title">Store Links</h4>
+                <!-- PATCH 2: ADD drawer-item class -->
+                <h4 class="store-links-title drawer-section-title drawer-item">Store Links</h4>
                 
                 <!-- Secondary Links (3 items) -->
-                <a href="#" class="drawer-secondary-link border-t-0">
+                <!-- PATCH 2: ADD drawer-item class -->
+                <a href="#" class="drawer-secondary-link border-t-0 drawer-item">
                     <span class="drawer-label text-base font-normal">Charging Stand for MagSafe</span>
                     <!-- External Link Icon ↗ -->
                     <span class="drawer-external">
@@ -1385,14 +1396,16 @@
                     </span>
                 </a>
                 
-                <a href="#" class="drawer-secondary-link">
+                <!-- PATCH 2: ADD drawer-item class -->
+                <a href="#" class="drawer-secondary-link drawer-item">
                     <span class="drawer-label text-base font-normal">Shopping Cart</span>
                     <span class="drawer-external">
                         <svg class="drawer-external-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                     </span>
                 </a>
                 
-                <a href="#" class="drawer-secondary-link border-b-0">
+                <!-- PATCH 2: ADD drawer-item class -->
+                <a href="#" class="drawer-secondary-link border-b-0 drawer-item">
                     <span class="drawer-label text-base font-normal">Account</span>
                     <span class="drawer-external">
                         <svg class="drawer-external-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
@@ -1400,7 +1413,8 @@
                 </a>
                 
                 <!-- LANGUAGE SELECTOR (FIX) - Menggunakan kelas mutlak untuk padding/gap -->
-                <div class="drawer-language-row">
+                <!-- PATCH 2: ADD drawer-item class -->
+                <div class="drawer-language-row drawer-item">
                     <!-- World Icon (Black/Dark) -->
                     <svg class="w-5 h-5 drawer-language-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v2.472A4.5 4.5 0 0012 21.5M16 8V6a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m8 0v2m0 0v2m-6-4h.01M16 16v1m-3 3l3-3m0 0l3 3m-3-3v3m0-6h.01M12 21.5a4.5 4.5 0 005.945-7.555M12 21.5v-6.5m0 0h6.5"/></svg>
                     <span class="text-base font-normal">United States (English)</span>
@@ -1556,25 +1570,36 @@
             <!-- Grid MD dan Gap Desktop tetap dipertahankan -->
             <div id="lineup-container" class="lineup-container grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12">
                 
-                <!-- Box 1: Wireless Charging -->
-                <a href="#" class="category-box group scroll-reveal">
-                    <!-- Placeholder for image/icon area if needed (implicitly reserved by flex-end) -->
+                <!-- Box 1: Wireless Charging (Added card-reveal) -->
+                <a href="#" class="category-box group scroll-reveal card-reveal">
+                    <div class="category-media">
+                        <img src="https://placehold.co/400x500/F3F3F3/0A0A0A?text=Charging+Stand" alt="Wireless Charging Product">
+                    </div>
                     <p class="category-label">Wireless Charging</p>
                 </a>
                 
-                <!-- Box 2: Coming Soon -->
-                <a href="#" class="category-box group scroll-reveal">
-                    <p class="category-label">Coming Soon</p>
+                <!-- Box 2: Storage Systems (Added card-reveal) -->
+                <a href="#" class="category-box group scroll-reveal card-reveal">
+                    <div class="category-media">
+                        <img src="https://placehold.co/400x500/F3F3F3/0A0A0A?text=Storage+System" alt="Storage Systems Product">
+                    </div>
+                    <p class="category-label">Storage Systems</p>
                 </a>
 
-                <!-- Box 3: Coming Soon -->
-                <a href="#" class="category-box group scroll-reveal">
-                    <p class="category-label">Coming Soon</p>
+                <!-- Box 3: Monitor Risers (Added card-reveal) -->
+                <a href="#" class="category-box group scroll-reveal card-reveal">
+                    <div class="category-media">
+                        <img src="https://placehold.co/400x500/F3F3F3/0A0A0A?text=Monitor+Riser" alt="Monitor Risers Product">
+                    </div>
+                    <p class="category-label">Monitor Risers</p>
                 </a>
 
-                <!-- Box 4: Coming Soon -->
-                <a href="#" class="category-box group scroll-reveal">
-                    <p class="category-label">Coming Soon</p>
+                <!-- Box 4: Cable Management (Added card-reveal) -->
+                <a href="#" class="category-box group scroll-reveal card-reveal">
+                    <div class="category-media">
+                        <img src="https://placehold.co/400x500/F3F3F3/0A0A0A?text=Cable+Mgmt" alt="Cable Management Product">
+                    </div>
+                    <p class="category-label">Cable Management</p>
                 </a>
             </div>
         </section>
@@ -1596,13 +1621,16 @@
                         Designed to stay. Built for focus.
                     </h2>
                     
-                    <!-- 3. Product Visual (Horizontal Snap Scroll Track) -->
+                    <!-- 3. Product Visual (Horizontal Snap Scroll Track) - Uses lineup-container structure now -->
                     <!-- Margin reduced from mb-16 to mb-10 for tab space -->
                     <div id="visual-expansion-system" class="max-w-6xl mx-auto mb-10 scroll-reveal relative">
                         
-                        <!-- Anchor Track - Cards populated by JS based on tab -->
-                        <div id="anchor-card-track" class="anchor-track">
-                            <!-- Cards will be dynamically inserted here -->
+                        <!-- Anchor Track - Cards populated by JS based on tab. Now uses the same classes as Section A. -->
+                        <div
+                          id="anchor-card-track"
+                          class="lineup-container grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12"
+                        >
+                            <!-- Cards will be dynamically inserted here by JS (with card-reveal) -->
                         </div>
                     </div>
 
@@ -1629,8 +1657,7 @@
                             <span>PRE-ORDER NOW</span> 
                             <!-- SVG ICON: Consistent with existing CTA -->
                             <svg class="cta-arrow-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                            </svg>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </div>
 
@@ -1682,8 +1709,7 @@
                             <span>Discover Everyday Essentials</span> 
                             <!-- SVG ICON: Using the path of the existing Chevron Down from Header but interpreted as a right arrow -->
                             <svg class="cta-arrow-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                            </svg>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </div>
                 </div>
@@ -1805,8 +1831,8 @@
                 <!-- News Card 1 - Placeholder -->
                 <a href="#" class="group scroll-reveal block overflow-hidden bg-warm-white border border-soft-gray/30 hover:shadow-premium transition duration-300 reveal-sub">
                     <div class="h-40 bg-muted-navy/20 flex items-center justify-center">
-                                            <!-- FIX: Menggunakan text-white -->
-                                            <p class="text-sm text-white">Article Image Placeholder</p>
+                                                <!-- FIX: Menggunakan text-white -->
+                                                <p class="text-sm text-white">Article Image Placeholder</p>
                     </div>
                     <div class="p-6">
                         <p class="text-xs text-soft-gray mb-2">November 10, 2025</p>
@@ -1940,16 +1966,6 @@
         // JAVASCRIPT UNTUK INTERAKSI
         // ===================================
 
-        // Variabel global untuk elemen drawer (agar bisa diakses oleh fungsi global)
-        // Dihapus karena akan didefinisikan lokal di dalam DOMContentLoaded.
-
-        /**
-         * Fungsi global untuk mengontrol status mobile drawer.
-         * Didefinisikan ulang lokal di dalam DOMContentLoaded untuk menghindari ReferenceError.
-         */
-        // Hapus definisi global toggleDrawer
-
-
         // Utility function for throttling scroll events
         const debounce = (func, delay) => {
             let timeoutId;
@@ -1969,27 +1985,112 @@
             const drawerCloseBtn = document.getElementById('mobile-drawer-close-btn');
             const drawerOverlay = document.getElementById('mobile-drawer-overlay');
             
-            // Definisikan fungsi toggleDrawer di scope ini
+            // PATCH 3: Helper functions for Stagger Animation
+            const playDrawerStagger = () => {
+                const items = document.querySelectorAll('#mobile-drawer .drawer-item');
+                const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+                // RESET dulu (penting!)
+                items.forEach(el => {
+                    el.classList.remove('is-visible');
+                    el.style.transitionDelay = '0ms'; 
+                }); 
+
+                if (prefersReduced) return;
+
+                // Trigger ulang dengan delay
+                items.forEach((el, i) => {
+                    // Stagger: 70ms per item
+                    el.style.transitionDelay = `${i * 70}ms`;
+                    // next frame biar transition kebaca
+                    requestAnimationFrame(() => el.classList.add('is-visible'));
+                });
+            };
+
+            const resetDrawerStagger = () => {
+                const items = document.querySelectorAll('#mobile-drawer .drawer-item');
+                items.forEach(el => {
+                    el.classList.remove('is-visible');
+                    el.style.transitionDelay = '0ms';
+                });
+            };
+
+            // PATCH 1: REPLACE TOTAL fungsi toggleDrawer()
             const toggleDrawer = (open) => {
-                if (!drawerOverlay || !drawerOpenBtn || !drawerCloseBtn) {
-                    console.error("Drawer elements not initialized. Cannot toggle.");
-                    return;
-                }
+                if (!drawerOverlay || !drawerOpenBtn || !drawerCloseBtn) return;
 
-                const isActive = open !== undefined ? open : drawerOverlay.classList.contains('active');
+                const isOpen = drawerOverlay.classList.contains('active');
+                const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                const DURATION = prefersReduced ? 0 : 300; // Skip animation if reduced motion is preferred
 
-                if (open === true || !isActive) {
-                    // Buka drawer
+                // Explicit open
+                if (open === true) {
+                    console.log('OPENING DRAWER (Explicit)');
+                    drawerOverlay.classList.remove('closing'); // 🔒 reset closing state
                     drawerOverlay.classList.add('active');
                     drawerOpenBtn.classList.add('hidden');
                     drawerCloseBtn.classList.remove('hidden');
                     document.body.style.overflow = 'hidden';
+                    
+                    // ✅ trigger stagger setelah drawer muncul
+                    requestAnimationFrame(() => playDrawerStagger());
+                    return;
+                }
+
+                // Explicit close
+                if (open === false) {
+                    console.log('CLOSING DRAWER (Explicit)');
+                    
+                    // Trigger exit animation
+                    drawerOverlay.classList.add('closing');
+                    
+                    // Hide drawer and clean state after animation duration
+                    setTimeout(() => {
+                        drawerOverlay.classList.remove('active');
+                        drawerOverlay.classList.remove('closing');
+
+                        drawerOpenBtn.classList.remove('hidden');
+                        drawerCloseBtn.classList.add('hidden');
+                        document.body.style.overflow = '';
+                        
+                        // ✅ reset item animation state
+                        resetDrawerStagger();
+                    }, DURATION); 
+
+                    return;
+                }
+
+                // Toggle mode (open undefined)
+                if (!isOpen) {
+                    // OPEN
+                    console.log('OPENING DRAWER (Toggle)');
+                    drawerOverlay.classList.remove('closing'); // 🔒 reset closing state
+                    drawerOverlay.classList.add('active');
+                    drawerOpenBtn.classList.add('hidden');
+                    drawerCloseBtn.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+
+                    // ✅ trigger stagger setelah drawer muncul
+                    requestAnimationFrame(() => playDrawerStagger());
                 } else {
-                    // Tutup drawer
-                    drawerOverlay.classList.remove('active');
-                    drawerOpenBtn.classList.remove('hidden');
-                    drawerCloseBtn.classList.add('hidden');
-                    document.body.style.overflow = '';
+                    // CLOSE (Toggle)
+                    console.log('CLOSING DRAWER (Toggle)');
+                    
+                    // Trigger exit animation
+                    drawerOverlay.classList.add('closing');
+                    
+                    // Hide drawer and clean state after animation duration
+                    setTimeout(() => {
+                        drawerOverlay.classList.remove('active');
+                        drawerOverlay.classList.remove('closing');
+                        
+                        drawerOpenBtn.classList.remove('hidden');
+                        drawerCloseBtn.classList.add('hidden');
+                        document.body.style.overflow = '';
+
+                        // ✅ reset item animation state
+                        resetDrawerStagger();
+                    }, DURATION); 
                 }
             };
 
@@ -1999,45 +2100,38 @@
             
             const backToTopBtn = document.getElementById('back-to-top');
             
-            // Event Listeners for the open button
-            drawerOpenBtn.addEventListener('click', () => toggleDrawer(true));
-            
-            // 1. Tombol Close (X) - Memanggil toggleDrawer(false)
-            if (drawerCloseBtn) {
-                drawerCloseBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    toggleDrawer(false); 
-                });
-            }
-
-            // 2. Close drawer when clicking the dim overlay area (Best Practice UX)
-            if (drawerOverlay) {
-                drawerOverlay.addEventListener('click', (e) => {
-                    // Jika target klik adalah overlay itu sendiri, tutup drawer
-                    if (e.target === drawerOverlay) {
-                        toggleDrawer(false);
-                    }
-                });
-            }
-            
-            // Fix for mobile drawer links closing the drawer after click and scrolling
-            const drawerLinks = document.querySelectorAll('#mobile-drawer a[href^="#"]');
-            drawerLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    // e.preventDefault(); // Uncomment if native smooth scroll is disabled
-                    setTimeout(() => {
-                        toggleDrawer(false);
-                    }, 100); 
-                });
+            // PATCH 2 & 3: Rapihkan event listener tombol open/close (wajib)
+            drawerOpenBtn?.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log('OPEN CLICKED'); 
+                toggleDrawer(true);
             });
 
-            // 3. Tambahkan FailSafe untuk tombol ESC
+            drawerCloseBtn?.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('CLOSE CLICKED'); 
+                toggleDrawer(false);
+            });
+
+            // Klik overlay buat close (klik area gelapnya saja)
+            drawerOverlay?.addEventListener('click', (e) => {
+                if (e.target === drawerOverlay) toggleDrawer(false);
+            });
+
+            // ESC buat close
             document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && drawerOverlay.classList.contains('active')) {
-                    toggleDrawer(false);
-                }
+                const drawerOverlay = document.getElementById('mobile-drawer-overlay');
+                // Check for 'active' class on the overlay before calling toggleDrawer(false)
+                if (e.key === 'Escape' && drawerOverlay?.classList.contains('active')) toggleDrawer(false);
             });
+
+            // Klik link di drawer auto close
+            document.querySelectorAll('#mobile-drawer a[href^="#"]').forEach(a => {
+                // Short delay to allow smooth scroll before closing drawer
+                a.addEventListener('click', () => setTimeout(() => toggleDrawer(false), 80));
+            });
+            // --- END DRAWER LISTENERS ---
 
 
             // STORE DROPDOWN JS LOGIC (Desktop)
@@ -2093,7 +2187,7 @@
             handleScroll(); // Initial call to set state
 
 
-            // 2. SCROLL REVEAL (Intersection Observer)
+            // 2. SCROLL REVEAL (Intersection Observer) for general elements
             // UPDATED: Target `animationElements` instead of generic `scrollReveals`
             const revealOptions = {
                 root: null,
@@ -2114,6 +2208,80 @@
             const revealObserver = new IntersectionObserver(revealCallback, revealOptions);
             // Observe elements with .reveal-title or .reveal-sub
             animationElements.forEach(el => revealObserver.observe(el));
+            
+            // ==========================================================
+            // PATCH 3: CARD ANIMATION LOGIC (Stagger & Swipe Hint)
+            // ==========================================================
+            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const isMobile = window.matchMedia('(max-width: 767px)').matches;
+
+            if (!prefersReduced) {
+                // ====== DESKTOP: stagger reveal per-card ======
+                if (!isMobile) {
+                    const sections = [
+                        document.querySelector('#explore-lineup'),
+                        document.querySelector('#signature-collections')
+                    ].filter(Boolean);
+
+                    const cardObserver = new IntersectionObserver((entries, obs) => {
+                        entries.forEach(entry => {
+                            if (!entry.isIntersecting) return;
+
+                            // ambil card di section ini
+                            const cards = entry.target.querySelectorAll('.category-box.card-reveal');
+                            cards.forEach((card, i) => {
+                                // delay stagger: 90ms per card
+                                card.style.transitionDelay = `${i * 90}ms`;
+                                card.classList.add('is-visible');
+                            });
+
+                            obs.unobserve(entry.target); // run once
+                        });
+                    }, { threshold: 0.18 });
+
+                    sections.forEach(sec => cardObserver.observe(sec));
+                }
+
+                // ====== MOBILE: swipe hint nudge (scroll to show card 2 then back) ======
+                if (isMobile) {
+                    const lineupContainers = [
+                        document.querySelector('#explore-lineup .lineup-container'),
+                        document.querySelector('#signature-collections #anchor-card-track.lineup-container')
+                    ].filter(Boolean);
+
+                    const hintObserver = new IntersectionObserver((entries, obs) => {
+                        entries.forEach(entry => {
+                            if (!entry.isIntersecting) return;
+
+                            const el = entry.target;
+                            // hanya kalau memang horizontal scroll aktif
+                            const canScroll = el.scrollWidth > el.clientWidth + 10;
+                            if (!canScroll) {
+                                obs.unobserve(el);
+                                return;
+                            }
+
+                            // nudge: geser sedikit (biar card 2 keliatan), lalu balik
+                            const nudge = Math.min(220, el.clientWidth * 0.55);
+
+                            // kasih jeda dikit biar terasa natural pas section muncul
+                            setTimeout(() => {
+                                el.scrollTo({ left: nudge, behavior: 'smooth' });
+                                setTimeout(() => {
+                                    el.scrollTo({ left: 0, behavior: 'smooth' });
+                                }, 650);
+                            }, 250);
+
+                            obs.unobserve(el); // run once
+                        });
+                    }, { threshold: 0.25 });
+
+                    lineupContainers.forEach(c => hintObserver.observe(c));
+                }
+            }
+            // ==========================================================
+            // END CARD ANIMATION LOGIC
+            // ==========================================================
 
 
             // 3. LIFESTYLE TABS (UGREEN REVISION)
@@ -2156,8 +2324,7 @@
                 });
                 targetButton.classList.add('active');
 
-                // Move Indicator (must be wrapped in setTimeout to allow render before transition)
-                // We use getBoundingClientRect inside the timeout to ensure the element is painted and measured correctly
+                // Move Indicator logic delayed to ensure measurement accuracy
                 setTimeout(() => {
                     if (!targetButton || !targetButton.parentNode) return;
                     const targetRect = targetButton.getBoundingClientRect();
@@ -2347,7 +2514,6 @@
                         'Magnetic-ready interaction',
                         'Minimalist form',
                         'Premium material contrast',
-                        'Designed for daily workflow',
                     ]
                 },
                 core: {
@@ -2358,23 +2524,28 @@
                         'Clean minimalist form',
                         'Refined materials',
                         'Ergonomic positioning',
-                        'Built for focus',
                     ]
                 }
             };
 
+            // UPDATED FUNCTION TO USE .category-box (4:5) WITH .category-media SLOT
             function updateAnchorCards(cards) {
-                anchorCardTrack.innerHTML = ''; // Clear existing cards
-                cards.forEach(label => {
+                anchorCardTrack.innerHTML = '';
+
+                cards.slice(0, 4).forEach(label => {
+                    // Use a generic placeholder image URL
+                    const imageUrl = `https://placehold.co/400x500/F3F3F3/0A0A0A?text=${label.replace(/[^a-zA-Z0-9]/g, '+')}`;
+
                     const cardHtml = `
-                        <a href="#" class="anchor-card group">
-                            <p class="anchor-card-label">${label}</p>
+                        <a href="#" class="category-box group card-reveal">
+                            <div class="category-media">
+                                <img src="${imageUrl}" alt="${label} product image" onerror="this.onerror=null; this.src='https://placehold.co/400x500/E0E0E0/333333?text=Placeholder'">
+                            </div>
+                            <p class="category-label">${label}</p>
                         </a>
                     `;
                     anchorCardTrack.insertAdjacentHTML('beforeend', cardHtml);
                 });
-                // Add spacer card back
-                anchorCardTrack.insertAdjacentHTML('beforeend', '<div class="anchor-card bg-warm-white/0 cursor-default" style="height: 280px; min-width: 10px; flex: 0 0 10px;"></div>');
             }
 
 
