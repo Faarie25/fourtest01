@@ -10,8 +10,42 @@
     <meta property="og:description" content="Minimal form. Maximum function—built for modern desks and rooms.">
     <meta property="og:type" content="website">
 
-    <!-- Load Tailwind CSS -->
+    <!-- Load Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- START MODIFICATION (PATCH A): Konfigurasi Tailwind diletakkan SETELAH CDN dimuat -->
+    <script>
+      // Wajib menggunakan window.tailwind agar tidak ada ReferenceError
+      window.tailwind = window.tailwind || {};
+      window.tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              // Menggunakan variabel CSS yang didefinisikan di <style>
+              'matte-black': 'var(--color-matte-black)',
+              'warm-white': 'var(--color-warm-white)',
+              'soft-gray': 'var(--color-soft-gray)',
+              'muted-navy': 'var(--color-muted-navy)',
+              'soft-gold': 'var(--color-soft-gold)',
+            },
+            fontFamily: {
+              sans: ['var(--font-sans)'],
+              display: ['var(--font-sans)'],
+            },
+            spacing: {
+              '18': '4.5rem',
+              '22': '5.5rem',
+              '30': '7.5rem',
+            },
+            boxShadow: {
+              'soft': '0 10px 30px -10px rgba(10, 10, 10, 0.05), 0 4px 6px -2px rgba(10, 10, 10, 0.01)',
+              'premium': '0 20px 60px -15px rgba(10, 10, 10, 0.1), 0 8px 16px -4px rgba(10, 10, 10, 0.05)',
+            }
+          }
+        }
+      };
+    </script>
+    <!-- END MODIFICATION (PATCH A) -->
 
     <style>
         /* Custom Tailwind Configuration for the premium feel */
@@ -27,35 +61,6 @@
             /* Global Typography: System Font Stack (UGREEN-like consistency) */
             --font-sans: -apple-system, BlinkMacMacSystemFont, "Helvetica Neue", Helvetica, Arial,
                          "SF Pro Display","SF Pro Text","Segoe UI", Roboto, "Noto Sans", sans-serif;
-        }
-
-        /* Extend Tailwind Colors */
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'matte-black': 'var(--color-matte-black)',
-                        'warm-white': 'var(--color-warm-white)',
-                        'soft-gray': 'var(--color-soft-gray)',
-                        'muted-navy': 'var(--color-muted-navy)',
-                        'soft-gold': 'var(--color-soft-gold)',
-                    },
-                    fontFamily: {
-                        /* Apply System Font Stack to Tailwind's 'sans' and 'display' */
-                        sans: ['var(--font-sans)'],
-                        display: ['var(--font-sans)'],
-                    },
-                    spacing: {
-                        '18': '4.5rem', 
-                        '22': '5.5rem',
-                        '30': '7.5rem',
-                    },
-                    boxShadow: {
-                        'soft': '0 10px 30px -10px rgba(10, 10, 10, 0.05), 0 4px 6px -2px rgba(10, 10, 10, 0.01)',
-                        'premium': '0 20px 60px -15px rgba(10, 10, 10, 0.1), 0 8px 16px -4px rgba(10, 10, 10, 0.05)',
-                    }
-                }
-            }
         }
 
         /* Base styles - Apply system font globally */
@@ -112,7 +117,7 @@
             overflow: hidden !important;     /* CRITICAL: Hide leaking shapes/pseudo-elements */
             box-sizing: border-box !important;
             line-height: 1 !important;        /* Prevent vertical misalignment */
-            position: relative !important;     /* For robust styling */
+            position: relative !important;    /* For robust styling */
 
             /* Default State: Pill, Transparent Background, Black Text, Gray Outline */
             font-weight: 600; /* Use semibold for consistency */
@@ -274,38 +279,46 @@
           transform: translateX(-100vw);
         }
 
-        /* Overlay fade out saat closing */
+        /* START MODIFICATION (A): CSS 2-Step Close Fix */
+        /* Overlay fade out saat closing (LOGIKA LAMA DIHAPUS, DIGANTI INI) */
         #mobile-drawer-overlay.closing {
+          opacity: 1;                 /* jangan 0 dulu */
+          pointer-events: auto;       /* jangan dimatiin dulu */
+        }
+
+        /* Overlay fade-out baru terjadi setelah active dilepas (jadi aman) */
+        #mobile-drawer-overlay:not(.active) {
           opacity: 0;
-          transition: opacity 0.3s ease-in-out;
+          visibility: hidden;
           pointer-events: none;
         }
+        /* END MODIFICATION (A) */
         
-        /* ===== DRAWER ITEM ANIMATION (FINAL FIX) ===== */
-        
+        /* ===== DRAWER ITEM REVEAL (STAGGER) - PATCH 1 ===== */
+        /* START MODIFICATION: Blok CSS Staggering Dihapus */
         /* keadaan awal (sebelum active) */
-        #mobile-drawer .drawer-item {
-            opacity: 0;
-            transform: translateX(-24px); /* slide dari kiri */
-            transition: opacity 400ms ease, transform 400ms ease;
-            will-change: opacity, transform;
-        }
+        /* #mobile-drawer .drawer-anim {
+          opacity: 0;
+          transform: translateX(-14px); 
+          transition: opacity 420ms ease, transform 420ms ease;
+          will-change: opacity, transform;
+        } */
 
-        /* State saat aktif */
-        #mobile-drawer-overlay.active #mobile-drawer .drawer-item.is-visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
+        /* saat drawer aktif, item jadi visible */
+        /* #mobile-drawer-overlay.active #mobile-drawer .drawer-anim.is-in {
+          opacity: 1;
+          transform: translateX(0);
+        } */
 
         /* Reduced motion respect */
-        @media (prefers-reduced-motion: reduce) {
-          #mobile-drawer .drawer-item {
+        /* @media (prefers-reduced-motion: reduce) {
+          #mobile-drawer .drawer-anim {
             opacity: 1 !important;
             transform: none !important;
             transition: none !important;
           }
-        }
-        /* ===== END DRAWER ITEM ANIMATION ===== */
+        } */
+        /* ===== END DRAWER ITEM REVEAL (STAGGER) ===== */
 
         /* Style untuk Main Menu Items - UGREEN Spacing & Divider */
         .drawer-nav-item {
@@ -583,8 +596,8 @@
 
         .drawer-label{
           flex:1 1 auto !important;
-          min-width:0 !important;         /* penting untuk flex text */
-          white-space:nowrap !important;   /* jangan turun baris */
+          min-width:0 !important;      /* penting untuk flex text */
+          white-space:nowrap !important;    /* jangan turun baris */
           overflow:hidden !important;
           text-overflow:ellipsis !important; /* sempit, jadi ... */
         }
@@ -618,7 +631,7 @@
 
         #mobile-drawer,
         #mobile-drawer *{
-          pointer-events:auto;             /* hindari parent matiin click */
+          pointer-events:auto;           /* hindari parent matiin click */
         }
         /* --- END FIX MUTLAK: ICON DAN TOMBOL --- */
 
@@ -638,12 +651,12 @@
           justify-content: space-between !important;
 
           /* ini yang bikin "lapang" */
-          padding: 22px 20px !important;       /* UGREEN-like */
-          min-height: 68px !important;           /* bar tinggi */
+          padding: 22px 20px !important;        /* UGREEN-like */
+          min-height: 68px !important;         /* bar tinggi */
           line-height: 1.2 !important;
 
-          font-size: 22px !important;            /* lebih besar */
-          font-weight: 600 !important;           /* semibold */
+          font-size: 22px !important;          /* lebih besar */
+          font-weight: 600 !important;          /* semibold */
           color: #111 !important;
 
           border-bottom: 1px solid rgba(0,0,0,0.10) !important;
@@ -773,7 +786,7 @@
             background: rgba(255, 255, 255, 0.12) !important;
             transform: scale(1) !important; /* Mencegah scale-98 bawaan */
         }
-        /* ===== END HERO TYPOGRAPHY & CTA STYLING (FINAL FIX) ===== */
+        /* ===== END HERO TYPOGRAPHY & CTA STYLING (FINAL FIX) */
 
 
         /* ===== HERO ARROW FINAL POLISH (3) ===== */
@@ -911,6 +924,9 @@
           max-height:100%;
         }
 
+        /* Menggunakan kelas drawer-anim di sini (sudah dihapus di HTML) */
+        /* .drawer-anim { opacity: 1; } */
+
         .category-label{
           width:100% !important;
           font-size:16px !important;
@@ -979,12 +995,7 @@
             flex-shrink: 0 !important;
             
             scroll-snap-align: start !important;
-            scroll-snap-stop: always !important;
-            
-            /* Remove margins inherited from grid */
-            margin-right: 0 !important;
-            margin-left: 0 !important;
-            height: auto !important; /* Use auto height based on aspect ratio */
+            text-align: center !important;
           }
         }
 
@@ -1058,7 +1069,7 @@
         }
 
         #four-principles .principle-card:hover {
-             background-color: #EBECEE !important;
+              background-color: #EBECEE !important;
         }
         
         /* Styling for the label at the bottom */
@@ -1267,7 +1278,7 @@
 
         /* ===== FOUR ANCHOR NEW HORIZONTAL CARD SYSTEM STYLES (DELETED) ===== */
         /* The previous CSS blocks for .anchor-track, .anchor-card, and their media queries were removed
-           to ensure consistency with .lineup-container and .category-box. */
+            to ensure consistency with .lineup-container and .category-box. */
         /* ================================================================= */
 
         /* ===== SCROLL REVEAL ANIMATION STYLES (NEW) ===== */
@@ -1295,7 +1306,7 @@
         }
         /* ===== END SCROLL REVEAL ANIMATION STYLES ===== */
 
-        /* ===== FOUR ANCHOR TAB STYLES (NEW) ===== */
+        /* ===== FOUR ANCHOR TAB STYLES (NEW) */
         #anchor-tabs-container {
             display: flex;
             justify-content: center;
@@ -1346,36 +1357,37 @@
             <!-- List Navigasi Mobile -->
             <nav class="flex flex-col space-y-0 overflow-y-auto flex-grow">
                 
-                <!-- MENU UTAMA (5 ITEMS) - PATCH 2: ADD drawer-item class -->
-                <a href="#explore-lineup" class="drawer-nav-item drawer-item">
+                <!-- MENU UTAMA (5 ITEMS) - REVISI MENU -->
+                <!-- START MODIFICATION: Remove drawer-anim class -->
+                <a href="#explore-lineup" class="drawer-nav-item">
                     <span class="drawer-label">Explore</span>
                     <span class="drawer-chevron">
                         <svg class="w-4 h-4 drawer-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </span>
                 </a>
                 
-                <a href="#signature-collections" class="drawer-nav-item drawer-item">
+                <a href="#signature-collections" class="drawer-nav-item">
                     <span class="drawer-label">Collections</span>
                     <span class="drawer-chevron">
                         <svg class="w-4 h-4 drawer-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </span>
                 </a>
                 
-                <a href="#four-principles" class="drawer-nav-item drawer-item">
+                <a href="#four-principles" class="drawer-nav-item">
                     <span class="drawer-label">Principles</span>
                     <span class="drawer-chevron">
                         <svg class="w-4 h-4 drawer-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </span>
                 </a>
                 
-                <a href="#precision-design" class="drawer-nav-item drawer-item">
+                <a href="#precision-design" class="drawer-nav-item">
                     <span class="drawer-label">Driven</span>
                     <span class="drawer-chevron">
                         <svg class="w-4 h-4 drawer-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </span>
                 </a>
 
-                <a href="#newsroom" class="drawer-nav-item drawer-item">
+                <a href="#newsroom" class="drawer-nav-item">
                     <span class="drawer-label">Newsroom</span>
                     <span class="drawer-chevron">
                         <svg class="w-4 h-4 drawer-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
@@ -1383,12 +1395,12 @@
                 </a>
 
                 <!-- BAGIAN BAWAH (STORE & ACCOUNT) - SECTION TITLE BARU -->
-                <!-- PATCH 2: ADD drawer-item class -->
-                <h4 class="store-links-title drawer-section-title drawer-item">Store Links</h4>
+                <!-- END MODIFICATION -->
+                <h4 class="store-links-title drawer-section-title">Store Links</h4>
                 
                 <!-- Secondary Links (3 items) -->
-                <!-- PATCH 2: ADD drawer-item class -->
-                <a href="#" class="drawer-secondary-link border-t-0 drawer-item">
+                <!-- START MODIFICATION: Remove drawer-anim class -->
+                <a href="#" class="drawer-secondary-link border-t-0">
                     <span class="drawer-label text-base font-normal">Charging Stand for MagSafe</span>
                     <!-- External Link Icon ↗ -->
                     <span class="drawer-external">
@@ -1396,16 +1408,15 @@
                     </span>
                 </a>
                 
-                <!-- PATCH 2: ADD drawer-item class -->
-                <a href="#" class="drawer-secondary-link drawer-item">
+                <a href="#" class="drawer-secondary-link">
                     <span class="drawer-label text-base font-normal">Shopping Cart</span>
                     <span class="drawer-external">
                         <svg class="drawer-external-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                     </span>
                 </a>
                 
-                <!-- PATCH 2: ADD drawer-item class -->
-                <a href="#" class="drawer-secondary-link border-b-0 drawer-item">
+                <!-- Tautan ke login.html -->
+                <a href="login.html" class="drawer-secondary-link border-b-0" data-nav="account">
                     <span class="drawer-label text-base font-normal">Account</span>
                     <span class="drawer-external">
                         <svg class="drawer-external-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
@@ -1413,12 +1424,17 @@
                 </a>
                 
                 <!-- LANGUAGE SELECTOR (FIX) - Menggunakan kelas mutlak untuk padding/gap -->
-                <!-- PATCH 2: ADD drawer-item class -->
-                <div class="drawer-language-row drawer-item">
-                    <!-- World Icon (Black/Dark) -->
-                    <svg class="w-5 h-5 drawer-language-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v2.472A4.5 4.5 0 0012 21.5M16 8V6a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m8 0v2m0 0v2m-6-4h.01M16 16v1m-3 3l3-3m0 0l3 3m-3-3v3m0-6h.01M12 21.5a4.5 4.5 0 005.945-7.555M12 21.5v-6.5m0 0h6.5"/></svg>
+                <div class="drawer-language-row">
+                    <!-- World Icon (Black/Dark) - Clean Vector Globe -->
+                    <!-- START MODIFICATION: Ganti SVG Icon Dunia -->
+                    <svg class="w-5 h-5 drawer-language-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.28 12h19.44M12 2.28v19.44M16.94 4.56a14.7 14.7 0 010 14.88M7.06 4.56a14.7 14.7 0 000 14.88"/>
+                    </svg>
+                    <!-- END MODIFICATION -->
                     <span class="text-base font-normal">United States (English)</span>
                 </div>
+                <!-- END MODIFICATION -->
 
             </nav>
 
@@ -1461,7 +1477,8 @@
                 <div id="store-menu" class="four-ugreen-menu hidden">
                     <a class="four-ugreen-item" href="#" rel="noopener">Shopping Cart <span class="four-ugreen-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></span></a>
                     <a class="four-ugreen-item" href="#" rel="noopener">Checkout <span class="four-ugreen-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></span></a>
-                    <a class="four-ugreen-item" href="#" rel="noopener">Account <span class="four-ugreen-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></span></a>
+                    <!-- Tautan ke login.html -->
+                    <a class="four-ugreen-item" href="login.html" rel="noopener" data-nav="account">Account <span class="four-ugreen-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></span></a>
                 </div>
             </div>
 
@@ -1617,7 +1634,7 @@
                     </h1>
 
                     <!-- 2. Tagline / Subheadline (H2) - Static text as requested -->
-                    <h2 class="font-medium text-xl lg:text-2xl text-soft-gray mb-16 max-w-3xl mx-auto reveal-sub">
+                    <h2 class="font-medium text-xl lg:text-2xl font-display text-soft-gray mb-16 max-w-3xl mx-auto reveal-sub">
                         Designed to stay. Built for focus.
                     </h2>
                     
@@ -1831,8 +1848,8 @@
                 <!-- News Card 1 - Placeholder -->
                 <a href="#" class="group scroll-reveal block overflow-hidden bg-warm-white border border-soft-gray/30 hover:shadow-premium transition duration-300 reveal-sub">
                     <div class="h-40 bg-muted-navy/20 flex items-center justify-center">
-                                                <!-- FIX: Menggunakan text-white -->
-                                                <p class="text-sm text-white">Article Image Placeholder</p>
+                                                     <!-- FIX: Menggunakan text-white -->
+                                                     <p class="text-sm text-white">Article Image Placeholder</p>
                     </div>
                     <div class="p-6">
                         <p class="text-xs text-soft-gray mb-2">November 10, 2025</p>
@@ -1985,37 +2002,13 @@
             const drawerCloseBtn = document.getElementById('mobile-drawer-close-btn');
             const drawerOverlay = document.getElementById('mobile-drawer-overlay');
             
-            // PATCH 3: Helper functions for Stagger Animation
-            const playDrawerStagger = () => {
-                const items = document.querySelectorAll('#mobile-drawer .drawer-item');
-                const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-                // RESET dulu (penting!)
-                items.forEach(el => {
-                    el.classList.remove('is-visible');
-                    el.style.transitionDelay = '0ms'; 
-                }); 
-
-                if (prefersReduced) return;
-
-                // Trigger ulang dengan delay
-                items.forEach((el, i) => {
-                    // Stagger: 70ms per item
-                    el.style.transitionDelay = `${i * 70}ms`;
-                    // next frame biar transition kebaca
-                    requestAnimationFrame(() => el.classList.add('is-visible'));
-                });
-            };
-
+            // START MODIFICATION: Hapus fungsi playDrawerStagger dan resetDrawerStagger
             const resetDrawerStagger = () => {
-                const items = document.querySelectorAll('#mobile-drawer .drawer-item');
-                items.forEach(el => {
-                    el.classList.remove('is-visible');
-                    el.style.transitionDelay = '0ms';
-                });
+                // Fungsi kosong karena drawer-anim sudah dihapus
             };
+            // END MODIFICATION
 
-            // PATCH 1: REPLACE TOTAL fungsi toggleDrawer()
+            // START MODIFICATION (B): REPLACE TOTAL fungsi toggleDrawer()
             const toggleDrawer = (open) => {
                 if (!drawerOverlay || !drawerOpenBtn || !drawerCloseBtn) return;
 
@@ -2032,8 +2025,7 @@
                     drawerCloseBtn.classList.remove('hidden');
                     document.body.style.overflow = 'hidden';
                     
-                    // ✅ trigger stagger setelah drawer muncul
-                    requestAnimationFrame(() => playDrawerStagger());
+                    // Hapus panggilan stagger
                     return;
                 }
 
@@ -2041,45 +2033,48 @@
                 if (open === false) {
                     console.log('CLOSING DRAWER (Explicit)');
                     
-                    // Trigger exit animation
+                    // 1) set closing state (panel akan slide-out via CSS)
                     drawerOverlay.classList.add('closing');
-                    
-                    // Hide drawer and clean state after animation duration
+
+                    // 2) kunci interaksi (dihapus)
+
+                    // 3) setelah panel selesai slide-out, baru matikan overlay dengan remove active
                     setTimeout(() => {
-                        drawerOverlay.classList.remove('active');
+                        drawerOverlay.classList.remove('active');   // ini yang bikin overlay fade-out (via :not(.active))
                         drawerOverlay.classList.remove('closing');
 
                         drawerOpenBtn.classList.remove('hidden');
                         drawerCloseBtn.classList.add('hidden');
                         document.body.style.overflow = '';
-                        
-                        // ✅ reset item animation state
-                        resetDrawerStagger();
-                    }, DURATION); 
+
+                        // restore button states (dihapus)
+
+                        // Hapus panggilan resetStagger
+                    }, DURATION + 30); // Tambah 30ms safety buffer
 
                     return;
                 }
 
                 // Toggle mode (open undefined)
                 if (!isOpen) {
-                    // OPEN
+                    // OPEN Logic
                     console.log('OPENING DRAWER (Toggle)');
-                    drawerOverlay.classList.remove('closing'); // 🔒 reset closing state
+                    drawerOverlay.classList.remove('closing'); 
                     drawerOverlay.classList.add('active');
                     drawerOpenBtn.classList.add('hidden');
                     drawerCloseBtn.classList.remove('hidden');
                     document.body.style.overflow = 'hidden';
-
-                    // ✅ trigger stagger setelah drawer muncul
-                    requestAnimationFrame(() => playDrawerStagger());
+                    // Hapus panggilan stagger
                 } else {
-                    // CLOSE (Toggle)
+                    // CLOSE (Toggle) Logic (Menggunakan 2-step close)
                     console.log('CLOSING DRAWER (Toggle)');
                     
-                    // Trigger exit animation
+                    // 1) set closing state
                     drawerOverlay.classList.add('closing');
+
+                    // 2) kunci interaksi (dihapus)
                     
-                    // Hide drawer and clean state after animation duration
+                    // 3) setelah transisi selesai, matikan overlay
                     setTimeout(() => {
                         drawerOverlay.classList.remove('active');
                         drawerOverlay.classList.remove('closing');
@@ -2088,11 +2083,13 @@
                         drawerCloseBtn.classList.add('hidden');
                         document.body.style.overflow = '';
 
-                        // ✅ reset item animation state
-                        resetDrawerStagger();
-                    }, DURATION); 
+                        // restore button states (dihapus)
+
+                        // Hapus panggilan resetStagger
+                    }, DURATION + 30); 
                 }
             };
+            // END MODIFICATION (B)
 
 
             // UPDATED: Target new animation classes
@@ -2126,12 +2123,57 @@
                 if (e.key === 'Escape' && drawerOverlay?.classList.contains('active')) toggleDrawer(false);
             });
 
-            // Klik link di drawer auto close
-            document.querySelectorAll('#mobile-drawer a[href^="#"]').forEach(a => {
-                // Short delay to allow smooth scroll before closing drawer
-                a.addEventListener('click', () => setTimeout(() => toggleDrawer(false), 80));
+            // START MODIFICATION: DRAWER NAVIGATION DEFINITIVE FIX (2)
+            // NOTE: ONLY handle drawer links here. Don't change other logic.
+            function closeDrawerAndThen(fn) {
+              const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+              const DURATION = prefersReduced ? 0 : 300; // Match CSS transition duration (0.3s)
+
+              // Close drawer first
+              toggleDrawer(false);
+
+              // Wait until closing animation finishes
+              setTimeout(() => {
+                try { fn(); } catch (e) { console.error("Navigation/Scroll function error:", e); }
+              }, DURATION + 30); // +30ms safety buffer
+            }
+
+            // Event delegation for all clicks inside drawer
+            document.getElementById('mobile-drawer')?.addEventListener('click', (e) => {
+              const a = e.target.closest('a');
+              if (!a) return;
+
+              const href = a.getAttribute('href');
+              if (!href) return;
+
+              // Case 1: anchor in-page navigation
+              if (href.startsWith('#')) {
+                e.preventDefault();
+                const target = document.querySelector(href);
+                closeDrawerAndThen(() => {
+                  target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+                return;
+              }
+
+              // Case 2: normal navigation (login, etc)
+              e.preventDefault(); // Cegah navigasi segera
+
+              closeDrawerAndThen(() => {
+                // IMPORTANT: Harap GANTI URL placeholder ini dengan URL ABSOLUT halaman login Anda
+                const ABSOLUTE_LOGIN_URL = "https://placeholder.com/login.html";
+
+                // Jika ini adalah Account link, paksa menggunakan URL absolut
+                if (a.dataset.nav === "account") {
+                  window.location.assign(ABSOLUTE_LOGIN_URL);
+                  return;
+                }
+
+                // Untuk link non-anchor lainnya, coba navigasi normal (hanya akan bekerja di http/https)
+                window.location.assign(href);
+              });
             });
-            // --- END DRAWER LISTENERS ---
+            // END MODIFICATION
 
 
             // STORE DROPDOWN JS LOGIC (Desktop)
@@ -2168,10 +2210,9 @@
                     header.classList.remove('is-top');
                 }
 
-                // 2. Manage border/shadow (scrolled) - Border should appear soon after leaving top
-                // Logic removed as per user request to eliminate header border
+                // 2. Manage border/shadow (scrolled) - Logic removed per request
                 if (scrollY > 50) {
-                    header.classList.add('scrolled'); // Class remains, but CSS rule is removed
+                    header.classList.add('scrolled'); 
                 } else {
                     header.classList.remove('scrolled');
                 }
@@ -2324,7 +2365,8 @@
                 });
                 targetButton.classList.add('active');
 
-                // Move Indicator logic delayed to ensure measurement accuracy
+                // Move Indicator (must be wrapped in setTimeout to allow render before transition)
+                // We use getBoundingClientRect inside the timeout to ensure the element is painted and measured correctly
                 setTimeout(() => {
                     if (!targetButton || !targetButton.parentNode) return;
                     const targetRect = targetButton.getBoundingClientRect();
@@ -2496,7 +2538,7 @@
             // ===== HERO SLIDER WITH PROGRESS + ARROWS - END NEW LOGIC =====
             
             
-            // ===== FOUR ANCHOR TAB SYSTEM JAVASCRIPT (NEW) =====
+            // 5. FOUR ANCHOR TAB SYSTEM JAVASCRIPT (NEW) =====
             
             const anchorTabs = document.querySelectorAll('.anchor-tab-button');
             const anchorTabIndicator = document.getElementById('anchor-tab-indicator');
