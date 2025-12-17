@@ -603,10 +603,10 @@
         }
 
         /* Nav link inside drawer with smoother animation */
-        #mobile-drawer a.drawer-nav-item {
+        .drawer-nav-item {
              transition: background-color 0.15s ease-in-out;
         }
-        #mobile-drawer a.drawer-nav-item:hover {
+        .drawer-nav-item:hover {
              background-color: rgba(0, 0, 0, 0.04) !important;
         }
 
@@ -1320,7 +1320,7 @@
 
         .anchor-tab-button {
             /* Base Tab Button Style (Mirrors .tab-button-ugreen) */
-            @apply px-0 py-3.5 text-base lg:text-lg font-semibold cursor-pointer z-10 
+            @apply px-0 py-3.5 text-lg font-semibold cursor-pointer z-10 
                      relative transition duration-200 ease-in-out bg-transparent;
             color: var(--color-soft-gray) !important; /* Inactive color */
             letter-spacing: 0.04em; 
@@ -1656,7 +1656,6 @@
                     <!-- Removed reveal-sub class from the parent div, adding it back to the content to respect hierachy -->
                     <div class="flex justify-center mt-10 mb-12"> 
                         <div id="anchor-tabs-container" class="relative reveal-sub">
-                            <!-- Default active tab is MAG -->
                             <button data-anchor-tab="mag" class="anchor-tab-button">FOUR ANCHOR MAG</button>
                             <button data-anchor-tab="core" class="anchor-tab-button">FOUR ANCHOR CORE</button>
                             <div id="anchor-tab-indicator" style="width: 100px; transform: translateX(0);"></div>
@@ -1724,7 +1723,7 @@
                         <!-- UPDATED: Added reveal-sub class wrapper -->
                         <a id="lifestyle-cta" href="#" class="btn-ugreen-cta transition duration-300 reveal-sub">
                             <span>Discover Everyday Essentials</span> 
-                            <!-- SVG ICON: Using the path of the existing Chevron Down from Header but interpreted as a right arrow -->
+                            <!-- SVG ICON: Consistent with existing CTA -->
                             <svg class="cta-arrow-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                         </a>
@@ -2160,8 +2159,8 @@
               e.preventDefault(); // Cegah navigasi segera
 
               closeDrawerAndThen(() => {
-                // IMPORTANT: Harap GANTI URL placeholder ini dengan URL ABSOLUT halaman login Anda
-                const ABSOLUTE_LOGIN_URL = "https://placeholder.com/login.html";
+                // *** FINAL FIX: Ganti URL placeholder dengan URL GitHub Pages Anda ***
+                const ABSOLUTE_LOGIN_URL = "https://faarie25.github.io/fourtest01/login.html";
 
                 // Jika ini adalah Account link, paksa menggunakan URL absolut
                 if (a.dataset.nav === "account") {
