@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FFFFFF"> <!-- Premium mobile browser tint -->
     <title>FOUR | Design That Organizes Life. Precision in Every Corner.</title>
     <meta name="description" content="FOUR is a modern brand offering space organization solutions—dari bedroom ke workspace—combining minimalist design, maximum function, dan smart modularity.">
     <!-- OpenGraph/SEO placeholders -->
@@ -282,7 +283,7 @@
         /* START MODIFICATION (A): CSS 2-Step Close Fix */
         /* Overlay fade out saat closing (LOGIKA LAMA DIHAPUS, DIGANTI INI) */
         #mobile-drawer-overlay.closing {
-          opacity: 1;                 /* jangan 0 dulu */
+          opacity: 1;                   /* jangan 0 dulu */
           pointer-events: auto;       /* jangan dimatiin dulu */
         }
 
@@ -294,32 +295,6 @@
         }
         /* END MODIFICATION (A) */
         
-        /* ===== DRAWER ITEM REVEAL (STAGGER) - PATCH 1 ===== */
-        /* START MODIFICATION: Blok CSS Staggering Dihapus */
-        /* keadaan awal (sebelum active) */
-        /* #mobile-drawer .drawer-anim {
-          opacity: 0;
-          transform: translateX(-14px); 
-          transition: opacity 420ms ease, transform 420ms ease;
-          will-change: opacity, transform;
-        } */
-
-        /* saat drawer aktif, item jadi visible */
-        /* #mobile-drawer-overlay.active #mobile-drawer .drawer-anim.is-in {
-          opacity: 1;
-          transform: translateX(0);
-        } */
-
-        /* Reduced motion respect */
-        /* @media (prefers-reduced-motion: reduce) {
-          #mobile-drawer .drawer-anim {
-            opacity: 1 !important;
-            transform: none !important;
-            transition: none !important;
-          }
-        } */
-        /* ===== END DRAWER ITEM REVEAL (STAGGER) ===== */
-
         /* Style untuk Main Menu Items - UGREEN Spacing & Divider */
         .drawer-nav-item {
             /* FIX 1: Memaksa teks tidak melipat agar ikon tetap di samping kanan */
@@ -384,6 +359,31 @@
         .drawer-language-icon {
             stroke: var(--color-matte-black) !important;
             opacity: 0.8;
+        }
+        
+        /* ===== DRAWER TEXT ANIMATION (NEW) ===== */
+        /* Base state for text items inside drawer: hidden and offset left */
+        #mobile-drawer .drawer-anim-text {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 280ms ease-out, transform 280ms ease-out;
+            will-change: opacity, transform;
+        }
+
+        /* Active state when drawer is open: slide in and fade in */
+        /* The .active class on the overlay triggers this */
+        #mobile-drawer-overlay.active #mobile-drawer .drawer-anim-text {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Reduced motion preference override */
+        @media (prefers-reduced-motion: reduce) {
+            #mobile-drawer .drawer-anim-text {
+                opacity: 1 !important;
+                transform: none !important;
+                transition: none !important;
+            }
         }
         /* End UGREEN Mobile Drawer Styles */
 
@@ -596,7 +596,7 @@
 
         .drawer-label{
           flex:1 1 auto !important;
-          min-width:0 !important;      /* penting untuk flex text */
+          min-width:0 !important;       /* penting untuk flex text */
           white-space:nowrap !important;    /* jangan turun baris */
           overflow:hidden !important;
           text-overflow:ellipsis !important; /* sempit, jadi ... */
@@ -604,10 +604,10 @@
 
         /* Nav link inside drawer with smoother animation */
         .drawer-nav-item {
-             transition: background-color 0.15s ease-in-out;
+              transition: background-color 0.15s ease-in-out;
         }
         .drawer-nav-item:hover {
-             background-color: rgba(0, 0, 0, 0.04) !important;
+              background-color: rgba(0, 0, 0, 0.04) !important;
         }
 
 
@@ -624,7 +624,7 @@
         /* FIX MUTLAK: Tombol Silang (2) */
         #mobile-drawer-close-btn{
           position:relative !important;
-          z-index:100000 !important;      /* paling atas */
+          z-index:100000 !important;       /* paling atas */
           pointer-events:auto !important; /* pastikan bisa diklik */
           cursor:pointer !important;
         }
@@ -763,7 +763,7 @@
             }
         }
         
-        /* 4. CTA Button (Pill, Transparent Outline White) */
+        /* 4. CTA Button (Pill, Transparent Outline White) - UPDATED ANIMATION */
         .btn-hero-cta {
             /* Replaces .btn-primary */
             display: inline-flex !important;
@@ -771,20 +771,41 @@
             justify-content: center;
             padding: 12px 28px !important;
             border-radius: 9999px !important; /* Pill shape */
+            
+            /* Initial: Transparent, White Border, White Text */
             border: 1px solid rgba(255, 255, 255, 0.8) !important;
             background: transparent !important;
             color: #FFFFFF !important;
+            
             font-size: 15px !important;
             font-weight: 500 !important;
-            transition: background 0.25s ease-in-out !important;
+            
+            /* Animation: Smooth transition matching Preorder button feel */
+            transition: all 230ms ease-in-out !important;
             
             /* Override shadow bawaan */
             box-shadow: none !important;
+            text-decoration: none; /* Safety */
         }
 
+        /* Hover State (Desktop): White Background, Dark Text */
         .btn-hero-cta:hover {
-            background: rgba(255, 255, 255, 0.12) !important;
-            transform: scale(1) !important; /* Mencegah scale-98 bawaan */
+            background: #FFFFFF !important;
+            color: var(--color-matte-black) !important; /* Dark contrast */
+            border-color: #FFFFFF !important; /* Solid white look */
+            transform: translateY(0) scale(1) !important; /* Ensure stability */
+        }
+
+        /* Active State (Click/Tap): Subtle Scale Down */
+        .btn-hero-cta:active {
+            transform: scale(0.98) !important;
+            opacity: 0.95;
+        }
+
+        /* Focus State (Accessibility) */
+        .btn-hero-cta:focus-visible {
+            outline: 2px solid #FFFFFF;
+            outline-offset: 4px;
         }
         /* ===== END HERO TYPOGRAPHY & CTA STYLING (FINAL FIX) */
 
@@ -920,7 +941,7 @@
         .category-media img{
           width:100%;
           height:100%;
-          object-fit:contain;          /* aman untuk foto produk */
+          object-fit:contain;           /* aman untuk foto produk */
           max-height:100%;
         }
 
@@ -1344,6 +1365,99 @@
             z-index: 5;
         }
 
+        /* =======================================================
+           LOGO SYSTEM STYLES (NEW - ADDED BY AI)
+           ======================================================= */
+        .logo-wrapper .logo-white,
+        .logo-wrapper .logo-black {
+            width: auto;
+            object-fit: contain;
+            display: none; /* Managed by header state */
+            /* Sizing Rules (Desktop: 48px, Tablet: 40px, Mobile: 36px) */
+            height: 36px; /* Mobile */
+        }
+
+        @media (min-width: 640px) {
+            .logo-wrapper .logo-white,
+            .logo-wrapper .logo-black { height: 40px; } /* Tablet */
+        }
+
+        @media (min-width: 1024px) {
+            .logo-wrapper .logo-white,
+            .logo-wrapper .logo-black { height: 48px; } /* Desktop */
+        }
+
+        /* State Logic */
+        /* Default (Scrolled/White Header): Show Black Logo */
+        #main-header .logo-black { display: block; }
+        #main-header .logo-white { display: none; }
+
+        /* Top State (Transparent Header): Show White Logo */
+        #main-header.is-top .logo-black { display: none; }
+        #main-header.is-top .logo-white { display: block; }
+
+        /* =======================================================
+           ANIMATED HAMBURGER MENU ICON (NEW - ADDED BY AI)
+           ======================================================= */
+        .hamburger-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px; /* Standard icon size */
+            height: 24px;
+            padding: 0;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            z-index: 50; /* Ensure above drawer content */
+            margin-left: 1rem; /* Maintains spacing */
+        }
+
+        .hamburger-line {
+            position: absolute;
+            width: 24px; /* Full width */
+            height: 2px; /* Line thickness */
+            background-color: var(--color-matte-black);
+            border-radius: 9999px;
+            transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out, background-color 0.25s ease;
+            left: 0;
+            /* Performance optimization */
+            will-change: transform, opacity;
+        }
+
+        /* Line Positioning */
+        .hamburger-line:nth-child(1) { top: 4px; transform-origin: center; } /* Top Line */
+        .hamburger-line:nth-child(2) { top: 50%; transform: translateY(-50%); opacity: 1; } /* Middle Line */
+        .hamburger-line:nth-child(3) { bottom: 4px; transform-origin: center; } /* Bottom Line */
+
+        /* Active/Open State (Transform to X) */
+        .hamburger-btn.active .hamburger-line:nth-child(1) {
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+        }
+        .hamburger-btn.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+            transform: translateY(-50%) scale(0.5); /* Subtle scale down fade */
+        }
+        .hamburger-btn.active .hamburger-line:nth-child(3) {
+            bottom: 50%;
+            transform: translateY(50%) rotate(-45deg);
+        }
+
+        /* Theme Color Swap for Hamburger Lines */
+        /* When header is transparent (at top), make lines white */
+        #main-header.is-top .hamburger-line {
+            background-color: #FFFFFF !important;
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            .hamburger-line {
+                transition: none !important;
+            }
+        }
+
     </style>
 </head>
 <body class="font-sans">
@@ -1360,35 +1474,35 @@
                 <!-- MENU UTAMA (5 ITEMS) - REVISI MENU -->
                 <!-- START MODIFICATION: Remove drawer-anim class -->
                 <a href="#explore-lineup" class="drawer-nav-item">
-                    <span class="drawer-label">Explore</span>
+                    <span class="drawer-label drawer-anim-text">Explore</span>
                     <span class="drawer-chevron">
                         <svg class="w-4 h-4 drawer-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </span>
                 </a>
                 
                 <a href="#signature-collections" class="drawer-nav-item">
-                    <span class="drawer-label">Collections</span>
+                    <span class="drawer-label drawer-anim-text">Collections</span>
                     <span class="drawer-chevron">
                         <svg class="w-4 h-4 drawer-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </span>
                 </a>
                 
                 <a href="#four-principles" class="drawer-nav-item">
-                    <span class="drawer-label">Principles</span>
+                    <span class="drawer-label drawer-anim-text">Principles</span>
                     <span class="drawer-chevron">
                         <svg class="w-4 h-4 drawer-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </span>
                 </a>
                 
                 <a href="#precision-design" class="drawer-nav-item">
-                    <span class="drawer-label">Driven</span>
+                    <span class="drawer-label drawer-anim-text">Driven</span>
                     <span class="drawer-chevron">
                         <svg class="w-4 h-4 drawer-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </span>
                 </a>
 
                 <a href="#newsroom" class="drawer-nav-item">
-                    <span class="drawer-label">Newsroom</span>
+                    <span class="drawer-label drawer-anim-text">Newsroom</span>
                     <span class="drawer-chevron">
                         <svg class="w-4 h-4 drawer-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </span>
@@ -1396,12 +1510,12 @@
 
                 <!-- BAGIAN BAWAH (STORE & ACCOUNT) - SECTION TITLE BARU -->
                 <!-- END MODIFICATION -->
-                <h4 class="store-links-title drawer-section-title">Store Links</h4>
+                <h4 class="store-links-title drawer-section-title drawer-anim-text">Store Links</h4>
                 
                 <!-- Secondary Links (3 items) -->
                 <!-- START MODIFICATION: Remove drawer-anim class -->
                 <a href="#" class="drawer-secondary-link border-t-0">
-                    <span class="drawer-label text-base font-normal">Charging Stand for MagSafe</span>
+                    <span class="drawer-label text-base font-normal drawer-anim-text">Charging Stand for MagSafe</span>
                     <!-- External Link Icon ↗ -->
                     <span class="drawer-external">
                         <svg class="drawer-external-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
@@ -1409,7 +1523,7 @@
                 </a>
                 
                 <a href="#" class="drawer-secondary-link">
-                    <span class="drawer-label text-base font-normal">Shopping Cart</span>
+                    <span class="drawer-label text-base font-normal drawer-anim-text">Shopping Cart</span>
                     <span class="drawer-external">
                         <svg class="drawer-external-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                     </span>
@@ -1417,7 +1531,7 @@
                 
                 <!-- Tautan ke login.html -->
                 <a href="login.html" class="drawer-secondary-link border-b-0" data-nav="account">
-                    <span class="drawer-label text-base font-normal">Account</span>
+                    <span class="drawer-label text-base font-normal drawer-anim-text">Account</span>
                     <span class="drawer-external">
                         <svg class="drawer-external-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                     </span>
@@ -1432,7 +1546,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.28 12h19.44M12 2.28v19.44M16.94 4.56a14.7 14.7 0 010 14.88M7.06 4.56a14.7 14.7 0 000 14.88"/>
                     </svg>
                     <!-- END MODIFICATION -->
-                    <span class="text-base font-normal">United States (English)</span>
+                    <span class="text-base font-normal drawer-anim-text">United States (English)</span>
                 </div>
                 <!-- END MODIFICATION -->
 
@@ -1449,8 +1563,13 @@
             
             <!-- Logo & Desktop Nav Links (Kiri/Tengah di Desktop) -->
             <div class="flex items-center h-full">
-                <!-- Logo FOUR (Bold, large) -->
-                <a href="#" class="text-3xl font-bold font-display tracking-wider text-matte-black mr-4">FOUR</a>
+                <!-- Logo FOUR (Bold, large) - REPLACED WITH LOGO SYSTEM -->
+                <a href="/" class="logo-wrapper mr-6 flex items-center shrink-0 transition-opacity duration-300 hover:opacity-80">
+                    <!-- White Logo (Shown when header is transparent/dark) -->
+                    <img src="https://i.imgur.com/o5qgEFs.png" alt="FOUR" class="logo-white" width="132" height="48">
+                    <!-- Black Logo (Shown when header is white/light) -->
+                    <img src="https://i.imgur.com/KxxlMqR.png" alt="FOUR" class="logo-black" width="132" height="48">
+                </a>
 
                 <!-- Desktop Nav Links (Hanya Tampil di Desktop) - REVISI MENU -->
                 <!-- Menggunakan space-x-8 untuk jarak yang lebih lapang -->
@@ -1482,16 +1601,12 @@
                 </div>
             </div>
 
-            <!-- Mobile Icons (RIGHT SIDE OF HEADER) - Menggantikan hamburger lama -->
+            <!-- Mobile Icons (RIGHT SIDE OF HEADER) - Replaced separate buttons with single animated toggle -->
             <div class="lg:hidden flex items-center">
-                <!-- Hamburger Icon (Visible when closed) -->
-                <button id="mobile-drawer-open-btn" class="text-matte-black ml-4 transition duration-300">
-                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-                </button>
-                <!-- Close Icon (Hidden when closed) -->
-                <!-- FIX 2: Tombol silang kini dijamin berada di layer paling atas -->
-                <button id="mobile-drawer-close-btn" class="text-matte-black ml-4 transition duration-300 hidden">
-                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                <button id="mobile-menu-toggle" class="hamburger-btn" aria-label="Toggle Menu" aria-expanded="false">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
                 </button>
             </div>
         </div>
@@ -1590,7 +1705,7 @@
                 <!-- Box 1: Wireless Charging (Added card-reveal) -->
                 <a href="#" class="category-box group scroll-reveal card-reveal">
                     <div class="category-media">
-                        <img src="https://placehold.co/400x500/F3F3F3/0A0A0A?text=Charging+Stand" alt="Wireless Charging Product">
+                        <img src="https://placehold.co/400x500/F3F3F3/0A0A0A?text=Charging+Stand" alt="Wireless Charging Product" width="100%" height="100%" loading="lazy">
                     </div>
                     <p class="category-label">Wireless Charging</p>
                 </a>
@@ -1598,7 +1713,7 @@
                 <!-- Box 2: Storage Systems (Added card-reveal) -->
                 <a href="#" class="category-box group scroll-reveal card-reveal">
                     <div class="category-media">
-                        <img src="https://placehold.co/400x500/F3F3F3/0A0A0A?text=Storage+System" alt="Storage Systems Product">
+                        <img src="https://placehold.co/400x500/F3F3F3/0A0A0A?text=Storage+System" alt="Storage Systems Product" width="100%" height="100%" loading="lazy">
                     </div>
                     <p class="category-label">Storage Systems</p>
                 </a>
@@ -1606,7 +1721,7 @@
                 <!-- Box 3: Monitor Risers (Added card-reveal) -->
                 <a href="#" class="category-box group scroll-reveal card-reveal">
                     <div class="category-media">
-                        <img src="https://placehold.co/400x500/F3F3F3/0A0A0A?text=Monitor+Riser" alt="Monitor Risers Product">
+                        <img src="https://placehold.co/400x500/F3F3F3/0A0A0A?text=Monitor+Riser" alt="Monitor Risers Product" width="100%" height="100%" loading="lazy">
                     </div>
                     <p class="category-label">Monitor Risers</p>
                 </a>
@@ -1614,7 +1729,7 @@
                 <!-- Box 4: Cable Management (Added card-reveal) -->
                 <a href="#" class="category-box group scroll-reveal card-reveal">
                     <div class="category-media">
-                        <img src="https://placehold.co/400x500/F3F3F3/0A0A0A?text=Cable+Mgmt" alt="Cable Management Product">
+                        <img src="https://placehold.co/400x500/F3F3F3/0A0A0A?text=Cable+Mgmt" alt="Cable Management Product" width="100%" height="100%" loading="lazy">
                     </div>
                     <p class="category-label">Cable Management</p>
                 </a>
@@ -1978,114 +2093,53 @@
     </button>
 
     <script>
-        // ===================================
-        // JAVASCRIPT UNTUK INTERAKSI
-        // ===================================
-
-        // Utility function for throttling scroll events
-        const debounce = (func, delay) => {
-            let timeoutId;
-            return (...args) => {
-                clearTimeout(timeoutId);
-                timeoutId = setTimeout(() => {
-                    func.apply(this, args);
-                }, delay);
-            };
-        };
-
         document.addEventListener('DOMContentLoaded', () => {
             const header = document.getElementById('main-header');
             
             // Inisialisasi variabel elemen DOM lokal
-            const drawerOpenBtn = document.getElementById('mobile-drawer-open-btn');
-            const drawerCloseBtn = document.getElementById('mobile-drawer-close-btn');
+            // REPLACED: Use single toggle button instead of separate Open/Close buttons
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
             const drawerOverlay = document.getElementById('mobile-drawer-overlay');
             
-            // START MODIFICATION: Hapus fungsi playDrawerStagger dan resetDrawerStagger
-            const resetDrawerStagger = () => {
-                // Fungsi kosong karena drawer-anim sudah dihapus
-            };
-            // END MODIFICATION
-
             // START MODIFICATION (B): REPLACE TOTAL fungsi toggleDrawer()
             const toggleDrawer = (open) => {
-                if (!drawerOverlay || !drawerOpenBtn || !drawerCloseBtn) return;
+                if (!drawerOverlay || !mobileMenuToggle) return;
 
-                const isOpen = drawerOverlay.classList.contains('active');
+                // Determine desired state: if 'open' arg is provided, use it; otherwise toggle based on current class
+                const currentState = drawerOverlay.classList.contains('active');
+                const targetState = (typeof open !== 'undefined') ? open : !currentState;
+
                 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
                 const DURATION = prefersReduced ? 0 : 300; // Skip animation if reduced motion is preferred
 
-                // Explicit open
-                if (open === true) {
-                    console.log('OPENING DRAWER (Explicit)');
-                    drawerOverlay.classList.remove('closing'); // 🔒 reset closing state
-                    drawerOverlay.classList.add('active');
-                    drawerOpenBtn.classList.add('hidden');
-                    drawerCloseBtn.classList.remove('hidden');
-                    document.body.style.overflow = 'hidden';
-                    
-                    // Hapus panggilan stagger
-                    return;
-                }
-
-                // Explicit close
-                if (open === false) {
-                    console.log('CLOSING DRAWER (Explicit)');
-                    
-                    // 1) set closing state (panel akan slide-out via CSS)
-                    drawerOverlay.classList.add('closing');
-
-                    // 2) kunci interaksi (dihapus)
-
-                    // 3) setelah panel selesai slide-out, baru matikan overlay dengan remove active
-                    setTimeout(() => {
-                        drawerOverlay.classList.remove('active');   // ini yang bikin overlay fade-out (via :not(.active))
-                        drawerOverlay.classList.remove('closing');
-
-                        drawerOpenBtn.classList.remove('hidden');
-                        drawerCloseBtn.classList.add('hidden');
-                        document.body.style.overflow = '';
-
-                        // restore button states (dihapus)
-
-                        // Hapus panggilan resetStagger
-                    }, DURATION + 30); // Tambah 30ms safety buffer
-
-                    return;
-                }
-
-                // Toggle mode (open undefined)
-                if (!isOpen) {
+                if (targetState === true) {
                     // OPEN Logic
-                    console.log('OPENING DRAWER (Toggle)');
+                    console.log('OPENING DRAWER');
                     drawerOverlay.classList.remove('closing'); 
                     drawerOverlay.classList.add('active');
-                    drawerOpenBtn.classList.add('hidden');
-                    drawerCloseBtn.classList.remove('hidden');
+                    
+                    // UPDATE: Set toggle active state & ARIA
+                    mobileMenuToggle.classList.add('active');
+                    mobileMenuToggle.setAttribute('aria-expanded', 'true');
+                    
                     document.body.style.overflow = 'hidden';
-                    // Hapus panggilan stagger
                 } else {
-                    // CLOSE (Toggle) Logic (Menggunakan 2-step close)
-                    console.log('CLOSING DRAWER (Toggle)');
+                    // CLOSE Logic
+                    console.log('CLOSING DRAWER');
                     
-                    // 1) set closing state
+                    // 1) set closing state (panel will slide-out via CSS)
                     drawerOverlay.classList.add('closing');
-
-                    // 2) kunci interaksi (dihapus)
                     
-                    // 3) setelah transisi selesai, matikan overlay
+                    // UPDATE: Set toggle inactive state & ARIA
+                    mobileMenuToggle.classList.remove('active');
+                    mobileMenuToggle.setAttribute('aria-expanded', 'false');
+
+                    // 2) after panel slides out, remove active class to hide overlay
                     setTimeout(() => {
                         drawerOverlay.classList.remove('active');
                         drawerOverlay.classList.remove('closing');
-                        
-                        drawerOpenBtn.classList.remove('hidden');
-                        drawerCloseBtn.classList.add('hidden');
                         document.body.style.overflow = '';
-
-                        // restore button states (dihapus)
-
-                        // Hapus panggilan resetStagger
-                    }, DURATION + 30); 
+                    }, DURATION + 30); // small buffer for safety
                 }
             };
             // END MODIFICATION (B)
@@ -2097,17 +2151,12 @@
             const backToTopBtn = document.getElementById('back-to-top');
             
             // PATCH 2 & 3: Rapihkan event listener tombol open/close (wajib)
-            drawerOpenBtn?.addEventListener('click', (e) => {
+            // UPDATED: Single listener for the toggle button
+            mobileMenuToggle?.addEventListener('click', (e) => {
                 e.preventDefault();
-                console.log('OPEN CLICKED'); 
-                toggleDrawer(true);
-            });
-
-            drawerCloseBtn?.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('CLOSE CLICKED'); 
-                toggleDrawer(false);
+                e.stopPropagation(); // Ensure clean event handling
+                console.log('TOGGLE CLICKED'); 
+                toggleDrawer(); // No argument = toggle
             });
 
             // Klik overlay buat close (klik area gelapnya saja)
@@ -2580,7 +2629,7 @@
                     const cardHtml = `
                         <a href="#" class="category-box group card-reveal">
                             <div class="category-media">
-                                <img src="${imageUrl}" alt="${label} product image" onerror="this.onerror=null; this.src='https://placehold.co/400x500/E0E0E0/333333?text=Placeholder'">
+                                <img src="${imageUrl}" alt="${label} product image" onerror="this.onerror=null; this.src='https://placehold.co/400x500/E0E0E0/333333?text=Placeholder'" width="100%" height="100%" loading="lazy">
                             </div>
                             <p class="category-label">${label}</p>
                         </a>
