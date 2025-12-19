@@ -498,47 +498,95 @@
         
         /* --- UGREEN STYLE FOOTER OVERRIDES (NEW) --- */
         
-        /* UGREEN Footer Signup Styles */
-        .ugreen-signup-row {
-            display: flex;
-            width: 100%;
-            gap: 0; /* No gap between input and button */
-            margin-top: 18px;
+        /* UGREEN Footer Signup Styles (REPLACED WITH NEW SIGNUP-WRAP STYLES BELOW) */
+        /* Parent container: one white box */
+        .signup-wrap{
+          display:flex;
+          align-items:center;
+          gap: 10px;
+          background:#fff;
+          border:1px solid rgba(0,0,0,0.18);
+          height:46px;
+          padding: 6px;                 /* IMPORTANT: creates inner “air” like UGREEN */
+          transition: border-color 220ms ease, box-shadow 220ms ease, background 220ms ease;
+          width: 100%; /* Ensure it fills container */
+          margin-top: 18px; /* Restore spacing */
         }
-        
-        .ugreen-signup-input {
-            flex: 1; /* Takes available space */
-            height: 48px; /* Fixed height for alignment */
-            padding: 0 16px;
-            border: 1px solid transparent; /* Cleaner look */
-            background: #FFFFFF !important;
-            color: #111111 !important;
-            outline: none;
-            border-radius: 0 !important; /* Square corners */
-            font-size: 14px;
+
+        /* Hover effect like UGREEN (subtle but visible) */
+        .signup-wrap:hover{
+          border-color: rgba(0,0,0,0.30);
+          box-shadow: 0 0 0 2px rgba(255,255,255,0.10); /* subtle highlight on dark footer */
+          background:#fff; /* stays white, just feels “active” */
         }
-        
-        .ugreen-signup-input::placeholder {
-            color: #999999;
+
+        /* Input fills remaining space, no border */
+        .signup-input{
+          flex:1;
+          height:100%;
+          border:none;
+          outline:none;
+          background:transparent;
+          padding: 0 10px;
+          font-size:14px;
+          color:#111;
+          min-width: 0; /* Prevent overflow */
         }
-        
-        .ugreen-signup-btn {
-            width: 120px; /* Fixed width */
-            height: 48px; /* Match input height */
-            background: #000000 !important;
-            color: #FFFFFF !important;
-            border: 1px solid #000000;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            border-radius: 0 !important;
-            transition: opacity 0.2s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+
+        .signup-input::placeholder{
+          color: rgba(0,0,0,0.45);
         }
-        
-        .ugreen-signup-btn:hover {
-            opacity: 0.9;
+
+        /* Button is smaller than container and sits inside */
+        .signup-btn{
+          height:34px;
+          padding: 0 18px;
+          border: 1px solid #000;     /* keep border so white state still looks crisp */
+          background:#000;
+          color:#fff;
+          font-weight:600;
+          font-size: 13px;
+          cursor:pointer;
+          white-space: nowrap;
+
+          /* smooth transition */
+          transition:
+            background-color 240ms cubic-bezier(0.4, 0, 0.2, 1),
+            color 240ms cubic-bezier(0.4, 0, 0.2, 1),
+            border-color 240ms cubic-bezier(0.4, 0, 0.2, 1),
+            box-shadow 240ms cubic-bezier(0.4, 0, 0.2, 1),
+            transform 120ms ease;
+        }
+
+        /* hover = turn to white */
+        .signup-btn:hover{
+          background:#fff;
+          color:#000;
+          border-color:#000;
+          box-shadow: 0 6px 16px rgba(0,0,0,0.14); /* subtle depth like premium ecom */
+        }
+
+        /* when hover the whole signup box, also affect button */
+        .signup-wrap:hover .signup-btn{
+          background:#fff;
+          color:#000;
+          border-color:#000;
+        }
+
+        /* Active click feedback */
+        .signup-btn:active{
+          transform: scale(0.98);
+        }
+
+        /* Consent row stays same */
+        .consent-row{
+          display:flex;
+          align-items:center;
+          gap:10px;
+          margin-top:12px;
+          font-size:12px;
+          color: rgba(255,255,255,0.85);
+          cursor: pointer;
         }
 
         /* UGREEN Social Icons Styles - REPLACED WITH NEW STRIP CSS */
@@ -1719,6 +1767,95 @@
             pointer-events: none;
             transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
         }
+        
+        /* ACCORDION STYLES */
+        .pdp-accordion {
+            width: 100%;
+        }
+        .acc-item {
+            border-bottom: 1px solid #F3F4F6; /* border-gray-100 */
+        }
+        /* Header button */
+        .acc-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            text-align: left;
+        }
+        .acc-title {
+            font-weight: 500;
+            color: var(--color-matte-black);
+            font-size: 1rem;
+        }
+
+        /* Panel base: CLOSED */
+        .acc-panel {
+            max-height: 0px;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(-6px);
+            transition:
+                max-height 300ms cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 220ms cubic-bezier(0.4, 0, 0.2, 1),
+                transform 220ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Panel open state */
+        .acc-panel.is-open {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Inner spacing */
+        .acc-inner {
+            padding: 0 0 24px 0; /* slightly more bottom padding */
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--color-soft-gray);
+        }
+
+        /* PLUS/MINUS ICON */
+        .pm-icon {
+            position: relative;
+            width: 14px; /* Matches previous design slightly better */
+            height: 14px;
+            display: inline-block;
+            flex-shrink: 0;
+            margin-left: 12px;
+        }
+
+        /* horizontal line */
+        .pm-h, .pm-v {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 14px;
+            height: 1.5px; /* Thinner line for elegance */
+            background: var(--color-matte-black);
+            transform: translate(-50%, -50%);
+            border-radius: 0; /* sharp */
+        }
+
+        /* vertical line */
+        .pm-v {
+            width: 1.5px;
+            height: 14px;
+            transform-origin: center;
+            transition:
+                transform 200ms cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* When OPEN: hide vertical line smoothly => minus */
+        .acc-btn[aria-expanded="true"] .pm-v {
+            transform: translate(-50%, -50%) scaleY(0);
+            opacity: 0;
+        }
 
     </style>
 </head>
@@ -1834,7 +1971,7 @@
                     </span>
                 </a>
                 
-                <a href="#" class="drawer-secondary-link">
+                <a href="cart.html" class="drawer-secondary-link">
                     <span class="drawer-label text-base font-normal drawer-anim-text">Shopping Cart</span>
                     <span class="drawer-external">
                         <svg class="drawer-external-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
@@ -1906,7 +2043,7 @@
                 
                 <!-- Dropdown Menu BARU: UGREEN STYLE (1 KOLOM) -->
                 <div id="store-menu" class="four-ugreen-menu hidden">
-                    <a class="four-ugreen-item" href="#" rel="noopener">Shopping Cart <span class="four-ugreen-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></span></a>
+                    <a class="four-ugreen-item" href="cart.html" rel="noopener">Shopping Cart <span class="four-ugreen-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></span></a>
                     <a class="four-ugreen-item" href="#" rel="noopener">Checkout <span class="four-ugreen-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></span></a>
                     <!-- Tautan ke login.html -->
                     <a class="four-ugreen-item" href="#" rel="noopener" data-nav="account">Account <span class="four-ugreen-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></span></a>
@@ -2116,51 +2253,66 @@
                 </div>
 
                 <!-- Accordions/Details -->
-                <div class="mt-12 border-t border-gray-200 pt-0">
-                    <!-- Item 1 -->
-                    <div class="border-b border-gray-100">
-                        <button class="accordion-btn w-full flex justify-between items-center py-4 group cursor-pointer">
-                            <span class="font-medium text-matte-black">Features</span>
-                            <span class="text-xl text-soft-gray group-hover:text-matte-black transition accordion-icon">+</span>
+                <div class="pdp-accordion mt-12 border-t border-gray-200 pt-0">
+                    <!-- ITEM 1 -->
+                    <div class="acc-item">
+                        <button class="acc-btn" type="button" aria-expanded="false">
+                            <span class="acc-title">Features</span>
+                            <span class="pm-icon" aria-hidden="true">
+                                <span class="pm-h"></span>
+                                <span class="pm-v"></span>
+                            </span>
                         </button>
-                        <div class="accordion-content hidden pb-4 text-sm text-soft-gray leading-relaxed">
-                            <ul class="list-disc pl-5 space-y-1">
-                                <li>Magnetic-ready design for seamless daily workflow</li>
-                                <li>Stable anchoring system that keeps your device firmly in place</li>
-                                <li>Minimalist form engineered to reduce desk clutter</li>
-                                <li>Precision-crafted from premium machined aluminum</li>
-                                <li>Designed for long-term use and modern workspaces</li>
-                            </ul>
+                        <div class="acc-panel" role="region">
+                            <div class="acc-inner">
+                                <ul class="list-disc pl-5 space-y-1">
+                                    <li>Magnetic-ready design for seamless daily workflow</li>
+                                    <li>Stable anchoring system that keeps your device firmly in place</li>
+                                    <li>Minimalist form engineered to reduce desk clutter</li>
+                                    <li>Precision-crafted from premium machined aluminum</li>
+                                    <li>Designed for long-term use and modern workspaces</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                    <!-- Item 2 -->
-                    <div class="border-b border-gray-100">
-                        <button class="accordion-btn w-full flex justify-between items-center py-4 group cursor-pointer">
-                            <span class="font-medium text-matte-black">Specifications</span>
-                            <span class="text-xl text-soft-gray group-hover:text-matte-black transition accordion-icon">+</span>
+                    <!-- ITEM 2 -->
+                    <div class="acc-item">
+                        <button class="acc-btn" type="button" aria-expanded="false">
+                            <span class="acc-title">Specifications</span>
+                            <span class="pm-icon" aria-hidden="true">
+                                <span class="pm-h"></span>
+                                <span class="pm-v"></span>
+                            </span>
                         </button>
-                        <div class="accordion-content hidden pb-4 text-sm text-soft-gray leading-relaxed">
-                            <ul class="space-y-1">
-                                <li><strong>Material:</strong> Machined Aluminum</li>
-                                <li><strong>Finish:</strong> Black / Silver / Deep Navy</li>
-                                <li><strong>Compatibility:</strong> MagSafe-compatible devices</li>
-                                <li><strong>Usage:</strong> Desk, workspace, daily productivity setup</li>
-                                <li><strong>Weight:</strong> Optimized for stability and balance</li>
-                            </ul>
+                        <div class="acc-panel" role="region">
+                            <div class="acc-inner">
+                                <ul class="space-y-1">
+                                    <li><strong>Material:</strong> Machined Aluminum</li>
+                                    <li><strong>Finish:</strong> Black / Silver / Deep Navy</li>
+                                    <li><strong>Compatibility:</strong> MagSafe-compatible devices</li>
+                                    <li><strong>Usage:</strong> Desk, workspace, daily productivity setup</li>
+                                    <li><strong>Weight:</strong> Optimized for stability and balance</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                    <!-- Item 3 -->
-                    <div class="border-b border-gray-100">
-                        <button class="accordion-btn w-full flex justify-between items-center py-4 group cursor-pointer">
-                            <span class="font-medium text-matte-black">In the Box</span>
-                            <span class="text-xl text-soft-gray group-hover:text-matte-black transition accordion-icon">+</span>
+                    <!-- ITEM 3 -->
+                    <div class="acc-item">
+                        <button class="acc-btn" type="button" aria-expanded="false">
+                            <span class="acc-title">In the Box</span>
+                            <span class="pm-icon" aria-hidden="true">
+                                <span class="pm-h"></span>
+                                <span class="pm-v"></span>
+                            </span>
                         </button>
-                        <div class="accordion-content hidden pb-4 text-sm text-soft-gray leading-relaxed">
-                            <ul class="list-disc pl-5 space-y-1">
-                                <li>FOUR Anchor / Mag</li>
-                                <li>Magnetic attachment module</li>
-                                <li>Quick start guide</li>
-                            </ul>
+                        <div class="acc-panel" role="region">
+                            <div class="acc-inner">
+                                <ul class="list-disc pl-5 space-y-1">
+                                    <li>FOUR Anchor / Mag</li>
+                                    <li>Magnetic attachment module</li>
+                                    <li>Quick start guide</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2394,20 +2546,20 @@
                     <p class="text-sm mb-6">Join the FOUR community for early access, design tips, and updates.</p>
                     
                     <!-- NEW UGREEN-STYLE EMAIL SIGNUP FORM -->
-                    <form class="ugreen-signup-row" action="#" method="post">
-                        <!-- Input field -->
-                        <input type="email" placeholder="Enter your email address" class="ugreen-signup-input" name="email" required>
-                        <!-- Button -->
-                        <button type="submit" class="ugreen-signup-btn">Sign up</button>
-                    </form>
-                    
-                    <div class="mt-4">
-                        <!-- Checkbox label: Warna diatur oleh .four-footer label -->
-                        <label class="flex items-center space-x-2 text-xs">
+                    <form class="signup-form" action="#" method="post">
+                        <div class="signup-wrap">
+                            <!-- Input field -->
+                            <input class="signup-input" type="email" placeholder="Enter your email address" name="email" required>
+                            <!-- Button -->
+                            <button class="signup-btn" type="submit">Sign up</button>
+                        </div>
+                        
+                        <label class="consent-row">
+                            <!-- Checkbox label: Warna diatur oleh .four-footer label -->
                             <input type="checkbox" class="form-checkbox bg-muted-navy border-soft-gray rounded text-soft-gold" required>
                             <span>I agree to receive FOUR news, offers, and product updates via email.</span>
                         </label>
-                    </div>
+                    </form>
 
                     <!-- NEW UGREEN-STYLE SOCIAL ICONS (Moved Here) -->
                     <!-- UPDATED: Replaced with single joined outline strip -->
@@ -2739,11 +2891,7 @@
               if (!a) return;
 
               const href = a.getAttribute('href');
-              // Fix invalid selector error if href is empty or just '#'
-              if (!href || href === '#' || href.length < 2) {
-                  e.preventDefault();
-                  return;
-              }
+              if (!href) return;
 
               // Check if it's the Account link (handled by module script now, but we keep safety)
               if (a.dataset.nav === "account") {
@@ -2754,18 +2902,15 @@
               // Case 1: anchor in-page navigation
               if (href.startsWith('#')) {
                 e.preventDefault();
-                try {
-                    const target = document.querySelector(href);
-                    closeDrawerAndThen(() => {
-                      target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    });
-                } catch (err) {
-                    console.warn("Invalid anchor selector:", href);
-                }
+                const target = document.querySelector(href);
+                closeDrawerAndThen(() => {
+                  target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
                 return;
               }
 
               // Case 2: normal navigation (login, etc)
+              // NOTE: Updated cart redirect to be clean
               e.preventDefault(); // Cegah navigasi segera
 
               closeDrawerAndThen(() => {
@@ -3137,9 +3282,149 @@
             // ===== HERO SLIDER WITH PROGRESS + ARROWS - END NEW LOGIC =====
             
             
-            // 5. PDP INTERACTION LOGIC (NEW)
+            // 5. FOUR ANCHOR TAB SYSTEM JAVASCRIPT (NEW) =====
             
-            // Product Data State
+            const anchorTabs = document.querySelectorAll('.anchor-tab-button');
+            const anchorTabIndicator = document.getElementById('anchor-tab-indicator');
+            const anchorContentWrapper = document.getElementById('anchor-content-wrapper');
+            const anchorHeading = document.getElementById('anchor-h1');
+            const anchorDescription = document.getElementById('anchor-description');
+            const anchorCardTrack = document.getElementById('anchor-card-track');
+
+            const anchorContentData = {
+                mag: {
+                    title: 'FOUR ANCHOR / MAG',
+                    description: 'Magnetic-ready stability for effortless daily workflow. Designed to stay firmly in place, keeping your iPhone visible, accessible, and distraction-free.',
+                    cards: [
+                        'Desk-mounted stability',
+                        'Magnetic-ready interaction',
+                        'Minimalist form',
+                        'Premium material contrast',
+                    ]
+                },
+                core: {
+                    title: 'FOUR ANCHOR / CORE',
+                    description: 'Pure stability and clean form—without MagSafe. Built to keep your phone exactly where it belongs, anchored to your setup with zero visual noise.',
+                    cards: [
+                        'Desk-mounted stability',
+                        'Clean minimalist form',
+                        'Refined materials',
+                        'Ergonomic positioning',
+                    ]
+                }
+            };
+
+            // UPDATED FUNCTION TO USE .category-box (4:5) WITH .category-media SLOT
+            function updateAnchorCards(cards) {
+                anchorCardTrack.innerHTML = '';
+
+                cards.slice(0, 4).forEach(label => {
+                    // Use a generic placeholder image URL
+                    const imageUrl = `https://placehold.co/400x500/F3F3F3/0A0A0A?text=${label.replace(/[^a-zA-Z0-9]/g, '+')}`;
+
+                    const cardHtml = `
+                        <a href="#" class="category-box group card-reveal">
+                            <div class="category-media">
+                                <img src="${imageUrl}" alt="${label} product image" onerror="this.onerror=null; this.src='https://placehold.co/400x500/E0E0E0/333333?text=Placeholder'" width="100%" height="100%" loading="lazy">
+                            </div>
+                            <p class="category-label">${label}</p>
+                        </a>
+                    `;
+                    anchorCardTrack.insertAdjacentHTML('beforeend', cardHtml);
+                });
+            }
+
+
+            function switchAnchorTab(tabName) {
+                const targetContent = anchorContentData[tabName];
+                const targetButton = document.querySelector(`[data-anchor-tab="${tabName}"]`);
+                if (!targetButton) return;
+
+                // Animate out (content fade)
+                anchorContentWrapper.style.transition = 'opacity 0.2s ease-out';
+                anchorContentWrapper.style.opacity = '0';
+
+                // Update Tab Styles and Indicator
+                anchorTabs.forEach(btn => btn.classList.remove('active'));
+                targetButton.classList.add('active');
+
+                // Move Indicator logic delayed to ensure measurement accuracy
+                setTimeout(() => {
+                    if (!targetButton || !targetButton.parentNode) return;
+                    const targetRect = targetButton.getBoundingClientRect();
+                    const containerRect = targetButton.parentNode.getBoundingClientRect();
+
+                    anchorTabIndicator.style.width = `${targetRect.width}px`;
+                    anchorTabIndicator.style.transform = `translateX(${targetRect.left - containerRect.left}px)`;
+
+                    // Update Content
+                    anchorHeading.textContent = targetContent.title;
+                    anchorDescription.textContent = targetContent.description;
+                    updateAnchorCards(targetContent.cards);
+                    
+                    // Animate in (content fade)
+                    anchorContentWrapper.style.transition = 'opacity 0.2s ease-in 0.15s';
+                    anchorContentWrapper.style.opacity = '1';
+
+                }, 150); // Small delay for content update during transition
+            }
+
+            // Attach event listeners
+            anchorTabs.forEach(button => {
+                button.addEventListener('click', () => switchAnchorTab(button.dataset.anchorTab));
+            });
+
+            // Initial load for FOUR ANCHOR MAG
+            setTimeout(() => {
+                switchAnchorTab('mag');
+            }, 150); // Ensure tabs are rendered before calculating initial indicator position
+
+            // ===== END FOUR ANCHOR TAB SYSTEM JAVASCRIPT (NEW) =====
+            
+            // Accordion Logic (New Implementation)
+            const accButtons = document.querySelectorAll(".acc-btn");
+
+            function closeAccItem(btn){
+                btn.setAttribute("aria-expanded", "false");
+                const panel = btn.nextElementSibling;
+                panel.classList.remove("is-open");
+                panel.style.maxHeight = "0px";
+            }
+
+            function openAccItem(btn){
+                btn.setAttribute("aria-expanded", "true");
+                const panel = btn.nextElementSibling;
+                panel.classList.add("is-open");
+                // set max height based on real content
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            }
+
+            accButtons.forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const isOpen = btn.getAttribute("aria-expanded") === "true";
+
+                    // Close all others first (clean ecom behavior)
+                    accButtons.forEach((other) => {
+                        if (other !== btn) closeAccItem(other);
+                    });
+
+                    // Toggle clicked item
+                    if (!isOpen) openAccItem(btn);
+                    else closeAccItem(btn);
+                });
+            });
+
+            // Recalculate heights on resize for open panels (prevents jump)
+            window.addEventListener("resize", () => {
+                accButtons.forEach((btn) => {
+                    if (btn.getAttribute("aria-expanded") === "true") {
+                        const panel = btn.nextElementSibling;
+                        panel.style.maxHeight = panel.scrollHeight + "px";
+                    }
+                });
+            });
+            
+            // PDP Logic for Variant Selection and Add to Cart
             const pdpData = {
                 currentVariantId: 'obsidian-black',
                 qty: 1,
@@ -3165,7 +3450,6 @@
                 ]
             };
 
-            // DOM Elements
             const pdpMainImage = document.getElementById('pdp-main-image');
             const pdpThumbsContainer = document.getElementById('pdp-thumbs-container');
             const pdpVariantSwatches = document.getElementById('pdp-variant-swatches');
@@ -3196,7 +3480,6 @@
                 });
             }
 
-            // Variant Selection Logic
             function selectVariant(id) {
                 const variant = pdpData.variants.find(v => v.id === id);
                 if (!variant) return;
@@ -3225,7 +3508,6 @@
                 });
             }
 
-            // Quantity Logic
             if (qtyMinusBtn && qtyPlusBtn && pdpQtyInput) {
                 qtyMinusBtn.onclick = () => {
                     if (pdpData.qty > 1) {
@@ -3239,130 +3521,86 @@
                 };
             }
 
-            // Accordion Logic
-            const accordionBtns = document.querySelectorAll('.accordion-btn');
-            accordionBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const content = btn.nextElementSibling;
-                    const icon = btn.querySelector('.accordion-icon');
-                    
-                    content.classList.toggle('hidden');
-                    if (content.classList.contains('hidden')) {
-                        icon.textContent = '+';
-                    } else {
-                        icon.textContent = '−'; // minus sign
-                    }
-                });
-            });
-
-            // Helper for robust navigation (CART REDIRECT FIX)
             function goToCart() {
-                window.location.assign('/cart');
+                window.location.assign('cart.html');
             }
 
-            // ADD TO CART FUNCTION (Saves to localStorage)
             function addToCart(e) {
-                // 1. Get current selected variant details
                 const currentVariant = pdpData.variants.find(v => v.id === pdpData.currentVariantId);
-                
-                // 2. Create item object (Use requested structure)
                 const cartItem = {
-                    id: 'four-anchor-mag', // SKU-like ID
+                    id: 'four-anchor-mag',
                     name: 'FOUR ANCHOR / MAG',
-                    variant: currentVariant.name, // "Obsidian Black"
-                    price: 129.00, // Hardcoded for this demo
+                    variantId: currentVariant.id,
+                    variantName: currentVariant.name,
+                    price: 129.00,
                     qty: pdpData.qty,
-                    imageUrl: currentVariant.thumb // Use thumb as main image in cart
+                    image: currentVariant.thumb
                 };
 
-                // 3. Get existing cart
                 let cart = JSON.parse(localStorage.getItem('four_cart')) || [];
-
-                // 4. Check if item exists (same ID + Variant)
-                const existingItemIndex = cart.findIndex(item => item.id === cartItem.id && item.variant === cartItem.variant);
+                const existingItemIndex = cart.findIndex(item => item.id === cartItem.id && item.variantId === cartItem.variantId);
 
                 if (existingItemIndex > -1) {
-                    // Update quantity
                     cart[existingItemIndex].qty += cartItem.qty;
                 } else {
-                    // Add new
                     cart.push(cartItem);
                 }
 
-                // 5. Save
                 localStorage.setItem('four_cart', JSON.stringify(cart));
-
-                // 6. Trigger Animation & Redirect
                 animateFlyToCart(e);
             }
 
-            // Fly-to-Cart Animation & Redirect
             function animateFlyToCart(event) {
-                // Prevent default if it's a link (though these are buttons)
                 if (event) event.preventDefault();
 
                 const productImg = document.getElementById('pdp-main-image');
-                // Target: Desktop Store button OR Mobile Menu Toggle (as proxy for cart location)
                 const cartTarget = document.getElementById('store-btn') || document.getElementById('mobile-menu-toggle');
 
                 if (!productImg || !cartTarget) {
-                    // Fallback redirect immediately if elements missing
                     goToCart(); 
                     return;
                 }
 
-                // Create clone
                 const imgClone = productImg.cloneNode(true);
                 const rect = productImg.getBoundingClientRect();
                 const targetRect = cartTarget.getBoundingClientRect();
 
-                // Style clone
                 imgClone.style.position = 'fixed';
                 imgClone.style.left = rect.left + 'px';
                 imgClone.style.top = rect.top + 'px';
                 imgClone.style.width = rect.width + 'px';
                 imgClone.style.height = rect.height + 'px';
                 imgClone.style.zIndex = '9999';
-                imgClone.style.transition = 'all 0.8s cubic-bezier(0.19, 1, 0.22, 1)'; // Smooth easing
+                imgClone.style.transition = 'all 0.8s cubic-bezier(0.19, 1, 0.22, 1)';
                 imgClone.style.borderRadius = '0';
                 imgClone.classList.add('flying-img');
 
                 document.body.appendChild(imgClone);
-
-                // Force reflow
                 void imgClone.offsetWidth;
 
-                // Animate to target
-                imgClone.style.left = (targetRect.left + targetRect.width / 2 - 20) + 'px'; // Center roughly
+                imgClone.style.left = (targetRect.left + targetRect.width / 2 - 20) + 'px';
                 imgClone.style.top = (targetRect.top + targetRect.height / 2 - 20) + 'px';
                 imgClone.style.width = '40px';
                 imgClone.style.height = '40px';
                 imgClone.style.opacity = '0.5';
 
-                // Cleanup and Redirect
                 setTimeout(() => {
                     imgClone.remove();
                     goToCart();
                 }, 800);
             }
 
-            // Wishlist Toggle & Fly
             if (pdpWishlistBtn) {
                 pdpWishlistBtn.onclick = function(e) {
                     this.classList.toggle('active');
-                    // Trigger fly animation on add (if becoming active)
                     if (this.classList.contains('active')) {
-                        // For Wishlist, we reuse addToCart for simplicity as per user flow request
                         addToCart(e);
                     }
                 };
             }
 
-            // Add to Cart / Pre-Order Fly (Uses addToCart function now)
             if (pdpPreOrderBtn) pdpPreOrderBtn.addEventListener('click', addToCart);
             if (pdpAddToCartBtn) pdpAddToCartBtn.addEventListener('click', addToCart);
-
-            // ===== END PDP LOGIC =====
         });
     </script>
 </body>
