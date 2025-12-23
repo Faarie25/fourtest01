@@ -1765,6 +1765,30 @@
         }
         /* END MODIFICATION: LIFESTYLE IMAGE TRANSITION & SCALE */
 
+        /* MOBILE OPTIMIZATION FOR MATCH WORLD SECTION */
+        @media (max-width: 767px) {
+            .mw-desc {
+                font-size: 15px !important;
+                line-height: 1.5 !important;
+                margin-bottom: 20px !important; /* Tighter to CTA */
+                color: rgba(0,0,0,0.8) !important;
+            }
+            .matchworld-tabs {
+                margin-bottom: 16px !important; /* Tighter to Text */
+                gap: 20px !important;
+            }
+            .mw-tab {
+                font-size: 13px !important;
+                padding: 8px 4px !important;
+            }
+            /* CTA Adjustment for mobile density */
+            .mw-cta {
+                width: 100%;
+                max-width: 280px; /* Optional: make it look like UGREEN pill */
+                padding: 10px 20px !important;
+                font-size: 13px !important;
+            }
+        }
         /* ===== END SECTION C STYLES ===== */
 
         /* ===== FOUR ANCHOR NEW HORIZONTAL CARD SYSTEM STYLES (DELETED) ===== */
@@ -2895,75 +2919,80 @@
         <section id="signature-collections" class="scroll-anchor bg-white">
           
           <!-- A) CINEMATIC HERO (Light Mode, Wide) -->
-          <!-- REVISI: HAPUS border-b border-black/5 AGAR SEAMLESS KE BAWAH -->
-          <div class="relative bg-white pt-16 pb-12 md:pt-24 md:pb-20">
-            <div class="mx-auto max-w-6xl px-6">
+          <!-- MOBILE REFINEMENT: Reduced padding from pt-16/pb-12 to pt-10/pb-6 for density -->
+          <div class="relative bg-white pt-10 pb-6 md:pt-24 md:pb-20">
+            <div class="mx-auto max-w-6xl px-4 md:px-6"> <!-- Tighter side padding on mobile (px-4) -->
+              
               <!-- Headline Block -->
-              <div class="text-center max-w-3xl mx-auto mb-16">
-                <p class="inline-flex items-center rounded-full border border-black/10 bg-black/[0.03] px-3 py-1 text-xs font-medium tracking-wide text-black/70 mb-6">
+              <!-- MOBILE REFINEMENT: mb-16 -> mb-6 -->
+              <div class="text-center max-w-3xl mx-auto mb-6 md:mb-16">
+                <!-- Chip: Smaller text on mobile, mb-6 -> mb-3 -->
+                <p class="inline-flex items-center rounded-full border border-black/10 bg-black/[0.03] px-3 py-1 text-[11px] md:text-xs font-medium tracking-wide text-black/70 mb-3 md:mb-6">
                   Magnetic Focus Dock • Qi Wireless • Modular Mount
                 </p>
-                <h1 class="text-4xl md:text-6xl font-semibold tracking-tight text-black leading-[1.1] mb-6">
+                <!-- H1: text-3xl on mobile for density, leading-tight, mb-6 -> mb-3 -->
+                <h1 class="text-3xl md:text-6xl font-semibold tracking-tight text-black leading-tight md:leading-[1.1] mb-3 md:mb-6">
                   Built for deep focus,<br class="hidden md:block" />
                   wherever you work.
                 </h1>
-                <p class="text-sm md:text-base leading-relaxed text-black/70 max-w-xl mx-auto">
+                <!-- P: Added px-2 for safe margins -->
+                <p class="text-sm md:text-base leading-relaxed text-black/70 max-w-xl mx-auto px-2">
                   Lock your phone away under your desk to stay distraction-free—while it charges. 
                   Compatible with iPhone & Android, even with a case.
                 </p>
               </div>
 
-              <!-- 3 Feature Callouts (REVERTED: Text Swipe with Center Snap & Peek) -->
-              <div class="mt-6 md:mt-10 mb-8 md:mb-12">
+              <!-- 3 Feature Callouts - FIX MUTLAK ALIGNMENT CENTER (MOBILE 100% WIDTH) -->
+              <!-- MOBILE REFINEMENT: mt-6/mb-8 -> mt-5/mb-6 -->
+              <div class="mt-5 md:mt-10 mb-6 md:mb-12">
                 <div class="
                     flex md:grid md:grid-cols-3 
-                    gap-4 md:gap-8 
+                    gap-0 md:gap-8  /* REVISI: gap-0 di mobile agar tidak ada offset saat scroll 100% */
                     overflow-x-auto md:overflow-visible 
                     scroll-smooth snap-x snap-mandatory 
                     pb-4 md:pb-0 
-                    -mx-6 px-[15vw] md:mx-0 md:px-0 
-                    scroll-px-[15vw] md:scroll-px-0
+                    -mx-4 md:mx-0 /* REVISI: Hapus padding px-[5vw] di mobile, hanya full bleed -mx-4 */
                     [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden
                 ">
                   
-                  <!-- Feature 1 -->
-                  <div class="snap-center shrink-0 w-[70vw] md:w-auto text-center flex flex-col items-center justify-center">
-                    <!-- REVISI: Judul Bold Hitam, Deskripsi Abu Regular -->
-                    <p class="text-lg font-bold text-black leading-snug mb-1">Phone-out-of-sight Focus</p>
-                    <p class="text-sm font-normal text-gray-500">Hide it. Feel calmer. Work deeper.</p>
+                  <!-- Feature 1 - REVISI: w-full (100% viewport) + px-4 -->
+                  <div class="snap-center shrink-0 w-full md:w-auto text-center flex flex-col items-center justify-center px-4">
+                    <p class="text-lg font-bold text-black leading-snug mb-1">Phone-out-of-sight</p>
+                    <p class="text-sm font-normal text-gray-500">Hide it. Work deeper.</p>
                   </div>
 
-                  <!-- Feature 2 -->
-                  <div class="snap-center shrink-0 w-[70vw] md:w-auto text-center flex flex-col items-center justify-center">
-                    <!-- REVISI: Judul Bold Hitam, Deskripsi Abu Regular -->
+                  <!-- Feature 2 - REVISI: w-full (100% viewport) + px-4 -->
+                  <div class="snap-center shrink-0 w-full md:w-auto text-center flex flex-col items-center justify-center px-4">
                     <p class="text-lg font-bold text-black leading-snug mb-1">Qi Wireless Charging</p>
-                    <p class="text-sm font-normal text-gray-500">Charges efficiently while you focus.</p>
+                    <p class="text-sm font-normal text-gray-500">Charges while you focus.</p>
                   </div>
 
-                  <!-- Feature 3 -->
-                  <div class="snap-center shrink-0 w-[70vw] md:w-auto text-center flex flex-col items-center justify-center">
-                    <!-- REVISI: Judul Bold Hitam, Deskripsi Abu Regular -->
+                  <!-- Feature 3 - REVISI: w-full (100% viewport) + px-4 -->
+                  <div class="snap-center shrink-0 w-full md:w-auto text-center flex flex-col items-center justify-center px-4">
                     <p class="text-lg font-bold text-black leading-snug mb-1">Push-Push Precision</p>
-                    <p class="text-sm font-normal text-gray-500">Push in to eject. Push again to lock.</p>
+                    <p class="text-sm font-normal text-gray-500">Push to eject & lock.</p>
                   </div>
 
                 </div>
               </div>
 
               <!-- Cinematic Wide Image (Bottom Anchored) -->
-              <div class="relative w-full">
-                <!-- REVISI STYLE IMAGE: Kotak tajam, tanpa border/rounded -->
+              <!-- MOBILE REFINEMENT: Full Bleed (-mx-4) & Shorter Height -->
+              <div class="relative w-[calc(100%+2rem)] -mx-4 md:mx-0 md:w-full">
+                
                 <div class="group relative overflow-hidden bg-black/[0.02] shadow-sm">
                   <!-- Static Cinematic Hero Image -->
-                  <div class="aspect-[16/9] md:aspect-[21/9] w-full bg-[#F5F5F5]">
+                  <!-- MOBILE REFINEMENT: aspect-[2/1] for shorter vertical footprint on mobile -->
+                  <div class="aspect-[2/1] md:aspect-[21/9] w-full bg-[#F5F5F5]">
                     <img src="https://placehold.co/1600x700/F5F5F5/111?text=FOUR+MagCore+Cinematic+View" alt="Cinematic Hero View" class="w-full h-full object-cover mix-blend-multiply opacity-90 transition-transform duration-1000 ease-in-out group-hover:scale-[1.02]">
                   </div>
                   <!-- Subtle bottom gradient overlay -->
                   <div class="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white to-transparent opacity-80"></div>
                 </div>
 
-                <!-- NEW CTA (Preorder Now - Match Made to Match Your World) -->
-                <div class="mt-4 md:mt-4 flex justify-center">
+                <!-- NEW CTA (Preorder Now) -->
+                <!-- Reduced margin for proximity -->
+                <div class="mt-4 md:mt-4 flex justify-center pb-2">
                   <a href="#" class="btn-ugreen-cta">
                     <span>Preorder Now</span>
                     <svg class="cta-arrow-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -2974,18 +3003,17 @@
               </div>
             </div>
           </div>
-
-          <!-- B) PURCHASE SECTION (Gallery Left / Info Right) -> DIHAPUS TOTAL SESUAI REQUEST -->
           
         </section>
 
         <!-- Lifestyle Section -->
-        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-30 text-center">
-            <h2 class="font-display text-4xl lg:text-5xl font-semibold mb-16 reveal-title">Made to Match Your World</h2>
-            <div class="max-w-6xl mx-auto mt-16 space-y-10">
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-30 text-center"> <!-- Reduced py-20 to py-10 -->
+            <h2 class="font-display text-3xl lg:text-5xl font-semibold mb-6 lg:mb-16 reveal-title">Made to Match Your World</h2> <!-- Reduced mb-16 to mb-6, text-4xl to text-3xl -->
+            <div class="max-w-6xl mx-auto mt-6 lg:mt-16 space-y-6 lg:space-y-10"> <!-- Reduced mt-16 to mt-6, space-y-10 to space-y-6 -->
                 
                 <!-- MODIFIED IMAGE WRAPPER (Dual Layer for Crossfade) -->
-                <div id="lifestyle-image-wrapper" class="scroll-reveal w-full h-[360px] lg:h-[600px] mx-auto">
+                <!-- Reduced mobile height h-[360px] to h-[250px] -->
+                <div id="lifestyle-image-wrapper" class="scroll-reveal w-full h-[250px] md:h-[400px] lg:h-[600px] mx-auto">
                     <!-- Layer 1 (Initial Active) -->
                     <div id="lifestyle-layer-1" class="lifestyle-layer active" style="background-image: url('https://placehold.co/1200x600/F3F3F3/0A0A0A?text=HOME+ORDER+SETUP');"></div>
                     <!-- Layer 2 (Initial Inactive) -->
