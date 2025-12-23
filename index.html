@@ -2401,21 +2401,24 @@
             animation: sspIn 240ms ease both;
         }
 
+        /* REVISI UI SEARCH - TYPOGRAPHY & CARD STYLES */
         .ssp-title {
             font-size: 14px;
             font-weight: 700;
             margin: 0 0 14px 0;
-            color: #000;
+            color: #000 !important; /* Force Black */
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            opacity: 0.5;
+            opacity: 1 !important; /* Remove Opacity */
         }
 
-        /* Top Searches list */
+        /* Top Searches list - REVISI 1: HORIZONTAL FLOW */
         .ssp-topsearches {
             display: flex;
-            flex-direction: column;
+            flex-direction: row; /* Horizontal */
+            flex-wrap: wrap; /* Lanjut ke bawah jika penuh */
             gap: 10px;
+            align-items: start;
         }
 
         .ssp-chip {
@@ -2423,60 +2426,66 @@
             align-items: center;
             height: 36px;
             padding: 0 14px;
-            border: 1px solid rgba(0,0,0,0.08);
-            background: #fff;
+            /* REVISI: CARD KOTAK (Sharp Edges) + Neutral Gray */
+            border-radius: 0 !important; 
+            background: #F2F2F2 !important; 
+            border: none !important;
+            
             color: #111;
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+            transition: background 180ms ease, transform 180ms ease;
             width: fit-content;
-            border-radius: 99px;
         }
 
         .ssp-chip:hover {
-            background: rgba(0,0,0,0.03);
-            border-color: rgba(0,0,0,0.16);
+            background: #E5E5E5 !important; /* Slightly darker gray on hover */
             transform: translateX(2px);
         }
 
-        /* Suggested Products grid */
+        /* Suggested Products grid - REVISI 2: SINGLE BIG CARD */
         .ssp-products {
             display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
+            /* Force single column to take full width */
+            grid-template-columns: 1fr; 
             gap: 16px;
         }
 
         .ssp-product {
             display: grid;
-            grid-template-columns: 60px 1fr;
-            gap: 14px;
+            grid-template-columns: 80px 1fr; /* Adjusted for larger thumb */
+            gap: 20px; /* Bigger Gap */
             align-items: center;
-            padding: 12px;
-            background: #F9F9F9;
-            border: 1px solid transparent;
+            padding: 20px; /* Bigger Padding */
+            
+            /* REVISI: CARD KOTAK (Sharp Edges) + Neutral Gray */
+            background: #F2F2F2 !important; 
+            border-radius: 0 !important;
+            border: none !important;
+            
             cursor: pointer;
             transition: all 180ms ease;
-            border-radius: 8px;
             text-align: left;
+            min-height: 100px; /* Ensure visual weight */
         }
 
         .ssp-product:hover {
-            background: #fff;
-            border-color: rgba(0,0,0,0.08);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            background: #E5E5E5 !important;
+            box-shadow: none; /* No shadow per request style */
             transform: translateY(-2px);
         }
 
         .ssp-thumb {
-            width: 60px;
-            height: 60px;
+            width: 80px; /* REVISI: BIGGER THUMB */
+            height: 80px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: #fff;
-            border-radius: 6px;
-            padding: 4px;
+            /* REVISI: Sharp thumb container */
+            border-radius: 0 !important; 
+            padding: 6px;
         }
 
         .ssp-thumb img {
@@ -2487,7 +2496,7 @@
         }
 
         .ssp-name {
-            font-size: 13px;
+            font-size: 15px; /* REVISI: Slightly bigger text */
             font-weight: 600;
             line-height: 1.4;
             color: #111;
@@ -2509,8 +2518,9 @@
                 grid-template-columns: 1fr;
                 gap: 24px;
             }
+            /* Pada tablet/mobile, karena layout stack, card produk juga full width (1fr) */
             .ssp-products {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
+                grid-template-columns: 1fr; 
             }
             .ssp-topsearches {
                 flex-direction: row;
@@ -2518,9 +2528,7 @@
             }
         }
         @media (max-width: 520px){
-            .ssp-products {
-                grid-template-columns: 1fr;
-            }
+            /* Mobile tweaks */
         }
 
     </style>
@@ -3263,20 +3271,25 @@
             if(!wrap) return;
             wrap.innerHTML = "";
 
-            CATALOG.slice(0, 6).forEach((p)=>{
-                const card = document.createElement("button");
-                card.type = "button";
-                card.className = "ssp-product";
-                card.innerHTML = `
-                    <span class="ssp-thumb"><img src="${p.image}" alt="${p.name}"></span>
-                    <span class="ssp-name">${p.name}</span>
-                `;
-                card.addEventListener("click", () => {
-                    closeSearch();
-                    window.location.href = p.url;
-                });
-                wrap.appendChild(card);
+            // REVISI: HANYA 1 Produk Spesifik
+            const suggestedItem = {
+                name: "FOUR MagCore — Magnetic Focus Dock (Qi Wireless, Modular Mount)",
+                image: "https://placehold.co/150x150/F3F3F3/0A0A0A?text=MagCore+Focus",
+                url: "#signature-collections"
+            };
+
+            const card = document.createElement("button");
+            card.type = "button";
+            card.className = "ssp-product";
+            card.innerHTML = `
+                <span class="ssp-thumb"><img src="${suggestedItem.image}" alt="${suggestedItem.name}"></span>
+                <span class="ssp-name">${suggestedItem.name}</span>
+            `;
+            card.addEventListener("click", () => {
+                closeSearch();
+                window.location.href = suggestedItem.url;
             });
+            wrap.appendChild(card);
         }
 
         // 4. Open/Close Logic
