@@ -429,8 +429,8 @@
         }
 
         /* ========================================================
-           START MODIFICATION: HERO CONTENT POSITION & LAYOUT
-           ======================================================== */
+            START MODIFICATION: HERO CONTENT POSITION & LAYOUT
+            ======================================================== */
         /* Content harus di atas overlay */
         .hero-slide .slide-content {
             position: relative;
@@ -463,8 +463,8 @@
             margin-bottom: 90px !important; 
         }
         /* ========================================================
-           END MODIFICATION
-           ======================================================== */
+            END MODIFICATION
+            ======================================================== */
 
         
         .hero-image-container {
@@ -1435,7 +1435,7 @@
         #main-header.is-top .text-gray-700 {
             color: #FFFFFF !important;
             /* REVISI: HAPUS fill & stroke paksa ini. 
-               Biarkan SVG ikut 'currentColor' dari properti color di atas. */
+                Biarkan SVG ikut 'currentColor' dari properti color di atas. */
             /* fill: #FFFFFF !important;  <-- PENYEBAB MASALAH */
             /* stroke: #FFFFFF !important; <-- PENYEBAB MASALAH */
         }
@@ -1504,7 +1504,7 @@
 
         /* Store Button: Revert to Solid Black Pill (FIXED VISIBILITY ISSUE) */
         /* Kita chain .is-top.interaction-active dan tambahkan :hover state untuk memastikan 
-           ia mengalahkan style transparansi .is-top saat mouse masih di atas tombol (klik) */
+            ia mengalahkan style transparansi .is-top saat mouse masih di atas tombol (klik) */
         #main-header.interaction-active .force-solid-black,
         #main-header.is-top.interaction-active .force-solid-black,
         #main-header.is-top.interaction-active .force-solid-black:hover {
@@ -1635,43 +1635,94 @@
         /* --- START FIX MUTLAK: ICON DAN TOMBOL --- */
         /* FIX MUTLAK icon kanan (1) */
 
-        .tab-button-ugreen {
-             /* Tab Button Style (REVISED FONT/SPACING) */
-            @apply px-0 py-3.5 text-lg font-semibold cursor-pointer z-10 
-                   relative transition duration-200 ease-in-out bg-transparent;
-            color: var(--color-soft-gray) !important; /* Inactive color */
-            letter-spacing: 0.04em; /* Match request */
-            margin-bottom: -1px; /* Pull up to hide default border */
-        }
-        .tab-button-ugreen.active {
-             /* Active state uses black text */
-            color: var(--color-matte-black) !important;
-        }
+        /* ===== SECTION C - LIFESTYLE SLIDER CUSTOM STYLES (NEW) ===== */
         
-        #tab-indicator-ugreen {
-            /* Underline indicator */
-            position: absolute;
-            bottom: 0px; 
-            left: 0;
-            height: 2px; /* Thin line */
-            background-color: var(--color-matte-black);
-            transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
-            z-index: 5;
+        /* REVISI: MW (Match World) UGREEN STYLES */
+        .matchworld-wrap {
+            max-width: 860px;
+            margin: 0 auto;
+            position: relative;
         }
 
-        /* Content Transition Styling */
-        #lifestyle-content-wrapper {
-            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        .matchworld-tabs {
+            position: relative;
+            display: inline-flex; /* Center naturally */
+            justify-content: center;
+            gap: 28px;
+            margin-bottom: 24px;
+            user-select: none;
+            border-bottom: 1px solid rgba(0,0,0,0.08); /* Garis tipis full width container */
+            padding-bottom: 0px;
+        }
+
+        .mw-tab {
+            background: transparent;
+            border: 0;
+            padding: 10px 4px; /* Sedikit padding horizontal */
+            font-size: 14px;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: rgba(0,0,0,0.35);
+            cursor: pointer;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .mw-tab.active {
+            color: var(--color-matte-black);
+        }
+
+        .mw-indicator {
+            position: absolute;
+            bottom: -1px; /* Overlap border bottom */
+            height: 2px;
+            background: var(--color-matte-black);
+            left: 0;
+            width: 0;
+            transform: translateX(0);
+            transition: transform 280ms cubic-bezier(.4,0,.2,1), width 280ms cubic-bezier(.4,0,.2,1);
+            z-index: 10;
+        }
+
+        .mw-desc {
+            text-align: center;
+            font-size: 18px;
+            line-height: 1.6;
+            color: rgba(0,0,0,0.75);
+            margin-bottom: 32px;
             opacity: 1;
-            transform: translateY(0);
+            transition: opacity 220ms ease;
         }
-        .content-transition-out {
-            opacity: 0 !important;
-            transform: translateY(6px) !important;
+
+        /* Override/Update CTA for this section specifically */
+        .mw-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 28px;
+            border: 1px solid rgba(0,0,0,0.18);
+            border-radius: 9999px;
+            text-decoration: none;
+            color: #000;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 220ms ease;
+            background: transparent;
         }
-        .content-transition-in {
-            opacity: 1 !important;
-            transform: translateY(0) !important;
+
+        .mw-cta:hover {
+            background: var(--color-matte-black);
+            color: #fff;
+            border-color: var(--color-matte-black);
+        }
+        
+        .mw-cta .mw-cta-arrow {
+            font-size: 18px;
+            line-height: 1;
+            font-weight: 400;
+            margin-top: -2px; /* Visual adj */
         }
 
         /* START MODIFICATION: LIFESTYLE IMAGE TRANSITION & SCALE */
@@ -1717,7 +1768,7 @@
         /* ===== END SECTION C STYLES ===== */
 
         /* ===== FOUR ANCHOR NEW HORIZONTAL CARD SYSTEM STYLES (DELETED) ===== */
-        /* The previous CSS blocks for .anchor-track, .anchor-card, and their media queries were removed
+        /* The previous CSS blocks for .anchor-track, .anchor-card, and their media queries were removed 
             to ensure consistency with .lineup-container and .category-box. */
         /* ================================================================= */
 
@@ -2255,8 +2306,6 @@
             background: #fff;
         }
 
-        /* ... existing cart styles ... */
-
         /* Mobile: full width drawer */
         @media (max-width: 520px) {
             .cart-drawer { width: 100vw; max-width: none; }
@@ -2272,7 +2321,7 @@
             scrollbar-width: none;  /* Firefox */
         }
 
-        /* SEARCH DROPDOWN (HEADER DRAWER) - UGREEN STYLE */
+        /* SEARCH DROPDOWN (HEADER DRAWER) - UGREEN STYLE - REVISED */
         #searchOverlay{
           position:fixed; inset:0;
           background:rgba(0,0,0,.35);
@@ -2282,7 +2331,7 @@
         }
         #searchDropdown{
           position:fixed;
-          top:4rem; left:0; right:0;
+          top:4rem; left:0; right:0; /* Sesuaikan top dengan tinggi header lo */
           background:#fff;
           border-bottom:1px solid rgba(0,0,0,.08);
           transform:translateY(-18px);
@@ -2327,15 +2376,92 @@
           transition:color 180ms ease, transform 180ms ease;
         }
         #searchCloseBtn:hover{ color:#000; transform:rotate(90deg); }
-        #searchDropdown .search-hint{
-          margin-top:10px;
-          font-size:12px;
-          color:rgba(0,0,0,.55);
+
+        /* SEARCH SMART PANEL (Grid & Items) */
+        .search-smart-panel {
+          margin-top: 22px;
+          display: grid;
+          grid-template-columns: 280px 1fr;
+          gap: 34px;
+          align-items: start;
+          animation: sspIn 240ms ease both;
         }
-        #searchDropdown .search-hint span{ color:rgba(0,0,0,.75); }
-        #searchResults{ margin-top:14px; }
-        #searchResults:empty{ display:none; }
-        @media (max-width:520px){
+        .ssp-title {
+          font-size: 14px; font-weight: 700; margin: 0 0 14px 0;
+          color: #000; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.5;
+        }
+
+        /* TOP SEARCHES: UGREEN BOX (NO PILL, NO OUTLINE) */
+        .ssp-topsearches { display: flex; flex-direction: column; gap: 10px; }
+        .ssp-chip{
+          display:block;
+          width: 180px;              /* mirip UGREEN list box */
+          height: 40px;
+          padding: 0 14px;
+          background: #F3F3F3;       /* abu solid */
+          color: #111;
+          font-size: 14px;
+          font-weight: 500;
+          border: none;              /* no outline */
+          border-radius: 0;          /* sharp */
+          cursor: pointer;
+          text-align: left;
+          transition: background 180ms ease, transform 180ms ease;
+        }
+        .ssp-chip:hover{
+          background:#EDEDED;
+          transform: translateX(2px);
+        }
+
+        /* SUGGESTED PRODUCTS: SHARP BOX (NO OUTLINE, NO ROUND) */
+        .ssp-products {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 16px;
+        }
+        .ssp-product{
+          display: grid;
+          grid-template-columns: 60px 1fr;
+          gap: 14px;
+          align-items: center;
+          padding: 14px;
+          background: #F3F3F3;       /* sama vibe box */
+          border: none;              /* clean */
+          border-radius: 0;          /* sharp */
+          cursor: pointer;
+          transition: background 180ms ease, transform 180ms ease;
+          text-align: left;
+        }
+        .ssp-product:hover{
+          background:#EFEFEF;
+          transform: translateY(-2px);
+        }
+        .ssp-thumb{
+          width: 60px; height: 60px;
+          display: flex; align-items: center; justify-content: center;
+          background: #fff;
+          border-radius: 0;          /* sharp */
+          padding: 4px;
+        }
+        .ssp-thumb img{ width:100%; height:100%; object-fit:contain; mix-blend-mode:multiply; }
+        .ssp-name{
+          font-size: 13px; font-weight: 600; line-height: 1.4; color: #111;
+          display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+        }
+        @keyframes sspIn{
+          from { opacity:0; transform: translateY(6px); }
+          to { opacity:1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px){
+          .search-smart-panel { grid-template-columns: 1fr; gap: 24px; }
+          .ssp-products { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+          .ssp-topsearches { flex-direction: row; flex-wrap: wrap; }
+          .ssp-chip { width:auto; min-width: 120px; }
+        }
+        @media (max-width: 520px){
+          .ssp-products { grid-template-columns: 1fr; }
           #searchDropdown .search-inner{ padding:14px 14px 16px; }
           #searchDropdown .search-input-wrap{ height:50px; }
         }
@@ -2582,14 +2708,27 @@
               <path d="M21 21l-4.3-4.3"></path>
             </svg>
 
-            <input id="searchInput" type="search" placeholder="Search products, collections, articles..." autocomplete="off" />
+            <!-- REVISI 1: Placeholder Baru -->
+            <input id="searchInput" type="search" placeholder="What are you looking for?" autocomplete="off" />
             <button id="searchCloseBtn" type="button" aria-label="Close search">✕</button>
           </div>
         </div>
 
-        <div class="search-hint">Try: <span>MagCore</span> • <span>Anchor</span> • <span>Charging</span> • <span>Storage</span></div>
+        <!-- REVISI 2: Hapus Hint Lama, Ganti Smart Panel -->
+        <div id="searchSmartPanel" class="search-smart-panel">
+            <div class="ssp-left">
+                <h4 class="ssp-title">Top Searches</h4>
+                <div id="topSearches" class="ssp-topsearches"></div>
+            </div>
 
-        <div id="searchResults" class="search-results"></div>
+            <div class="ssp-right">
+                <h4 class="ssp-title">Suggested Products</h4>
+                <div id="suggestedProducts" class="ssp-products"></div>
+            </div>
+        </div>
+
+        <!-- Container hasil pencarian live (tetap ada) -->
+        <div id="searchResults" class="search-results" style="display:none;"></div>
       </div>
     </div>
 
