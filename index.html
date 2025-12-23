@@ -429,8 +429,8 @@
         }
 
         /* ========================================================
-            START MODIFICATION: HERO CONTENT POSITION & LAYOUT
-            ======================================================== */
+           START MODIFICATION: HERO CONTENT POSITION & LAYOUT
+           ======================================================== */
         /* Content harus di atas overlay */
         .hero-slide .slide-content {
             position: relative;
@@ -463,8 +463,8 @@
             margin-bottom: 90px !important; 
         }
         /* ========================================================
-            END MODIFICATION
-            ======================================================== */
+           END MODIFICATION
+           ======================================================== */
 
         
         .hero-image-container {
@@ -1435,7 +1435,7 @@
         #main-header.is-top .text-gray-700 {
             color: #FFFFFF !important;
             /* REVISI: HAPUS fill & stroke paksa ini. 
-                Biarkan SVG ikut 'currentColor' dari properti color di atas. */
+               Biarkan SVG ikut 'currentColor' dari properti color di atas. */
             /* fill: #FFFFFF !important;  <-- PENYEBAB MASALAH */
             /* stroke: #FFFFFF !important; <-- PENYEBAB MASALAH */
         }
@@ -1504,7 +1504,7 @@
 
         /* Store Button: Revert to Solid Black Pill (FIXED VISIBILITY ISSUE) */
         /* Kita chain .is-top.interaction-active dan tambahkan :hover state untuk memastikan 
-            ia mengalahkan style transparansi .is-top saat mouse masih di atas tombol (klik) */
+           ia mengalahkan style transparansi .is-top saat mouse masih di atas tombol (klik) */
         #main-header.interaction-active .force-solid-black,
         #main-header.is-top.interaction-active .force-solid-black,
         #main-header.is-top.interaction-active .force-solid-black:hover {
@@ -1768,7 +1768,7 @@
         /* ===== END SECTION C STYLES ===== */
 
         /* ===== FOUR ANCHOR NEW HORIZONTAL CARD SYSTEM STYLES (DELETED) ===== */
-        /* The previous CSS blocks for .anchor-track, .anchor-card, and their media queries were removed 
+        /* The previous CSS blocks for .anchor-track, .anchor-card, and their media queries were removed
             to ensure consistency with .lineup-container and .category-box. */
         /* ================================================================= */
 
@@ -2306,6 +2306,8 @@
             background: #fff;
         }
 
+        /* ... existing cart styles ... */
+
         /* Mobile: full width drawer */
         @media (max-width: 520px) {
             .cart-drawer { width: 100vw; max-width: none; }
@@ -2321,7 +2323,7 @@
             scrollbar-width: none;  /* Firefox */
         }
 
-        /* SEARCH DROPDOWN (HEADER DRAWER) - UGREEN STYLE - REVISED */
+        /* SEARCH DROPDOWN (HEADER DRAWER) - UGREEN STYLE */
         #searchOverlay{
           position:fixed; inset:0;
           background:rgba(0,0,0,.35);
@@ -2331,7 +2333,7 @@
         }
         #searchDropdown{
           position:fixed;
-          top:4rem; left:0; right:0; /* Sesuaikan top dengan tinggi header lo */
+          top:4rem; left:0; right:0;
           background:#fff;
           border-bottom:1px solid rgba(0,0,0,.08);
           transform:translateY(-18px);
@@ -2376,94 +2378,149 @@
           transition:color 180ms ease, transform 180ms ease;
         }
         #searchCloseBtn:hover{ color:#000; transform:rotate(90deg); }
-
-        /* SEARCH SMART PANEL (Grid & Items) */
-        .search-smart-panel {
-          margin-top: 22px;
-          display: grid;
-          grid-template-columns: 280px 1fr;
-          gap: 34px;
-          align-items: start;
-          animation: sspIn 240ms ease both;
+        #searchDropdown .search-hint{
+          margin-top:10px;
+          font-size:12px;
+          color:rgba(0,0,0,.55);
         }
-        .ssp-title {
-          font-size: 14px; font-weight: 700; margin: 0 0 14px 0;
-          color: #000; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.5;
-        }
-
-        /* TOP SEARCHES: UGREEN BOX (NO PILL, NO OUTLINE) */
-        .ssp-topsearches { display: flex; flex-direction: column; gap: 10px; }
-        .ssp-chip{
-          display:block;
-          width: 180px;              /* mirip UGREEN list box */
-          height: 40px;
-          padding: 0 14px;
-          background: #F3F3F3;       /* abu solid */
-          color: #111;
-          font-size: 14px;
-          font-weight: 500;
-          border: none;              /* no outline */
-          border-radius: 0;          /* sharp */
-          cursor: pointer;
-          text-align: left;
-          transition: background 180ms ease, transform 180ms ease;
-        }
-        .ssp-chip:hover{
-          background:#EDEDED;
-          transform: translateX(2px);
-        }
-
-        /* SUGGESTED PRODUCTS: SHARP BOX (NO OUTLINE, NO ROUND) */
-        .ssp-products {
-          display: grid;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: 16px;
-        }
-        .ssp-product{
-          display: grid;
-          grid-template-columns: 60px 1fr;
-          gap: 14px;
-          align-items: center;
-          padding: 14px;
-          background: #F3F3F3;       /* sama vibe box */
-          border: none;              /* clean */
-          border-radius: 0;          /* sharp */
-          cursor: pointer;
-          transition: background 180ms ease, transform 180ms ease;
-          text-align: left;
-        }
-        .ssp-product:hover{
-          background:#EFEFEF;
-          transform: translateY(-2px);
-        }
-        .ssp-thumb{
-          width: 60px; height: 60px;
-          display: flex; align-items: center; justify-content: center;
-          background: #fff;
-          border-radius: 0;          /* sharp */
-          padding: 4px;
-        }
-        .ssp-thumb img{ width:100%; height:100%; object-fit:contain; mix-blend-mode:multiply; }
-        .ssp-name{
-          font-size: 13px; font-weight: 600; line-height: 1.4; color: #111;
-          display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-        }
-        @keyframes sspIn{
-          from { opacity:0; transform: translateY(6px); }
-          to { opacity:1; transform: translateY(0); }
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px){
-          .search-smart-panel { grid-template-columns: 1fr; gap: 24px; }
-          .ssp-products { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-          .ssp-topsearches { flex-direction: row; flex-wrap: wrap; }
-          .ssp-chip { width:auto; min-width: 120px; }
-        }
-        @media (max-width: 520px){
-          .ssp-products { grid-template-columns: 1fr; }
+        #searchDropdown .search-hint span{ color:rgba(0,0,0,.75); }
+        #searchResults{ margin-top:14px; }
+        #searchResults:empty{ display:none; }
+        @media (max-width:520px){
           #searchDropdown .search-inner{ padding:14px 14px 16px; }
           #searchDropdown .search-input-wrap{ height:50px; }
+        }
+
+        /* SEARCH SMART PANEL (UGREEN STYLE) */
+        .search-smart-panel {
+            margin-top: 22px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 34px;
+            align-items: start;
+            animation: sspIn 240ms ease both;
+        }
+
+        .ssp-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin: 0 0 14px 0;
+            color: #000;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.5;
+        }
+
+        /* Top Searches list */
+        .ssp-topsearches {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .ssp-chip {
+            display: inline-flex;
+            align-items: center;
+            height: 36px;
+            padding: 0 14px;
+            border: 1px solid rgba(0,0,0,0.08);
+            background: #fff;
+            color: #111;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+            width: fit-content;
+            border-radius: 99px;
+        }
+
+        .ssp-chip:hover {
+            background: rgba(0,0,0,0.03);
+            border-color: rgba(0,0,0,0.16);
+            transform: translateX(2px);
+        }
+
+        /* Suggested Products grid */
+        .ssp-products {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .ssp-product {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 14px;
+            align-items: center;
+            padding: 12px;
+            background: #F9F9F9;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 180ms ease;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .ssp-product:hover {
+            background: #fff;
+            border-color: rgba(0,0,0,0.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transform: translateY(-2px);
+        }
+
+        .ssp-thumb {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            border-radius: 6px;
+            padding: 4px;
+        }
+
+        .ssp-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+
+        .ssp-name {
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.4;
+            color: #111;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Animation */
+        @keyframes sspIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Smart Panel */
+        @media (max-width: 1024px){
+            .search-smart-panel {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            .ssp-products {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+            .ssp-topsearches {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+        }
+        @media (max-width: 520px){
+            .ssp-products {
+                grid-template-columns: 1fr;
+            }
         }
 
     </style>
@@ -2917,34 +2974,40 @@
         <!-- Lifestyle Section -->
         <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-30 text-center">
             <h2 class="font-display text-4xl lg:text-5xl font-semibold mb-16 reveal-title">Made to Match Your World</h2>
-            <div class="max-w-6xl mx-auto mt-16 space-y-12">
+            <div class="max-w-6xl mx-auto mt-16 space-y-10">
                 
                 <!-- MODIFIED IMAGE WRAPPER (Dual Layer for Crossfade) -->
                 <div id="lifestyle-image-wrapper" class="scroll-reveal w-full h-[360px] lg:h-[600px] mx-auto">
                     <!-- Layer 1 (Initial Active) -->
-                    <div id="lifestyle-layer-1" class="lifestyle-layer active" style="background-image: url('https://placehold.co/1200x600/C7C7C7/0A0A0A?text=HOME+SETUP+IMAGE');"></div>
+                    <div id="lifestyle-layer-1" class="lifestyle-layer active" style="background-image: url('https://placehold.co/1200x600/F3F3F3/0A0A0A?text=HOME+ORDER+SETUP');"></div>
                     <!-- Layer 2 (Initial Inactive) -->
                     <div id="lifestyle-layer-2" class="lifestyle-layer"></div>
                 </div>
                 <!-- END MODIFICATION -->
 
-                <div class="flex justify-center scroll-reveal">
-                    <div id="lifestyle-tabs-container">
-                        <button data-tab="home" class="tab-button-ugreen">HOME</button>
-                        <button data-tab="workspace" class="tab-button-ugreen">WORKSPACE</button>
-                        <div id="tab-indicator-ugreen" style="width: 100px; transform: translateX(0);"></div>
-                    </div>
+                <!-- REVISED UI: Tabs + Description (No H3 Headline) -->
+                <div class="matchworld-wrap scroll-reveal">
+                  <!-- TAB BAR -->
+                  <div class="matchworld-tabs" role="tablist" aria-label="Made to Match Your World Tabs">
+                    <button class="mw-tab active" type="button" role="tab" aria-selected="true" data-tab="home">HOME</button>
+                    <button class="mw-tab" type="button" role="tab" aria-selected="false" data-tab="workspace">WORKSPACE</button>
+                    <span class="mw-indicator" aria-hidden="true"></span>
+                  </div>
+
+                  <!-- DESCRIPTION (Paragraph Only) -->
+                  <p id="mw-desc" class="mw-desc">
+                    From kitchen counter to bedside table, FOUR gives every corner of your home the power and order it needs—so you can focus on what matters most.
+                  </p>
+
+                  <!-- CTA -->
+                  <div class="flex justify-center">
+                      <a href="#explore-lineup" class="mw-cta">
+                        Discover Everyday Essentials
+                        <span class="mw-cta-arrow" aria-hidden="true">›</span>
+                      </a>
+                  </div>
                 </div>
-                <div class="scroll-reveal">
-                    <div id="lifestyle-content-wrapper" class="mx-auto max-w-2xl content-transition-in">
-                        <h3 id="lifestyle-heading" class="font-display text-4xl font-semibold mb-4 reveal-title">Home Order</h3>
-                        <p id="lifestyle-description" class="text-lg text-soft-gray leading-relaxed mb-8 reveal-sub">From bedside to wardrobe, FOUR turns daily clutter into calm. Our minimalist solutions integrate seamlessly, bringing order and refinement to your personal space.</p>
-                        <a id="lifestyle-cta" href="#" class="btn-ugreen-cta transition duration-300 reveal-sub">
-                            <span>Discover Everyday Essentials</span> 
-                            <svg class="cta-arrow-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </div>
-                </div>
+
             </div>
         </section>
 
@@ -3110,7 +3173,7 @@
 
     <!-- Main App Script -->
     <script>
-        // === UGREEN-STYLE SEARCH LOGIC ===
+        // === UGREEN-STYLE SEARCH LOGIC (UPDATED WITH SMART PANEL) ===
         const $ = (sel, root = document) => root.querySelector(sel);
         const header = document.getElementById('main-header'); // Reference Header
 
@@ -3125,7 +3188,6 @@
         };
 
         const searchOverlay = $("#searchOverlay");
-        // ... (Search logic variables unchanged) ...
         const searchDropdown = $("#searchDropdown");
         /* REVISI: Ganti selector #openSearch jadi #openSearchDesktop biar match sama HTML */
         const openSearchBtn = $("#openSearchDesktop"); 
@@ -3133,31 +3195,122 @@
         const searchCloseBtn = $("#searchCloseBtn");
         const searchInput = $("#searchInput");
         const searchResults = $("#searchResults");
+        const searchSmartPanel = $("#searchSmartPanel"); // New Panel
 
-        // ... (Search functions unchanged) ...
+        // 1. Search Analytics Storage
+        const SEARCH_KEY = "four_top_searches_v1";
+        function loadSearchStats(){
+            try{ return JSON.parse(localStorage.getItem(SEARCH_KEY)) || {}; }catch{ return {}; }
+        }
+        function saveSearchStats(stats){
+            localStorage.setItem(SEARCH_KEY, JSON.stringify(stats));
+        }
+        function recordSearch(query){
+            const q = (query||"").trim().toLowerCase();
+            if(!q) return;
+            const stats = loadSearchStats();
+            stats[q] = (stats[q] || 0) + 1;
+            saveSearchStats(stats);
+        }
+
+        // 2. Render Top Searches
+        function renderTopSearches(){
+            const el = document.getElementById("topSearches");
+            if(!el) return;
+            el.innerHTML = "";
+
+            const stats = loadSearchStats();
+            const top = Object.entries(stats)
+                .sort((a,b)=>b[1]-a[1])
+                .slice(0, 6)
+                .map(([term])=>term);
+            
+            // Fallback default terms if empty
+            const fallback = ["MagCore", "Charger", "Storage", "Cable", "Wireless", "Riser"];
+            const list = top.length ? top : fallback; // Use fallback if empty
+
+            list.forEach((term)=>{
+                const chip = document.createElement("button");
+                chip.type = "button";
+                chip.className = "ssp-chip";
+                // Capitalize first letter
+                const displayTerm = term.charAt(0).toUpperCase() + term.slice(1);
+                chip.textContent = displayTerm;
+                
+                chip.addEventListener("click", ()=>{
+                    searchInput.value = displayTerm;
+                    searchInput.dispatchEvent(new Event("input"));
+                    searchInput.focus();
+                    recordSearch(term); // Record click as search
+                });
+                el.appendChild(chip);
+            });
+        }
+
+        // 3. Render Suggested Products (Catalog Mock)
+        // Unified Catalog Data
+        const CATALOG = [
+            { name: "FOUR MagCore", image: "https://placehold.co/150x150/F3F3F3/0A0A0A?text=MagCore", url: "#signature-collections" },
+            { name: "Wireless Charging Stand", image: "https://placehold.co/150x150/F3F3F3/0A0A0A?text=Charger", url: "#explore-lineup" },
+            { name: "Modular Storage Box", image: "https://placehold.co/150x150/F3F3F3/0A0A0A?text=Storage", url: "#explore-lineup" },
+            { name: "Monitor Riser Pro", image: "https://placehold.co/150x150/F3F3F3/0A0A0A?text=Riser", url: "#explore-lineup" },
+            { name: "Cable Management Kit", image: "https://placehold.co/150x150/F3F3F3/0A0A0A?text=Cable", url: "#explore-lineup" },
+            { name: "Desk Mat Premium", image: "https://placehold.co/150x150/F3F3F3/0A0A0A?text=Mat", url: "#explore-lineup" }
+        ];
+
+        function renderSuggestedProducts(){
+            const wrap = document.getElementById("suggestedProducts");
+            if(!wrap) return;
+            wrap.innerHTML = "";
+
+            CATALOG.slice(0, 6).forEach((p)=>{
+                const card = document.createElement("button");
+                card.type = "button";
+                card.className = "ssp-product";
+                card.innerHTML = `
+                    <span class="ssp-thumb"><img src="${p.image}" alt="${p.name}"></span>
+                    <span class="ssp-name">${p.name}</span>
+                `;
+                card.addEventListener("click", () => {
+                    closeSearch();
+                    window.location.href = p.url;
+                });
+                wrap.appendChild(card);
+            });
+        }
+
+        // 4. Open/Close Logic
         const openSearch = () => {
-          setHeaderInteraction(true); // Header jadi solid
+          setHeaderInteraction(true); 
           searchOverlay.classList.add("active");
           searchDropdown.classList.add("active");
+          
+          // Render Smart Panel Content
+          renderTopSearches();
+          renderSuggestedProducts();
+          
+          // Reset View
+          if(!searchInput.value.trim()){
+              searchSmartPanel.style.display = "";
+              searchResults.style.display = "none";
+          }
+          
           setTimeout(() => searchInput && searchInput.focus(), 60);
         };
 
         const closeSearch = () => {
-          // ... (Search close logic check store menu) ...
           const storeMenu = document.getElementById("store-menu");
-          // REVISI: Cek class is-open (bukan hidden lagi)
           const isStoreOpen = storeMenu && storeMenu.classList.contains("is-open");
           const isDrawerOpen = document.getElementById('mobile-drawer-overlay')?.classList.contains('active');
 
           if (!isStoreOpen && !isDrawerOpen) {
-             setHeaderInteraction(false); // Balik transparan
+             setHeaderInteraction(false); 
           }
 
           searchOverlay.classList.remove("active");
           searchDropdown.classList.remove("active");
         };
 
-        // ... (Listeners unchanged) ...
         // Attach listeners (Desktop & Mobile)
         if(openSearchBtn) openSearchBtn.addEventListener("click", openSearch);
         if(openSearchMobile) openSearchMobile.addEventListener("click", openSearch);
@@ -3169,51 +3322,64 @@
           if (e.key === "Escape") closeSearch();
         });
 
-        // === REALTIME SEARCH FILTER LOGIC ===
-        // ... (Search Filter Logic Unchanged) ...
-        const SEARCH_INDEX = [
-          { title: "FOUR MagCore Wireless Stand", type: "Product", tags: ["magcore","wireless","charging","dock"], href: "#signature-collections" },
-          { title: "FOUR Storage Module", type: "Product", tags: ["storage","module","desk","organizer"], href: "#explore-lineup" },
-          { title: "FOUR Monitor Riser", type: "Product", tags: ["monitor","riser","desk","ergonomic"], href: "#explore-lineup" },
-          { title: "News: MagCore pre-order opens", type: "Article", tags: ["news","release"], href: "#newsroom" },
-          { title: "Warranty Policy", type: "Support", tags: ["warranty","help","support"], href: "#warranty" },
-          { title: "Shipping & Returns", type: "Support", tags: ["shipping","returns","delivery"], href: "#shipping-returns" },
-        ];
+        // 5. Live Search & Input Handling
+        searchInput?.addEventListener("input", (e) => {
+            const q = e.target.value.trim().toLowerCase();
+            
+            if (!q) {
+                // Show Smart Panel, Hide Results
+                searchSmartPanel.style.display = "";
+                searchResults.style.display = "none";
+                return;
+            }
 
-        const renderResults = (items) => {
-          if (!searchResults) return;
-          if (!items.length) {
-            searchResults.innerHTML = `<div style="padding:10px 2px;color:rgba(0,0,0,.55);font-size:13px;">No results.</div>`;
-            return;
-          }
-
-          searchResults.innerHTML = items.slice(0, 8).map((it) => `
-            <a href="${it.href}" class="search-item" style="display:flex;justify-content:space-between;align-items:center;padding:12px 2px;border-top:1px solid rgba(0,0,0,.06);text-decoration:none;color:#111;">
-              <span style="font-weight:600;font-size:14px;">${it.title}</span>
-              <span style="font-size:12px;color:rgba(0,0,0,.55);">${it.type}</span>
-            </a>
-          `).join("");
-          
-          // Add click listener to close search on nav
-          searchResults.querySelectorAll('.search-item').forEach(link => {
-              link.addEventListener('click', closeSearch);
-          });
-        };
-
-        const doSearch = (q) => {
-          const query = (q || "").trim().toLowerCase();
-          if (!query) {
+            // Hide Smart Panel, Show Results
+            searchSmartPanel.style.display = "none";
+            searchResults.style.display = "";
             searchResults.innerHTML = "";
-            return;
-          }
-          const res = SEARCH_INDEX.filter((it) => {
-            const hay = (it.title + " " + (it.tags || []).join(" ")).toLowerCase();
-            return hay.includes(query);
-          });
-          renderResults(res);
-        };
 
-        searchInput?.addEventListener("input", (e) => doSearch(e.target.value));
+            const filtered = CATALOG.filter(p => p.name.toLowerCase().includes(q));
+
+            if (!filtered.length) {
+                searchResults.innerHTML = `<div style="padding:40px 0;text-align:center;color:rgba(0,0,0,.55);font-size:14px;">No results found for "<b>${escapeHtml(q)}</b>"</div>`;
+                return;
+            }
+            
+            // Grid for results (using ssp-product style)
+            const list = document.createElement("div");
+            list.className = "ssp-products"; // Re-use grid layout
+            
+            filtered.forEach(p => {
+                const card = document.createElement("button");
+                card.type = "button";
+                card.className = "ssp-product"; // Re-use card style
+                card.innerHTML = `
+                    <span class="ssp-thumb"><img src="${p.image}" alt="${p.name}"></span>
+                    <span class="ssp-name">${p.name}</span>
+                `;
+                card.addEventListener("click", () => {
+                    closeSearch();
+                    recordSearch(q); // Save query on click
+                    window.location.href = p.url;
+                });
+                list.appendChild(card);
+            });
+            searchResults.appendChild(list);
+        });
+
+        // Handle Enter Key
+        searchInput?.addEventListener("keydown", (e) => {
+            if(e.key === "Enter" && searchInput.value.trim()){
+                recordSearch(searchInput.value);
+                // Trigger first result if available or just close? 
+                // For now, reload top searches for next time
+                renderTopSearches();
+            }
+        });
+
+        function escapeHtml(str) {
+            return String(str).replace(/[&<>"']/g, s => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[s]));
+        }
 
         // ... existing app scripts ...
         document.addEventListener('DOMContentLoaded', () => {
@@ -3404,96 +3570,88 @@
                 startSlider();
             }
 
-            // Tabs Logic
-            const tabButtons = document.querySelectorAll('.tab-button-ugreen');
-            const tabIndicator = document.getElementById('tab-indicator-ugreen');
+            // Tabs Logic (REVISED FOR NEW UI)
+            const mwTabs = document.querySelectorAll(".mw-tab");
+            const mwIndicator = document.querySelector(".mw-indicator");
+            const mwDesc = document.getElementById("mw-desc");
             
-            // State untuk tracking layer mana yang aktif (1 atau 2)
-            let activeLayerIndex = 1; 
+            // Image Logic Variables
+            const layer1 = document.getElementById('lifestyle-layer-1');
+            const layer2 = document.getElementById('lifestyle-layer-2');
+            let activeLayerIndex = 1;
 
-            const contentData = {
-                home: { 
-                    image: 'https://placehold.co/1200x600/F3F3F3/0A0A0A?text=HOME+ORDER+SETUP',
-                    heading: 'Tidiness for Living Spaces',
-                    desc: 'From bedside to wardrobe, FOUR turns daily clutter into calm. Our minimalist solutions integrate seamlessly, bringing order and refinement to your personal space.',
-                    cta: 'Discover Everyday Essentials'
-                },
-                workspace: { 
-                    image: 'https://placehold.co/1200x600/0A0A0A/C7C7C7?text=WORKSPACE+SETUP+IMAGE',
-                    heading: 'Productivity in Every Detail',
-                    desc: 'From cables to charging to storage — keep your setup clean and focused. FOUR products are designed to support peak performance and a distraction-free workflow.',
-                    cta: 'Explore Productivity Tools'
-                }
+            const MW_CONTENT = {
+              home: {
+                  text: "From kitchen counter to bedside table, FOUR gives every corner of your home the power and order it needs—so you can focus on what matters most.",
+                  image: "https://placehold.co/1200x600/F3F3F3/0A0A0A?text=HOME+ORDER+SETUP"
+              },
+              workspace: {
+                  text: "From desk setups to creative studios, FOUR keeps your workspace clean, silent, and distraction-free—built for deep focus and everyday performance.",
+                  image: "https://placehold.co/1200x600/0A0A0A/C7C7C7?text=WORKSPACE+SETUP+IMAGE"
+              }
             };
-            
-            const switchTab = (tabName) => {
-                const targetContent = contentData[tabName];
-                const targetButton = document.querySelector(`[data-tab="${tabName}"]`);
-                
-                // Elements Content Text
-                const contentWrapper = document.getElementById('lifestyle-content-wrapper');
-                const lifestyleHeading = document.getElementById('lifestyle-heading');
-                const lifestyleDescription = document.getElementById('lifestyle-description');
-                const lifestyleCta = document.getElementById('lifestyle-cta');
-                
-                // Elements Image Layers
-                const layer1 = document.getElementById('lifestyle-layer-1');
-                const layer2 = document.getElementById('lifestyle-layer-2');
 
-                if (!targetButton) return;
+            function moveIndicator(tab){
+              if(!mwIndicator || !tab) return;
+              // Calc position relative to parent
+              const left = tab.offsetLeft;
+              const width = tab.offsetWidth;
+              mwIndicator.style.width = width + "px";
+              mwIndicator.style.transform = `translateX(${left}px)`;
+            }
 
-                // 1. Text Transition Out
-                contentWrapper.classList.add('content-transition-out');
+            function setActiveTab(nextTab){
+              mwTabs.forEach(t=>{
+                const isActive = t === nextTab;
+                t.classList.toggle("active", isActive);
+                t.setAttribute("aria-selected", isActive ? "true" : "false");
+              });
+
+              moveIndicator(nextTab);
+
+              const key = nextTab.dataset.tab;
+              if(mwDesc && MW_CONTENT[key]){
+                // 1. Text Transition
+                mwDesc.style.opacity = "0";
                 
-                // 2. Tab UI Update
-                tabButtons.forEach(btn => btn.classList.remove('active'));
-                targetButton.classList.add('active');
-
-                // 3. Image Crossfade Logic
-                // Tentukan layer mana yang next, mana yang current
+                // 2. Image Transition
+                const targetImage = MW_CONTENT[key].image;
                 const nextLayer = activeLayerIndex === 1 ? layer2 : layer1;
                 const currentLayer = activeLayerIndex === 1 ? layer1 : layer2;
-
-                // Preload Image sebelum swap class (untuk mencegah blinking di mobile)
-                const imgPreloader = new Image();
-                imgPreloader.src = targetContent.image;
                 
+                const imgPreloader = new Image();
+                imgPreloader.src = targetImage;
                 imgPreloader.onload = () => {
-                    // Set gambar di layer yang tersembunyi
-                    nextLayer.style.backgroundImage = `url('${targetContent.image}')`;
-                    
-                    // Lakukan swap class 'active' untuk trigger CSS transition opacity
+                    nextLayer.style.backgroundImage = `url('${targetImage}')`;
                     nextLayer.classList.add('active');
                     currentLayer.classList.remove('active');
-                    
-                    // Update state index
                     activeLayerIndex = activeLayerIndex === 1 ? 2 : 1;
                 };
 
-                // 4. Update Text Content & Indicator (Timeout untuk sync dengan text fade out)
-                setTimeout(() => {
-                    const targetRect = targetButton.getBoundingClientRect();
-                    const containerRect = targetButton.parentNode.getBoundingClientRect();
-                    tabIndicator.style.width = `${targetRect.width}px`;
-                    tabIndicator.style.transform = `translateX(${targetRect.left - containerRect.left}px)`;
+                setTimeout(()=>{
+                  mwDesc.textContent = MW_CONTENT[key].text;
+                  mwDesc.style.opacity = "1";
+                }, 220); // Sync text fade with indicator movement roughly
+              }
+            }
 
-                    lifestyleHeading.textContent = targetContent.heading;
-                    lifestyleDescription.textContent = targetContent.description;
-                    lifestyleCta.querySelector('span:first-child').textContent = targetContent.cta;
-                    
-                    // Text Transition In
-                    contentWrapper.classList.remove('content-transition-out');
-                    contentWrapper.classList.add('content-transition-in');
-                }, 100);
+            mwTabs.forEach(tab=>{
+              tab.addEventListener("click", ()=> setActiveTab(tab));
+            });
+
+            // Init tabs on load and resize
+            const initTabs = () => {
+                const active = document.querySelector(".mw-tab.active") || mwTabs[0];
+                if(active) {
+                    moveIndicator(active);
+                    // Ensure image logic is synced initially without animation if needed, 
+                    // but default HTML has Layer 1 active, so it's fine.
+                }
             };
             
-            tabButtons.forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
-            
-            // Init default state
-            // Pastikan layer 1 aktif, layer 2 hidden di awal
-            document.getElementById('lifestyle-layer-1').classList.add('active');
-            document.getElementById('lifestyle-layer-2').classList.remove('active');
-            setTimeout(() => switchTab('home'), 100);
+            // Wait for layout
+            setTimeout(initTabs, 100);
+            window.addEventListener("resize", initTabs);
 
             // Accordion Logic
             const accButtons = document.querySelectorAll(".acc-btn");
