@@ -2675,10 +2675,122 @@
           }
         }
 
+        /* ================================================================= */
+        /* FORCE FIX - ONLY BENEFITS BAR (REVISED DIVIDER SYSTEM) */
+        /* ================================================================= */
+        
+        /* 1) Wrapper: bikin area benefits pasti center vertikal */
+        .footer-benefits-wrap{
+          display:flex;
+          align-items:center;           /* ✅ center vertikal */
+          justify-content:center;
+          padding: 22px 0 18px;         /* ✅ seimbang (atas/bawah) desktop */
+          width: 100%;
+        }
+
+        /* 2) Grid layout: center per item */
+        #footerBenefits.footer-benefits-grid{
+          width:100%;
+          display:grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 0;                       /* gap antar kolom diatur via column-gap */
+          column-gap: 54px;
+          row-gap: 0px;
+          place-items:center;           /* ✅ ini kunci: item benar2 center */
+        }
+
+        /* Matikan divider lama yang nyangkut di benefits section */
+        .footer-benefits-wrap,
+        #footerBenefits,
+        [data-footer-benefits] { 
+          border-top: none !important;
+          border-bottom: none !important;
+          background: transparent !important; 
+        }
+
+        /* Pseudo element killer */
+        .footer-benefits-wrap::before,
+        .footer-benefits-wrap::after,
+        #footerBenefits::before,
+        #footerBenefits::after {
+          content: none !important;
+          display: none !important;
+        }
+
+        /* Kalau sebelumnya pakai <hr> khusus area ini, hide */
+        .footer-benefits-wrap hr {
+          display: none !important;
+        }
+
+        /* Divider baru yang benar */
+        footer .footer-divider{
+          width:100%;
+          max-width: 80rem;              
+          margin: 0 auto 22px auto;      
+          height: 1px !important;        
+          background: rgba(255,255,255,0.18);
+          transform: none;               
+          opacity: 1;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 640px){
+          #footerBenefits.footer-benefits-grid{
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            column-gap: 34px;
+            row-gap: 22px;              /* ✅ baris 1 & 2 gak dempet */
+          }
+          .footer-benefits-wrap{
+            padding: 20px 0 18px;       /* tetep rapi mobile */
+          }
+          
+          footer .footer-divider{
+            margin-bottom: 22px;
+          }
+        }
+
+        /* Item Styling (Images & Text) */
+        #footerBenefits .benefit-item {
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: center !important;
+          gap: 10px !important;
+          text-align: center !important;
+        }
+
+        #footerBenefits img {
+          width: 38px !important;
+          height: 38px !important;
+          object-fit: contain !important;
+          display: block !important;
+          filter: brightness(0) invert(1) !important; 
+          opacity: .95 !important;
+        }
+
+        #footerBenefits span {
+          color: #fff !important;
+          font-size: 16px !important;
+          font-weight: 600 !important;
+          line-height: 1.2 !important;
+          margin: 0 !important;
+          opacity: .95 !important;
+        }
+
+        @media (max-width: 640px){
+          #footerBenefits img {
+            width: 40px !important;
+            height: 40px !important;
+          }
+        }
+
     </style>
 </head>
 <body class="font-sans">
 
+    <!-- ... (All previous content until footer-trustbar section) ... -->
+    <!-- ... Search Modal, Hero, Lineup, PDP, Lifestyle, Principles, Stats, Media, Newsroom ... -->
+    
     <!-- AUTH MODAL SYSTEM (HIDDEN BY DEFAULT) -->
     <!-- ... existing auth modal ... -->
     <div id="auth-modal" aria-hidden="true">
@@ -3221,15 +3333,42 @@
         </section>
     </main>
 
-    <!-- FOOTER -->
-    <footer class="four-footer pt-20 pb-8 mt-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- REVISI GRID: lg:grid-cols-5 jadi lg:grid-cols-6 agar kolom baru muat & rapi -->
-            <div class="grid grid-cols-1 lg:grid-cols-6 gap-10 lg:gap-16 pb-16 border-b border-soft-gray/20">
+    <!-- FOOTER WITH REVISED BENEFITS & DIVIDER -->
+    <footer class="four-footer pt-0 pb-8 mt-0">
+        <!-- BENEFITS BAR (MOVED INSIDE FOOTER STRUCTURE FOR ALIGNMENT) -->
+        <!-- Menggunakan wrapper baru .footer-benefits-wrap untuk vertical center -->
+        <!-- Divider mengikuti lebar container, bukan full width -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-0">
+            
+            <div class="footer-benefits-wrap">
+                <div id="footerBenefits" class="footer-benefits-grid" aria-label="Store benefits">
+                    <div class="benefit-item">
+                        <img src="https://i.imgur.com/h2xh4bU.png" alt="Fast Shipping" loading="lazy">
+                        <span>Fast Shipping</span>
+                    </div>
+                    <div class="benefit-item">
+                        <img src="https://i.imgur.com/2kvmPGo.png" alt="30-Day Money-Back" loading="lazy">
+                        <span>30-Day Money-Back</span>
+                    </div>
+                    <div class="benefit-item">
+                        <img src="https://i.imgur.com/ARYPTBw.png" alt="2-Year Warranty" loading="lazy">
+                        <span>2-Year Warranty</span>
+                    </div>
+                    <div class="benefit-item">
+                        <img src="https://i.imgur.com/Nmf7CcC.png" alt="5 Star Service" loading="lazy">
+                        <span>5 Star Service</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DIVIDER BARU (ALIGNED TO CONTAINER) -->
+            <div class="footer-divider" aria-hidden="true"></div>
+
+            <!-- MAIN FOOTER LINKS -->
+            <div class="grid grid-cols-1 lg:grid-cols-6 gap-10 lg:gap-16 pb-16 border-b border-soft-gray/20 pt-8">
                 <!-- Newsletter -->
                 <div class="lg:col-span-2">
                     <h3 class="font-display text-3xl font-bold mb-4">Design That Organizes Life.</h3>
-                    <!-- REVISI E: Teks Newsletter Baru -->
                     <p class="text-sm mb-6">Get exclusive updates, product launches, special offers, and expert tips delivered straight to your inbox</p>
                     <form class="signup-form" action="#" method="post">
                         <div class="signup-wrap">
@@ -3249,38 +3388,34 @@
                     </div>
                 </div>
 
-                <!-- REVISI A: Kolom Product (Hapus uppercase, isi Wireless Chargers) -->
+                <!-- Product -->
                 <div>
                     <h4 class="text-sm font-semibold tracking-wider mb-4">Product</h4>
-                    <!-- ACTION: Tambah font-light di sini -->
                     <ul class="space-y-2 text-sm font-light">
                         <li><a href="#" class="transition duration-150">Wireless Chargers</a></li>
                     </ul>
                 </div>
 
-                <!-- REVISI B: Kolom Series (Ex Collections, Hapus uppercase, isi MagCore Series) -->
+                <!-- Series -->
                 <div>
                     <h4 class="text-sm font-semibold tracking-wider mb-4">Series</h4>
-                    <!-- ACTION: Tambah font-light di sini -->
                     <ul class="space-y-2 text-sm font-light">
                         <li><a href="#" class="transition duration-150">MagCore Series</a></li>
                     </ul>
                 </div>
 
-                <!-- REVISI C: Kolom Company (Ex Company & Support, isi About & Contact) -->
+                <!-- Company -->
                 <div>
                     <h4 class="text-sm font-semibold tracking-wider mb-4">Company</h4>
-                    <!-- ACTION: Tambah font-light di sini -->
                     <ul class="space-y-2 text-sm font-light">
                         <li><a href="#" class="transition duration-150">About FOUR</a></li>
                         <li><a href="#" class="transition duration-150">Contact</a></li>
                     </ul>
                 </div>
                 
-                <!-- REVISI D: Kolom Support (BARU) -->
+                <!-- Support -->
                 <div>
                     <h4 class="text-sm font-semibold tracking-wider mb-4">Support</h4>
-                    <!-- ACTION: Tambah font-light di sini -->
                     <ul class="space-y-2 text-sm font-light">
                         <li><a href="#" class="transition duration-150">Support Center</a></li>
                         <li><a href="#" class="transition duration-150">Warranty</a></li>
@@ -3299,19 +3434,16 @@
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
     </button>
 
-    <!-- REMOVED OLD SEARCH MODAL -->
-
     <!-- FIREBASE AND APP LOGIC (MODULE SCRIPT) -->
     <script type="module">
-        // ... (Firebase logic unchanged) ...
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        // ... (Rest of firebase script matches previous version) ...
+        
         const firebaseConfig = { apiKey: "YOUR_API_KEY", authDomain: "YOUR_PROJECT_ID.firebaseapp.com", projectId: "YOUR_PROJECT_ID", storageBucket: "YOUR_PROJECT_ID.appspot.com", messagingSenderId: "YOUR_MESSAGING_SENDER_ID", appId: "YOUR_APP_ID" };
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
-        // ... (Auth modal logic) ...
+        
         const authModal = document.getElementById('auth-modal');
         const authModalClose = document.getElementById('auth-modal-close');
         const authModalBackdrop = document.getElementById('auth-modal-backdrop');
@@ -3337,12 +3469,8 @@
 
     <!-- Main App Script -->
     <script>
-        // === UGREEN-STYLE SEARCH LOGIC (UPDATED WITH SMART PANEL) ===
         const $ = (sel, root = document) => root.querySelector(sel);
-        const header = document.getElementById('main-header'); // Reference Header
-
-        // Helper: Toggle Header Interaction State
-        // ... (Header interaction helper unchanged) ...
+        const header = document.getElementById('main-header'); 
         const setHeaderInteraction = (isActive) => {
             if (isActive) {
                 header.classList.add('interaction-active');
@@ -3350,69 +3478,35 @@
                 header.classList.remove('interaction-active');
             }
         };
-
         const searchOverlay = $("#searchOverlay");
         const searchDropdown = $("#searchDropdown");
-        /* REVISI: Ganti selector #openSearch jadi #openSearchDesktop biar match sama HTML */
         const openSearchBtn = $("#openSearchDesktop"); 
-        const openSearchMobile = $("#openSearchMobile"); // Support mobile btn
+        const openSearchMobile = $("#openSearchMobile"); 
         const searchCloseBtn = $("#searchCloseBtn");
         const searchInput = $("#searchInput");
         const searchResults = $("#searchResults");
-        const searchSmartPanel = $("#searchSmartPanel"); // New Panel
+        const searchSmartPanel = $("#searchSmartPanel"); 
 
-        // 1. Search Analytics Storage
         const SEARCH_KEY = "four_top_searches_v1";
-        function loadSearchStats(){
-            try{ return JSON.parse(localStorage.getItem(SEARCH_KEY)) || {}; }catch{ return {}; }
-        }
-        function saveSearchStats(stats){
-            localStorage.setItem(SEARCH_KEY, JSON.stringify(stats));
-        }
-        function recordSearch(query){
-            const q = (query||"").trim().toLowerCase();
-            if(!q) return;
-            const stats = loadSearchStats();
-            stats[q] = (stats[q] || 0) + 1;
-            saveSearchStats(stats);
-        }
+        function loadSearchStats(){ try{ return JSON.parse(localStorage.getItem(SEARCH_KEY)) || {}; }catch{ return {}; } }
+        function saveSearchStats(stats){ localStorage.setItem(SEARCH_KEY, JSON.stringify(stats)); }
+        function recordSearch(query){ const q = (query||"").trim().toLowerCase(); if(!q) return; const stats = loadSearchStats(); stats[q] = (stats[q] || 0) + 1; saveSearchStats(stats); }
 
-        // 2. Render Top Searches
         function renderTopSearches(){
-            const el = document.getElementById("topSearches");
-            if(!el) return;
-            el.innerHTML = "";
-
+            const el = document.getElementById("topSearches"); if(!el) return; el.innerHTML = "";
             const stats = loadSearchStats();
-            const top = Object.entries(stats)
-                .sort((a,b)=>b[1]-a[1])
-                .slice(0, 6)
-                .map(([term])=>term);
-            
-            // Fallback default terms if empty
+            const top = Object.entries(stats).sort((a,b)=>b[1]-a[1]).slice(0, 6).map(([term])=>term);
             const fallback = ["MagCore", "Charger", "Storage", "Cable", "Wireless", "Riser"];
-            const list = top.length ? top : fallback; // Use fallback if empty
-
+            const list = top.length ? top : fallback; 
             list.forEach((term)=>{
-                const chip = document.createElement("button");
-                chip.type = "button";
-                chip.className = "ssp-chip";
-                // Capitalize first letter
+                const chip = document.createElement("button"); chip.type = "button"; chip.className = "ssp-chip";
                 const displayTerm = term.charAt(0).toUpperCase() + term.slice(1);
                 chip.textContent = displayTerm;
-                
-                chip.addEventListener("click", ()=>{
-                    searchInput.value = displayTerm;
-                    searchInput.dispatchEvent(new Event("input"));
-                    searchInput.focus();
-                    recordSearch(term); // Record click as search
-                });
+                chip.addEventListener("click", ()=>{ searchInput.value = displayTerm; searchInput.dispatchEvent(new Event("input")); searchInput.focus(); recordSearch(term); });
                 el.appendChild(chip);
             });
         }
 
-        // 3. Render Suggested Products (Catalog Mock)
-        // Unified Catalog Data
         const CATALOG = [
             { name: "FOUR MagCore", image: "https://placehold.co/150x150/F3F3F3/0A0A0A?text=MagCore", url: "#signature-collections" },
             { name: "Wireless Charging Stand", image: "https://placehold.co/150x150/F3F3F3/0A0A0A?text=Charger", url: "#explore-lineup" },
@@ -3423,315 +3517,70 @@
         ];
 
         function renderSuggestedProducts(){
-            const wrap = document.getElementById("suggestedProducts");
-            if(!wrap) return;
-            wrap.innerHTML = "";
-
-            // REVISI: HANYA 1 Produk Spesifik
-            const suggestedItem = {
-                name: "FOUR MagCore — Magnetic Focus Dock (Qi Wireless, Modular Mount)",
-                image: "https://placehold.co/150x150/F3F3F3/0A0A0A?text=MagCore+Focus",
-                url: "#signature-collections"
-            };
-
-            const card = document.createElement("button");
-            card.type = "button";
-            card.className = "ssp-product";
-            card.innerHTML = `
-                <span class="ssp-thumb"><img src="${suggestedItem.image}" alt="${suggestedItem.name}"></span>
-                <span class="ssp-name">${suggestedItem.name}</span>
-            `;
-            card.addEventListener("click", () => {
-                closeSearch();
-                window.location.href = suggestedItem.url;
-            });
+            const wrap = document.getElementById("suggestedProducts"); if(!wrap) return; wrap.innerHTML = "";
+            const suggestedItem = { name: "FOUR MagCore — Magnetic Focus Dock (Qi Wireless, Modular Mount)", image: "https://placehold.co/150x150/F3F3F3/0A0A0A?text=MagCore+Focus", url: "#signature-collections" };
+            const card = document.createElement("button"); card.type = "button"; card.className = "ssp-product";
+            card.innerHTML = `<span class="ssp-thumb"><img src="${suggestedItem.image}" alt="${suggestedItem.name}"></span><span class="ssp-name">${suggestedItem.name}</span>`;
+            card.addEventListener("click", () => { closeSearch(); window.location.href = suggestedItem.url; });
             wrap.appendChild(card);
         }
 
-        // 4. Open/Close Logic
-        const openSearch = () => {
-          setHeaderInteraction(true); 
-          searchOverlay.classList.add("active");
-          searchDropdown.classList.add("active");
-          
-          // TUGAS 1: Tambah class ke body agar hamburger berubah warna
-          document.body.classList.add("search-open");
-          
-          // Render Smart Panel Content
-          renderTopSearches();
-          renderSuggestedProducts();
-          
-          // Reset View
-          if(!searchInput.value.trim()){
-              searchSmartPanel.style.display = "";
-              searchResults.style.display = "none";
-          }
-          
-          setTimeout(() => searchInput && searchInput.focus(), 60);
-        };
+        const openSearch = () => { setHeaderInteraction(true); searchOverlay.classList.add("active"); searchDropdown.classList.add("active"); document.body.classList.add("search-open"); renderTopSearches(); renderSuggestedProducts(); if(!searchInput.value.trim()){ searchSmartPanel.style.display = ""; searchResults.style.display = "none"; } setTimeout(() => searchInput && searchInput.focus(), 60); };
+        const closeSearch = () => { const storeMenu = document.getElementById("store-menu"); const isStoreOpen = storeMenu && storeMenu.classList.contains("is-open"); const isDrawerOpen = document.getElementById('mobile-drawer-overlay')?.classList.contains('active'); if (!isStoreOpen && !isDrawerOpen) { setHeaderInteraction(false); } searchOverlay.classList.remove("active"); searchDropdown.classList.remove("active"); document.body.classList.remove("search-open"); };
+        const toggleSearch = (e) => { if(e) { e.preventDefault(); e.stopPropagation(); } const isOpen = searchDropdown.classList.contains("active"); if(isOpen) { closeSearch(); } else { openSearch(); } };
 
-        const closeSearch = () => {
-          const storeMenu = document.getElementById("store-menu");
-          const isStoreOpen = storeMenu && storeMenu.classList.contains("is-open");
-          const isDrawerOpen = document.getElementById('mobile-drawer-overlay')?.classList.contains('active');
-
-          if (!isStoreOpen && !isDrawerOpen) {
-             setHeaderInteraction(false); 
-          }
-
-          searchOverlay.classList.remove("active");
-          searchDropdown.classList.remove("active");
-          
-          // TUGAS 1: Hapus class dari body saat tutup
-          document.body.classList.remove("search-open");
-        };
-
-        // TUGAS 2: Fungsi Toggle
-        const toggleSearch = (e) => {
-            if(e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-            const isOpen = searchDropdown.classList.contains("active");
-            if(isOpen) {
-                closeSearch();
-            } else {
-                openSearch();
-            }
-        };
-
-        // Attach listeners (Desktop & Mobile) - Menggunakan Toggle
-        if(openSearchBtn) {
-            // Hapus listener lama jika ada (good practice) lalu pasang toggle
-            openSearchBtn.removeEventListener("click", openSearch);
-            openSearchBtn.addEventListener("click", toggleSearch);
-        }
-        
-        if(openSearchMobile) {
-            // Mobile button juga pakai toggle
-            openSearchMobile.removeEventListener("click", openSearch);
-            openSearchMobile.addEventListener("click", toggleSearch);
-        }
-        
+        if(openSearchBtn) { openSearchBtn.removeEventListener("click", openSearch); openSearchBtn.addEventListener("click", toggleSearch); }
+        if(openSearchMobile) { openSearchMobile.removeEventListener("click", openSearch); openSearchMobile.addEventListener("click", toggleSearch); }
         searchCloseBtn?.addEventListener("click", closeSearch);
         searchOverlay?.addEventListener("click", closeSearch);
+        document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeSearch(); });
 
-        document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape") closeSearch();
-        });
-
-        // 5. Live Search & Input Handling
         searchInput?.addEventListener("input", (e) => {
             const q = e.target.value.trim().toLowerCase();
-            
-            if (!q) {
-                // Show Smart Panel, Hide Results
-                searchSmartPanel.style.display = "";
-                searchResults.style.display = "none";
-                return;
-            }
-
-            // Hide Smart Panel, Show Results
-            searchSmartPanel.style.display = "none";
-            searchResults.style.display = "";
-            searchResults.innerHTML = "";
-
+            if (!q) { searchSmartPanel.style.display = ""; searchResults.style.display = "none"; return; }
+            searchSmartPanel.style.display = "none"; searchResults.style.display = ""; searchResults.innerHTML = "";
             const filtered = CATALOG.filter(p => p.name.toLowerCase().includes(q));
-
-            if (!filtered.length) {
-                searchResults.innerHTML = `<div style="padding:40px 0;text-align:center;color:rgba(0,0,0,.55);font-size:14px;">No results found for "<b>${escapeHtml(q)}</b>"</div>`;
-                return;
-            }
-            
-            // Grid for results (using ssp-product style)
-            const list = document.createElement("div");
-            list.className = "ssp-products"; // Re-use grid layout
-            
-            filtered.forEach(p => {
-                const card = document.createElement("button");
-                card.type = "button";
-                card.className = "ssp-product"; // Re-use card style
-                card.innerHTML = `
-                    <span class="ssp-thumb"><img src="${p.image}" alt="${p.name}"></span>
-                    <span class="ssp-name">${p.name}</span>
-                `;
-                card.addEventListener("click", () => {
-                    closeSearch();
-                    recordSearch(q); // Save query on click
-                    window.location.href = p.url;
-                });
-                list.appendChild(card);
-            });
+            if (!filtered.length) { searchResults.innerHTML = `<div style="padding:40px 0;text-align:center;color:rgba(0,0,0,.55);font-size:14px;">No results found for "<b>${escapeHtml(q)}</b>"</div>`; return; }
+            const list = document.createElement("div"); list.className = "ssp-products"; 
+            filtered.forEach(p => { const card = document.createElement("button"); card.type = "button"; card.className = "ssp-product"; card.innerHTML = `<span class="ssp-thumb"><img src="${p.image}" alt="${p.name}"></span><span class="ssp-name">${p.name}</span>`; card.addEventListener("click", () => { closeSearch(); recordSearch(q); window.location.href = p.url; }); list.appendChild(card); });
             searchResults.appendChild(list);
         });
+        searchInput?.addEventListener("keydown", (e) => { if(e.key === "Enter" && searchInput.value.trim()){ recordSearch(searchInput.value); renderTopSearches(); } });
+        function escapeHtml(str) { return String(str).replace(/[&<>"']/g, s => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[s])); }
 
-        // Handle Enter Key
-        searchInput?.addEventListener("keydown", (e) => {
-            if(e.key === "Enter" && searchInput.value.trim()){
-                recordSearch(searchInput.value);
-                // Trigger first result if available or just close? 
-                // For now, reload top searches for next time
-                renderTopSearches();
-            }
-        });
-
-        function escapeHtml(str) {
-            return String(str).replace(/[&<>"']/g, s => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[s]));
-        }
-
-        // ... existing app scripts ...
         document.addEventListener('DOMContentLoaded', () => {
-            // ... (Drawer Logic Unchanged) ...
             const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
             const drawerOverlay = document.getElementById('mobile-drawer-overlay');
-
             const toggleDrawer = (open) => {
                 if (!drawerOverlay || !mobileMenuToggle) return;
                 const currentState = drawerOverlay.classList.contains('active');
                 const targetState = (typeof open !== 'undefined') ? open : !currentState;
                 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
                 const DURATION = prefersReduced ? 0 : 300;
-
-                if (targetState === true) {
-                    setHeaderInteraction(true); // Header solid saat menu buka
-                    drawerOverlay.classList.remove('closing'); 
-                    drawerOverlay.classList.add('active');
-                    mobileMenuToggle.classList.add('active');
-                    mobileMenuToggle.setAttribute('aria-expanded', 'true');
-                    document.body.style.overflow = 'hidden';
-                } else {
-                    // Cek search/store active?
-                    const isSearchOpen = document.getElementById("searchDropdown")?.classList.contains("active");
-                    // REVISI: Cek is-open class
-                    const isStoreOpen = document.getElementById("store-menu") && document.getElementById("store-menu").classList.contains("is-open");
-                    
-                    if (!isSearchOpen && !isStoreOpen) {
-                        setHeaderInteraction(false); // Balik transparan
-                    }
-
-                    drawerOverlay.classList.add('closing');
-                    mobileMenuToggle.classList.remove('active');
-                    mobileMenuToggle.setAttribute('aria-expanded', 'false');
-                    setTimeout(() => {
-                        drawerOverlay.classList.remove('active');
-                        drawerOverlay.classList.remove('closing');
-                        document.body.style.overflow = '';
-                    }, DURATION + 30);
-                }
+                if (targetState === true) { setHeaderInteraction(true); drawerOverlay.classList.remove('closing'); drawerOverlay.classList.add('active'); mobileMenuToggle.classList.add('active'); mobileMenuToggle.setAttribute('aria-expanded', 'true'); document.body.style.overflow = 'hidden'; } else { const isSearchOpen = document.getElementById("searchDropdown")?.classList.contains("active"); const isStoreOpen = document.getElementById("store-menu") && document.getElementById("store-menu").classList.contains("is-open"); if (!isSearchOpen && !isStoreOpen) { setHeaderInteraction(false); } drawerOverlay.classList.add('closing'); mobileMenuToggle.classList.remove('active'); mobileMenuToggle.setAttribute('aria-expanded', 'false'); setTimeout(() => { drawerOverlay.classList.remove('active'); drawerOverlay.classList.remove('closing'); document.body.style.overflow = ''; }, DURATION + 30); }
             };
             
-            // ... (Rest of logic) ...
-            /* ADDED .card-reveal to querySelectorAll so desktop cards are observed! */
             const animationElements = document.querySelectorAll('.reveal-title, .reveal-sub, .card-reveal');
-            const revealObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { root: null, rootMargin: '0px', threshold: 0.1 });
+            const revealObserver = new IntersectionObserver((entries, observer) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); } }); }, { root: null, rootMargin: '0px', threshold: 0.1 });
             animationElements.forEach(el => revealObserver.observe(el));
-
-            // Back to top
             const backToTopBtn = document.getElementById('back-to-top');
             backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            mobileMenuToggle?.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); toggleDrawer(); });
+            drawerOverlay?.addEventListener('click', (e) => { if (e.target === drawerOverlay) toggleDrawer(false); });
+            document.addEventListener("keydown", (e) => { if (e.key === "Escape" && drawerOverlay?.classList.contains("active")) toggleDrawer(false); });
+            function closeDrawerAndThen(fn) { const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; const DURATION = prefersReduced ? 0 : 300; toggleDrawer(false); setTimeout(() => { try { fn(); } catch (e) { console.error("Navigation/Scroll function error:", e); } }, DURATION + 30); }
+            document.getElementById('mobile-drawer')?.addEventListener('click', (e) => { const a = e.target.closest('a'); if (!a) return; const href = a.getAttribute('href'); if (!href) return; if (a.dataset.nav === "account") return; if (href.startsWith('#')) { e.preventDefault(); const target = document.querySelector(href); closeDrawerAndThen(() => target?.scrollIntoView({ behavior: 'smooth', block: 'start' })); return; } e.preventDefault(); closeDrawerAndThen(() => window.location.assign(href)); });
 
-            // Listeners
-            mobileMenuToggle?.addEventListener('click', (e) => {
-                e.preventDefault(); e.stopPropagation();
-                toggleDrawer();
-            });
-            drawerOverlay?.addEventListener('click', (e) => {
-                if (e.target === drawerOverlay) toggleDrawer(false);
-            });
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && drawerOverlay?.classList.contains('active')) toggleDrawer(false);
-            });
-
-            // Drawer nav logic
-            function closeDrawerAndThen(fn) {
-              const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-              const DURATION = prefersReduced ? 0 : 300;
-              toggleDrawer(false);
-              setTimeout(() => {
-                try { fn(); } catch (e) { console.error("Navigation/Scroll function error:", e); }
-              }, DURATION + 30);
-            }
-
-            document.getElementById('mobile-drawer')?.addEventListener('click', (e) => {
-              const a = e.target.closest('a');
-              if (!a) return;
-              const href = a.getAttribute('href');
-              if (!href) return;
-              if (a.dataset.nav === "account") return; 
-
-              if (href.startsWith('#')) {
-                e.preventDefault();
-                const target = document.querySelector(href);
-                closeDrawerAndThen(() => target?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
-                return;
-              }
-              e.preventDefault();
-              closeDrawerAndThen(() => window.location.assign(href));
-            });
-
-            // Store Menu Logic
             const storeBtn = document.getElementById("store-btn");
             const storeMenu = document.getElementById("store-menu");
             const storeArrow = document.getElementById("store-arrow");
-            
-            storeBtn?.addEventListener("click", (e) => {
-                e.stopPropagation();
-                // REVISI ANIMASI: Ganti logic hidden jadi class is-open
-                storeMenu.classList.toggle("is-open");
-                storeArrow.classList.toggle("rotate-180");
-                
-                // NEW: Update Header Interaction State based on Menu Visibility
-                const isOpen = storeMenu.classList.contains("is-open");
-                if (isOpen) {
-                    setHeaderInteraction(true);
-                } else {
-                    // Check other states (Search?)
-                    const isSearchOpen = document.getElementById("searchDropdown")?.classList.contains("active");
-                    if (!isSearchOpen) {
-                        setHeaderInteraction(false);
-                    }
-                }
-            });
-            
-            document.addEventListener("click", (e) => {
-                if (storeMenu && !storeMenu.contains(e.target) && !storeBtn.contains(e.target)) {
-                    // REVISI: Cek is-open
-                    if (storeMenu.classList.contains("is-open")) {
-                        // Closing menu via outside click
-                        storeMenu.classList.remove("is-open");
-                        storeArrow.classList.remove("rotate-180");
-                        
-                        // Check other states
-                        const isSearchOpen = document.getElementById("searchDropdown")?.classList.contains("active");
-                        if (!isSearchOpen) {
-                            setHeaderInteraction(false);
-                        }
-                    }
-                }
-            });
+            storeBtn?.addEventListener("click", (e) => { e.stopPropagation(); storeMenu.classList.toggle("is-open"); storeArrow.classList.toggle("rotate-180"); const isOpen = storeMenu.classList.contains("is-open"); if (isOpen) { setHeaderInteraction(true); } else { const isSearchOpen = document.getElementById("searchDropdown")?.classList.contains("active"); if (!isSearchOpen) { setHeaderInteraction(false); } } });
+            document.addEventListener("click", (e) => { if (storeMenu && !storeMenu.contains(e.target) && !storeBtn.contains(e.target)) { if (storeMenu.classList.contains("is-open")) { storeMenu.classList.remove("is-open"); storeArrow.classList.remove("rotate-180"); const isSearchOpen = document.getElementById("searchDropdown")?.classList.contains("active"); if (!isSearchOpen) { setHeaderInteraction(false); } } } });
 
-            // Scroll Logic
-            const handleScroll = () => {
-                const scrollY = window.scrollY;
-                const isTop = scrollY <= 10;
-                if (isTop) header.classList.add('is-top');
-                else header.classList.remove('is-top');
-                if (scrollY > 50) header.classList.add('scrolled');
-                else header.classList.remove('scrolled');
-                if (scrollY > 400) backToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
-                else backToTopBtn.classList.add('opacity-0', 'pointer-events-none');
-            };
+            const handleScroll = () => { const scrollY = window.scrollY; const isTop = scrollY <= 10; if (isTop) header.classList.add('is-top'); else header.classList.remove('is-top'); if (scrollY > 50) header.classList.add('scrolled'); else header.classList.remove('scrolled'); if (scrollY > 400) backToTopBtn.classList.remove('opacity-0', 'pointer-events-none'); else backToTopBtn.classList.add('opacity-0', 'pointer-events-none'); };
             window.addEventListener('scroll', handleScroll);
             handleScroll();
 
-            // ... (rest of logic: slider, tabs, etc. unchanged) ...
             const slidesContainer = document.getElementById('hero-slides-container');
             if (slidesContainer) {
                 const slides = Array.from(slidesContainer.querySelectorAll('.hero-slide'));
@@ -3740,259 +3589,62 @@
                 const nextBtn = document.getElementById('hero-next');
                 let currentSlide = 0;
                 let slideInterval = null;
-
-                function updateProgress(index) {
-                    segments.forEach((seg, i) => {
-                        seg.classList.remove('active', 'passed');
-                        if (i < index) seg.classList.add('passed');
-                        else if (i === index) {
-                            void seg.offsetWidth; 
-                            seg.classList.add('active');
-                        }
-                    });
-                }
-                function showSlide(index) {
-                    index = (index + slides.length) % slides.length;
-                    slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
-                    currentSlide = index;
-                    updateProgress(index);
-                }
+                function updateProgress(index) { segments.forEach((seg, i) => { seg.classList.remove('active', 'passed'); if (i < index) seg.classList.add('passed'); else if (i === index) { void seg.offsetWidth; seg.classList.add('active'); } }); }
+                function showSlide(index) { index = (index + slides.length) % slides.length; slides.forEach((slide, i) => slide.classList.toggle('active', i === index)); currentSlide = index; updateProgress(index); }
                 function nextSlide() { showSlide(currentSlide + 1); }
                 function startSlider() { stopSlider(); slideInterval = setInterval(nextSlide, 5000); }
                 function stopSlider() { if(slideInterval) clearInterval(slideInterval); }
-
                 if(prevBtn) prevBtn.addEventListener('click', () => { stopSlider(); showSlide(currentSlide - 1); startSlider(); });
                 if(nextBtn) nextBtn.addEventListener('click', () => { stopSlider(); showSlide(currentSlide + 1); startSlider(); });
-
-                showSlide(0);
-                startSlider();
+                showSlide(0); startSlider();
             }
 
-            // Tabs Logic (REVISED FOR NEW UI)
             const mwTabs = document.querySelectorAll(".mw-tab");
             const mwIndicator = document.querySelector(".mw-indicator");
             const mwDesc = document.getElementById("mw-desc");
-            
-            // Image Logic Variables
             const layer1 = document.getElementById('lifestyle-layer-1');
             const layer2 = document.getElementById('lifestyle-layer-2');
             let activeLayerIndex = 1;
+            const MW_CONTENT = { home: { text: "From kitchen counter to bedside table, FOUR gives every corner of your home the power and order it needs—so you can focus on what matters most.", image: "https://placehold.co/1200x600/F3F3F3/0A0A0A?text=HOME+ORDER+SETUP" }, workspace: { text: "From desk setups to creative studios, FOUR keeps your workspace clean, silent, and distraction-free—built for deep focus and everyday performance.", image: "https://placehold.co/1200x600/0A0A0A/C7C7C7?text=WORKSPACE+SETUP+IMAGE" } };
+            function moveIndicator(tab){ if(!mwIndicator || !tab) return; const left = tab.offsetLeft; const width = tab.offsetWidth; mwIndicator.style.width = width + "px"; mwIndicator.style.transform = `translateX(${left}px)`; }
+            function setActiveTab(nextTab){ mwTabs.forEach(t=>{ const isActive = t === nextTab; t.classList.toggle("active", isActive); t.setAttribute("aria-selected", isActive ? "true" : "false"); }); moveIndicator(nextTab); const key = nextTab.dataset.tab; if(mwDesc && MW_CONTENT[key]){ mwDesc.style.opacity = "0"; const targetImage = MW_CONTENT[key].image; const nextLayer = activeLayerIndex === 1 ? layer2 : layer1; const currentLayer = activeLayerIndex === 1 ? layer1 : layer2; const imgPreloader = new Image(); imgPreloader.src = targetImage; imgPreloader.onload = () => { nextLayer.style.backgroundImage = `url('${targetImage}')`; nextLayer.classList.add('active'); currentLayer.classList.remove('active'); activeLayerIndex = activeLayerIndex === 1 ? 2 : 1; }; setTimeout(()=>{ mwDesc.textContent = MW_CONTENT[key].text; mwDesc.style.opacity = "1"; }, 220); } }
+            mwTabs.forEach(tab=>{ tab.addEventListener("click", ()=> setActiveTab(tab)); });
+            const initTabs = () => { const active = document.querySelector(".mw-tab.active") || mwTabs[0]; if(active) { moveIndicator(active); } };
+            setTimeout(initTabs, 100); window.addEventListener("resize", initTabs);
 
-            const MW_CONTENT = {
-              home: {
-                  text: "From kitchen counter to bedside table, FOUR gives every corner of your home the power and order it needs—so you can focus on what matters most.",
-                  image: "https://placehold.co/1200x600/F3F3F3/0A0A0A?text=HOME+ORDER+SETUP"
-              },
-              workspace: {
-                  text: "From desk setups to creative studios, FOUR keeps your workspace clean, silent, and distraction-free—built for deep focus and everyday performance.",
-                  image: "https://placehold.co/1200x600/0A0A0A/C7C7C7?text=WORKSPACE+SETUP+IMAGE"
-              }
-            };
-
-            function moveIndicator(tab){
-              if(!mwIndicator || !tab) return;
-              // Calc position relative to parent
-              const left = tab.offsetLeft;
-              const width = tab.offsetWidth;
-              mwIndicator.style.width = width + "px";
-              mwIndicator.style.transform = `translateX(${left}px)`;
-            }
-
-            function setActiveTab(nextTab){
-              mwTabs.forEach(t=>{
-                const isActive = t === nextTab;
-                t.classList.toggle("active", isActive);
-                t.setAttribute("aria-selected", isActive ? "true" : "false");
-              });
-
-              moveIndicator(nextTab);
-
-              const key = nextTab.dataset.tab;
-              if(mwDesc && MW_CONTENT[key]){
-                // 1. Text Transition
-                mwDesc.style.opacity = "0";
-                
-                // 2. Image Transition
-                const targetImage = MW_CONTENT[key].image;
-                const nextLayer = activeLayerIndex === 1 ? layer2 : layer1;
-                const currentLayer = activeLayerIndex === 1 ? layer1 : layer2;
-                
-                const imgPreloader = new Image();
-                imgPreloader.src = targetImage;
-                imgPreloader.onload = () => {
-                    nextLayer.style.backgroundImage = `url('${targetImage}')`;
-                    nextLayer.classList.add('active');
-                    currentLayer.classList.remove('active');
-                    activeLayerIndex = activeLayerIndex === 1 ? 2 : 1;
-                };
-
-                setTimeout(()=>{
-                  mwDesc.textContent = MW_CONTENT[key].text;
-                  mwDesc.style.opacity = "1";
-                }, 220); // Sync text fade with indicator movement roughly
-              }
-            }
-
-            mwTabs.forEach(tab=>{
-              tab.addEventListener("click", ()=> setActiveTab(tab));
-            });
-
-            // Init tabs on load and resize
-            const initTabs = () => {
-                const active = document.querySelector(".mw-tab.active") || mwTabs[0];
-                if(active) {
-                    moveIndicator(active);
-                    // Ensure image logic is synced initially without animation if needed, 
-                    // but default HTML has Layer 1 active, so it's fine.
-                }
-            };
-            
-            // Wait for layout
-            setTimeout(initTabs, 100);
-            window.addEventListener("resize", initTabs);
-
-            // Accordion Logic
             const accButtons = document.querySelectorAll(".acc-btn");
-            function closeAccItem(btn){
-                btn.setAttribute("aria-expanded", "false");
-                btn.nextElementSibling.classList.remove("is-open");
-                btn.nextElementSibling.style.maxHeight = "0px";
-            }
-            function openAccItem(btn){
-                btn.setAttribute("aria-expanded", "true");
-                const panel = btn.nextElementSibling;
-                panel.classList.add("is-open");
-                panel.style.maxHeight = panel.scrollHeight + "px";
-            }
-            accButtons.forEach((btn) => {
-                btn.addEventListener("click", () => {
-                    const isOpen = btn.getAttribute("aria-expanded") === "true";
-                    accButtons.forEach(other => { if (other !== btn) closeAccItem(other); });
-                    if (!isOpen) openAccItem(btn); else closeAccItem(btn);
-                });
-            });
-            window.addEventListener("resize", () => {
-                accButtons.forEach((btn) => {
-                    if (btn.getAttribute("aria-expanded") === "true") {
-                        btn.nextElementSibling.style.maxHeight = btn.nextElementSibling.scrollHeight + "px";
-                    }
-                });
-            });
+            function closeAccItem(btn){ btn.setAttribute("aria-expanded", "false"); btn.nextElementSibling.classList.remove("is-open"); btn.nextElementSibling.style.maxHeight = "0px"; }
+            function openAccItem(btn){ btn.setAttribute("aria-expanded", "true"); const panel = btn.nextElementSibling; panel.classList.add("is-open"); panel.style.maxHeight = panel.scrollHeight + "px"; }
+            accButtons.forEach((btn) => { btn.addEventListener("click", () => { const isOpen = btn.getAttribute("aria-expanded") === "true"; accButtons.forEach(other => { if (other !== btn) closeAccItem(other); }); if (!isOpen) openAccItem(btn); else closeAccItem(btn); }); });
+            window.addEventListener("resize", () => { accButtons.forEach((btn) => { if (btn.getAttribute("aria-expanded") === "true") { btn.nextElementSibling.style.maxHeight = btn.nextElementSibling.scrollHeight + "px"; } }); });
 
-            // ===== SHOPPING CART DRAWER LOGIC (NEW) =====
             const CART_KEY = "four_cart";
             function getCart(){ try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; } catch { return []; } }
             function setCart(cart){ localStorage.setItem(CART_KEY, JSON.stringify(cart)); }
             function money(n){ return `$${Number(n).toFixed(2)}`; }
-
             function renderCartDrawer(){
                 const itemsEl = document.getElementById("cartDrawerItems");
                 const subtotalEl = document.getElementById("cartSubtotal");
                 const cart = getCart();
-
                 if(!itemsEl || !subtotalEl) return;
-
-                if(cart.length === 0){
-                    itemsEl.innerHTML = `<div style="padding:40px 0;text-align:center;color:#999;">Your cart is empty.</div>`;
-                    subtotalEl.textContent = money(0);
-                    return;
-                }
-
+                if(cart.length === 0){ itemsEl.innerHTML = `<div style="padding:40px 0;text-align:center;color:#999;">Your cart is empty.</div>`; subtotalEl.textContent = money(0); return; }
                 let subtotal = 0;
-                itemsEl.innerHTML = cart.map((item, idx) => {
-                    const line = item.price * item.qty;
-                    subtotal += line;
-                    return `
-                      <div class="cart-item">
-                        <div class="cart-item__thumb">
-                          ${item.image ? `<img src="${item.image}" alt="${item.name}">` : ``}
-                        </div>
-                        <div>
-                          <div class="cart-item__name">${item.name}</div>
-                          <div class="cart-item__meta">Finish: ${item.variantName || item.variant}</div>
-                          <div class="cart-item__row">
-                            <div class="cart-item__price">${money(item.price)}</div>
-                            <div style="display:flex; align-items:center; gap:12px;">
-                              <div class="stepper">
-                                <button type="button" data-action="dec" data-idx="${idx}">−</button>
-                                <span>${item.qty}</span>
-                                <button type="button" data-action="inc" data-idx="${idx}">+</button>
-                              </div>
-                              <button class="remove-btn" type="button" data-action="remove" data-idx="${idx}" aria-label="Remove">
-                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    `;
-                }).join("");
+                itemsEl.innerHTML = cart.map((item, idx) => { const line = item.price * item.qty; subtotal += line; return ` <div class="cart-item"> <div class="cart-item__thumb"> ${item.image ? `<img src="${item.image}" alt="${item.name}">` : ``} </div> <div> <div class="cart-item__name">${item.name}</div> <div class="cart-item__meta">Finish: ${item.variantName || item.variant}</div> <div class="cart-item__row"> <div class="cart-item__price">${money(item.price)}</div> <div style="display:flex; align-items:center; gap:12px;"> <div class="stepper"> <button type="button" data-action="dec" data-idx="${idx}">−</button> <span>${item.qty}</span> <button type="button" data-action="inc" data-idx="${idx}">+</button> </div> <button class="remove-btn" type="button" data-action="remove" data-idx="${idx}" aria-label="Remove"> <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/></svg> </button> </div> </div> </div> </div> `; }).join("");
                 subtotalEl.textContent = money(subtotal);
-
-                itemsEl.querySelectorAll("button[data-action]").forEach(btn => {
-                    btn.addEventListener("click", () => {
-                        const action = btn.getAttribute("data-action");
-                        const idx = Number(btn.getAttribute("data-idx"));
-                        const cart = getCart();
-                        if(!cart[idx]) return;
-                        
-                        if(action === "inc") cart[idx].qty += 1;
-                        if(action === "dec") cart[idx].qty = Math.max(1, cart[idx].qty - 1);
-                        if(action === "remove") cart.splice(idx, 1);
-                        
-                        setCart(cart);
-                        renderCartDrawer();
-                    });
-                });
+                itemsEl.querySelectorAll("button[data-action]").forEach(btn => { btn.addEventListener("click", () => { const action = btn.getAttribute("data-action"); const idx = Number(btn.getAttribute("data-idx")); const cart = getCart(); if(!cart[idx]) return; if(action === "inc") cart[idx].qty += 1; if(action === "dec") cart[idx].qty = Math.max(1, cart[idx].qty - 1); if(action === "remove") cart.splice(idx, 1); setCart(cart); renderCartDrawer(); }); });
             }
-
-            function openCartDrawer(){
-                const drawer = document.getElementById("cartDrawer");
-                const overlay = document.getElementById("cartOverlay");
-                if(!drawer || !overlay) return;
-                renderCartDrawer();
-                drawer.classList.add("is-open");
-                overlay.classList.add("is-open");
-                drawer.setAttribute("aria-hidden","false");
-                overlay.setAttribute("aria-hidden","false");
-                document.body.style.overflow = 'hidden';
-            }
-
-            function closeCartDrawer(){
-                const drawer = document.getElementById("cartDrawer");
-                const overlay = document.getElementById("cartOverlay");
-                if(!drawer || !overlay) return;
-                drawer.classList.remove("is-open");
-                overlay.classList.remove("is-open");
-                drawer.setAttribute("aria-hidden","true");
-                overlay.setAttribute("aria-hidden","true");
-                document.body.style.overflow = '';
-            }
-
+            function openCartDrawer(){ const drawer = document.getElementById("cartDrawer"); const overlay = document.getElementById("cartOverlay"); if(!drawer || !overlay) return; renderCartDrawer(); drawer.classList.add("is-open"); overlay.classList.add("is-open"); drawer.setAttribute("aria-hidden","false"); overlay.setAttribute("aria-hidden","false"); document.body.style.overflow = 'hidden'; }
+            function closeCartDrawer(){ const drawer = document.getElementById("cartDrawer"); const overlay = document.getElementById("cartOverlay"); if(!drawer || !overlay) return; drawer.classList.remove("is-open"); overlay.classList.remove("is-open"); drawer.setAttribute("aria-hidden","true"); overlay.setAttribute("aria-hidden","true"); document.body.style.overflow = ''; }
             const cartOverlay = document.getElementById("cartOverlay");
             const cartCloseBtn = document.getElementById("cartCloseBtn");
             const viewCartBtn = document.getElementById("viewCartBtn");
             const checkoutBtn = document.getElementById("checkoutBtn");
-
             cartOverlay?.addEventListener("click", closeCartDrawer);
             cartCloseBtn?.addEventListener("click", closeCartDrawer);
             document.addEventListener("keydown", (e) => { if(e.key === "Escape") closeCartDrawer(); });
+            viewCartBtn?.addEventListener("click", () => { window.location.href = "cart.html"; });
 
-            viewCartBtn?.addEventListener("click", () => {
-                 window.location.href = "cart.html";
-            });
-
-            // PDP Data & Add to Cart
-            const pdpData = {
-                currentVariantId: 'obsidian-black',
-                qty: 1,
-                variants: [
-                    { id: 'obsidian-black', name: 'Obsidian Black', image: 'https://placehold.co/800x1000/F3F3F3/0A0A0A?text=ANCHOR+MAG+%E2%80%94+BLACK', thumb: 'https://placehold.co/150x150/F3F3F3/0A0A0A?text=Black' },
-                    { id: 'lunar-silver', name: 'Lunar Silver', image: 'https://placehold.co/800x1000/E5E5E5/0A0A0A?text=ANCHOR+MAG+%E2%80%94+SILVER', thumb: 'https://placehold.co/150x150/E5E5E5/0A0A0A?text=Silver' },
-                    { id: 'deep-navy', name: 'Deep Navy', image: 'https://placehold.co/800x1000/1A237E/FFFFFF?text=ANCHOR+MAG+%E2%80%94+NAVY', thumb: 'https://placehold.co/150x150/1A237E/FFFFFF?text=Navy' }
-                ]
-            };
-
+            const pdpData = { currentVariantId: 'obsidian-black', qty: 1, variants: [ { id: 'obsidian-black', name: 'Obsidian Black', image: 'https://placehold.co/800x1000/F3F3F3/0A0A0A?text=ANCHOR+MAG+%E2%80%94+BLACK', thumb: 'https://placehold.co/150x150/F3F3F3/0A0A0A?text=Black' }, { id: 'lunar-silver', name: 'Lunar Silver', image: 'https://placehold.co/800x1000/E5E5E5/0A0A0A?text=ANCHOR+MAG+%E2%80%94+SILVER', thumb: 'https://placehold.co/150x150/E5E5E5/0A0A0A?text=Silver' }, { id: 'deep-navy', name: 'Deep Navy', image: 'https://placehold.co/800x1000/1A237E/FFFFFF?text=ANCHOR+MAG+%E2%80%94+NAVY', thumb: 'https://placehold.co/150x150/1A237E/FFFFFF?text=Navy' } ] };
             const pdpMainImage = document.getElementById('pdp-main-image');
             const pdpThumbsContainer = document.getElementById('pdp-thumbs-container');
             const pdpVariantSwatches = document.getElementById('pdp-variant-swatches');
@@ -4002,150 +3654,27 @@
             const qtyPlusBtn = document.getElementById('qty-plus');
             const pdpPreOrderBtn = document.getElementById('pdp-preorder-btn');
             const pdpAddToCartBtn = document.getElementById('pdp-add-to-cart');
-
-            // Render Thumbs & Swatches
-            if (pdpThumbsContainer && pdpVariantSwatches) {
-                pdpData.variants.forEach(variant => {
-                    const thumb = document.createElement('div');
-                    thumb.className = `variant-thumb flex-shrink-0 w-20 h-20 bg-gray-100 rounded overflow-hidden ${variant.id === pdpData.currentVariantId ? 'active' : ''}`;
-                    thumb.innerHTML = `<img src="${variant.thumb}" alt="${variant.name}" class="w-full h-full object-cover">`;
-                    thumb.onclick = () => selectVariant(variant.id);
-                    pdpThumbsContainer.appendChild(thumb);
-
-                    const swatch = document.createElement('div');
-                    swatch.className = `variant-thumb w-12 h-12 bg-gray-100 rounded-full overflow-hidden ${variant.id === pdpData.currentVariantId ? 'active' : ''}`;
-                    swatch.innerHTML = `<img src="${variant.thumb}" alt="${variant.name}" class="w-full h-full object-cover">`;
-                    swatch.onclick = () => selectVariant(variant.id);
-                    pdpVariantSwatches.appendChild(swatch);
-                });
-            }
-
-            function selectVariant(id) {
-                const variant = pdpData.variants.find(v => v.id === id);
-                if (!variant) return;
-                pdpData.currentVariantId = id;
-                if (pdpVariantLabel) pdpVariantLabel.textContent = variant.name;
-                if (pdpMainImage) pdpMainImage.src = variant.image;
-                
-                document.querySelectorAll('.variant-thumb').forEach(el => {
-                    el.classList.remove('active');
-                    if (el.innerHTML.includes(variant.thumb)) el.classList.add('active');
-                });
-            }
-
-            if (qtyMinusBtn && qtyPlusBtn && pdpQtyInput) {
-                qtyMinusBtn.onclick = () => { if (pdpData.qty > 1) { pdpData.qty--; pdpQtyInput.value = pdpData.qty; } };
-                qtyPlusBtn.onclick = () => { pdpData.qty++; pdpQtyInput.value = pdpData.qty; };
-            }
-
-            function addToCart(e) {
-                if(e) e.preventDefault();
-                const currentVariant = pdpData.variants.find(v => v.id === pdpData.currentVariantId);
-                const cartItem = {
-                    id: 'four-anchor-mag',
-                    name: 'FOUR ANCHOR / MAG',
-                    variantId: currentVariant.id,
-                    variantName: currentVariant.name,
-                    price: 129.00,
-                    qty: pdpData.qty,
-                    image: currentVariant.thumb
-                };
-
-                const cart = getCart();
-                const existing = cart.find(x => x.id === cartItem.id && x.variantId === cartItem.variantId);
-                if(existing) existing.qty += cartItem.qty;
-                else cart.push(cartItem);
-                
-                setCart(cart);
-                openCartDrawer();
-            }
-
+            if (pdpThumbsContainer && pdpVariantSwatches) { pdpData.variants.forEach(variant => { const thumb = document.createElement('div'); thumb.className = `variant-thumb flex-shrink-0 w-20 h-20 bg-gray-100 rounded overflow-hidden ${variant.id === pdpData.currentVariantId ? 'active' : ''}`; thumb.innerHTML = `<img src="${variant.thumb}" alt="${variant.name}" class="w-full h-full object-cover">`; thumb.onclick = () => selectVariant(variant.id); pdpThumbsContainer.appendChild(thumb); const swatch = document.createElement('div'); swatch.className = `variant-thumb w-12 h-12 bg-gray-100 rounded-full overflow-hidden ${variant.id === pdpData.currentVariantId ? 'active' : ''}`; swatch.innerHTML = `<img src="${variant.thumb}" alt="${variant.name}" class="w-full h-full object-cover">`; swatch.onclick = () => selectVariant(variant.id); pdpVariantSwatches.appendChild(swatch); }); }
+            function selectVariant(id) { const variant = pdpData.variants.find(v => v.id === id); if (!variant) return; pdpData.currentVariantId = id; if (pdpVariantLabel) pdpVariantLabel.textContent = variant.name; if (pdpMainImage) pdpMainImage.src = variant.image; document.querySelectorAll('.variant-thumb').forEach(el => { el.classList.remove('active'); if (el.innerHTML.includes(variant.thumb)) el.classList.add('active'); }); }
+            if (qtyMinusBtn && qtyPlusBtn && pdpQtyInput) { qtyMinusBtn.onclick = () => { if (pdpData.qty > 1) { pdpData.qty--; pdpQtyInput.value = pdpData.qty; } }; qtyPlusBtn.onclick = () => { pdpData.qty++; pdpQtyInput.value = pdpData.qty; }; }
+            function addToCart(e) { if(e) e.preventDefault(); const currentVariant = pdpData.variants.find(v => v.id === pdpData.currentVariantId); const cartItem = { id: 'four-anchor-mag', name: 'FOUR ANCHOR / MAG', variantId: currentVariant.id, variantName: currentVariant.name, price: 129.00, qty: pdpData.qty, image: currentVariant.thumb }; const cart = getCart(); const existing = cart.find(x => x.id === cartItem.id && x.variantId === cartItem.variantId); if(existing) existing.qty += cartItem.qty; else cart.push(cartItem); setCart(cart); openCartDrawer(); }
             if (pdpPreOrderBtn) pdpPreOrderBtn.addEventListener('click', addToCart);
             if (pdpAddToCartBtn) pdpAddToCartBtn.addEventListener('click', addToCart);
 
-            // Anchor Tabs
             const anchorTabs = document.querySelectorAll('.anchor-tab-button');
             const anchorTabIndicator = document.getElementById('anchor-tab-indicator');
             const anchorContentWrapper = document.getElementById('anchor-content-wrapper');
             const anchorHeading = document.getElementById('anchor-h1');
             const anchorDescription = document.getElementById('anchor-description');
             const anchorCardTrack = document.getElementById('anchor-card-track');
-            const anchorContentData = {
-                mag: { title: 'FOUR ANCHOR / MAG', description: 'Magnetic-ready stability...', cards: ['Desk-mounted stability', 'Magnetic-ready interaction', 'Minimalist form', 'Premium material contrast'] },
-                core: { title: 'FOUR ANCHOR / CORE', description: 'Pure stability and clean form...', cards: ['Desk-mounted stability', 'Clean minimalist form', 'Refined materials', 'Ergonomic positioning'] }
-            };
-
-            function updateAnchorCards(cards) {
-                anchorCardTrack.innerHTML = '';
-                cards.slice(0, 4).forEach(label => {
-                    const imageUrl = `https://placehold.co/400x500/F3F3F3/0A0A0A?text=${label.replace(/[^a-zA-Z0-9]/g, '+')}`;
-                    anchorCardTrack.insertAdjacentHTML('beforeend', `<a href="#" class="category-box group card-reveal"><div class="category-media"><img src="${imageUrl}" alt="${label}" width="100%" height="100%" loading="lazy"></div><p class="category-label">${label}</p></a>`);
-                });
-            }
-
-            function switchAnchorTab(tabName) {
-                const targetContent = anchorContentData[tabName];
-                const targetButton = document.querySelector(`[data-anchor-tab="${tabName}"]`);
-                if (!targetButton) return;
-                
-                anchorContentWrapper.style.transition = 'opacity 0.2s ease-out';
-                anchorContentWrapper.style.opacity = '0';
-                anchorTabs.forEach(btn => btn.classList.remove('active'));
-                targetButton.classList.add('active');
-
-                setTimeout(() => {
-                    const targetRect = targetButton.getBoundingClientRect();
-                    const containerRect = targetButton.parentNode.getBoundingClientRect();
-                    anchorTabIndicator.style.width = `${targetRect.width}px`;
-                    anchorTabIndicator.style.transform = `translateX(${targetRect.left - containerRect.left}px)`;
-
-                    anchorHeading.textContent = targetContent.title;
-                    anchorDescription.textContent = targetContent.description;
-                    updateAnchorCards(targetContent.cards);
-                    
-                    anchorContentWrapper.style.transition = 'opacity 0.2s ease-in 0.15s';
-                    anchorContentWrapper.style.opacity = '1';
-                }, 150);
-            }
+            const anchorContentData = { mag: { title: 'FOUR ANCHOR / MAG', description: 'Magnetic-ready stability...', cards: ['Desk-mounted stability', 'Magnetic-ready interaction', 'Minimalist form', 'Premium material contrast'] }, core: { title: 'FOUR ANCHOR / CORE', description: 'Pure stability and clean form...', cards: ['Desk-mounted stability', 'Clean minimalist form', 'Refined materials', 'Ergonomic positioning'] } };
+            function updateAnchorCards(cards) { anchorCardTrack.innerHTML = ''; cards.slice(0, 4).forEach(label => { const imageUrl = `https://placehold.co/400x500/F3F3F3/0A0A0A?text=${label.replace(/[^a-zA-Z0-9]/g, '+')}`; anchorCardTrack.insertAdjacentHTML('beforeend', `<a href="#" class="category-box group card-reveal"><div class="category-media"><img src="${imageUrl}" alt="${label}" width="100%" height="100%" loading="lazy"></div><p class="category-label">${label}</p></a>`); }); }
+            function switchAnchorTab(tabName) { const targetContent = anchorContentData[tabName]; const targetButton = document.querySelector(`[data-anchor-tab="${tabName}"]`); if (!targetButton) return; anchorContentWrapper.style.transition = 'opacity 0.2s ease-out'; anchorContentWrapper.style.opacity = '0'; anchorTabs.forEach(btn => btn.classList.remove('active')); targetButton.classList.add('active'); setTimeout(() => { const targetRect = targetButton.getBoundingClientRect(); const containerRect = targetButton.parentNode.getBoundingClientRect(); anchorTabIndicator.style.width = `${targetRect.width}px`; anchorTabIndicator.style.transform = `translateX(${targetRect.left - containerRect.left}px)`; anchorHeading.textContent = targetContent.title; anchorDescription.textContent = targetContent.description; updateAnchorCards(targetContent.cards); anchorContentWrapper.style.transition = 'opacity 0.2s ease-in 0.15s'; anchorContentWrapper.style.opacity = '1'; }, 150); }
             anchorTabs.forEach(btn => btn.addEventListener('click', () => switchAnchorTab(btn.dataset.anchorTab)));
             setTimeout(() => switchAnchorTab('mag'), 150);
 
-            // ===== SWIPE HINT ANIMATION (MOBILE ONLY) =====
-            // Logika: Cek mobile, cek session storage, observe viewport, lalu wiggle.
             const lineupContainer = document.getElementById('lineup-container');
-            
-            if (lineupContainer && window.innerWidth < 768) {
-                const hintKey = 'four_swipe_hint_shown';
-                const hasHinted = sessionStorage.getItem(hintKey);
-
-                if (!hasHinted) {
-                    const hintObserver = new IntersectionObserver((entries) => {
-                        entries.forEach(entry => {
-                            if (entry.isIntersecting) {
-                                // Set flag dulu biar gak looping
-                                sessionStorage.setItem(hintKey, 'true');
-                                
-                                // Delay dikit biar user sadar sectionnya udah load
-                                setTimeout(() => {
-                                    // Gerak ke kanan 120px
-                                    lineupContainer.scrollBy({ left: 120, behavior: 'smooth' });
-                                    
-                                    // Balik ke kiri setelah animasi pertama kira-kira selesai
-                                    setTimeout(() => {
-                                        lineupContainer.scrollBy({ left: -120, behavior: 'smooth' });
-                                    }, 800); // Durasi delay antar gerakan
-                                    
-                                }, 600); // Delay awal setelah masuk viewport
-                                
-                                hintObserver.disconnect(); // Stop observing
-                            }
-                        });
-                    }, { threshold: 0.6 }); // Trigger kalau 60% container udah kelihatan
-
-                    hintObserver.observe(lineupContainer);
-                }
-            }
-
+            if (lineupContainer && window.innerWidth < 768) { const hintKey = 'four_swipe_hint_shown'; const hasHinted = sessionStorage.getItem(hintKey); if (!hasHinted) { const hintObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { sessionStorage.setItem(hintKey, 'true'); setTimeout(() => { lineupContainer.scrollBy({ left: 120, behavior: 'smooth' }); setTimeout(() => { lineupContainer.scrollBy({ left: -120, behavior: 'smooth' }); }, 800); }, 600); hintObserver.disconnect(); } }); }, { threshold: 0.6 }); hintObserver.observe(lineupContainer); } }
         });
     </script>
 </body>
