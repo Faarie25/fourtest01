@@ -2409,13 +2409,7 @@
         }
         #searchDropdown .search-hint span{ color:rgba(0,0,0,.75); }
         #searchResults{ margin-top:14px; }
-        #searchResults:empty{ display:none; }
-        @media (max-width:520px){
-          #searchDropdown .search-inner{ padding:14px 14px 16px; }
-          #searchDropdown .search-input-wrap{ height:50px; }
-        }
-
-        /* SEARCH SMART PANEL (UGREEN STYLE) */
+        /* Search Smart Panel (UGREEN STYLE) */
         .search-smart-panel {
             margin-top: 22px;
             display: grid;
@@ -2423,6 +2417,12 @@
             gap: 34px;
             align-items: start;
             animation: sspIn 240ms ease both;
+        }
+
+        /* TUGAS 1: Auto-invert warna icon Hamburger saat Search Drawer aktif */
+        /* Kita targetkan .hamburger-line di dalam #mobile-menu-toggle saat body punya class .search-open */
+        body.search-open #mobile-menu-toggle .hamburger-line {
+            background-color: var(--color-matte-black) !important;
         }
 
         /* REVISI UI SEARCH - TYPOGRAPHY & CARD STYLES */
@@ -2553,6 +2553,126 @@
         }
         @media (max-width: 520px){
             /* Mobile tweaks */
+        }
+
+        /* ===== MOBILE ONLY: FIX SWIPE TEXT REALLY CENTER (NO LEFT BIAS) ===== */
+        /* Menggantikan logic alignment sebelumnya dengan rule mutlak dari user */
+        @media (max-width: 768px){
+
+          /* 1) Paksa section & wrapper jadi full width dan simetris */
+          .swipe-text-viewport,
+          .swipe-text-viewport * {
+            box-sizing: border-box;
+          }
+
+          .swipe-text-viewport {
+            width: 100% !important;
+            max-width: 100% !important;
+            /* Keep it flex for scrolling mechanism */
+            display: flex !important;
+          }
+
+          /* 2) RESET semua offset horizontal yang sering bikin miring */
+          .swipe-text-viewport,
+          .swipe-text-viewport .swipe-slide {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            left: auto !important;
+            right: auto !important;
+            transform: none !important;
+          }
+
+          /* 3) CENTER konten slide pakai GRID (paling stabil di mobile) */
+          .swipe-text-viewport .swipe-slide {
+            display: grid !important;
+            place-items: center !important;
+            text-align: center !important;
+            
+            /* Ensure slide takes full width of the container viewport */
+            width: 100% !important;
+            flex-shrink: 0 !important;
+            
+            /* Height consistency */
+            height: 100% !important;
+            min-height: 110px !important;
+          }
+
+          /* 4) Paksa blok teks di tengah dan simetris */
+          .swipe-text-viewport .swipe-slide > * {
+            width: 100% !important;
+            max-width: 520px !important;      /* sesuai arahan: 520px */
+            margin: 0 auto !important;
+            padding: 0 18px !important;       /* padding simetris kiri/kanan */
+            text-align: center !important;
+          }
+
+          /* 5) Hilangkan margin default yang suka bikin terlihat geser */
+          .swipe-text-viewport h1,
+          .swipe-text-viewport h2,
+          .swipe-text-viewport h3,
+          .swipe-text-viewport p {
+            margin-left: auto !important;
+            margin-right: auto !important;
+            text-align: center !important;
+            /* Line height fix for optical centering */
+            line-height: 1.3 !important;
+          }
+        }
+
+        /* ===== MOBILE ONLY: FIX SWIPE TEXT SPACING (TIGHTER + PREMIUM) ===== */
+        @media (max-width: 768px){
+
+          /* Target wrapper konten teks swipe */
+          #focusSwipeSection .swiper-slide,
+          #focusSwipeSection .swipe-slide,
+          #focusSwipeSection .swipe-item{
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            min-height: unset !important;
+          }
+
+          /* Kalau ada wrapper yang bikin jarak (flex/grid gap) */
+          #focusSwipeSection .swiper-slide > *,
+          #focusSwipeSection .swipe-slide > *,
+          #focusSwipeSection .swipe-item > *{
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+            row-gap: 8px !important;     /* kalau parentnya grid */
+            gap: 8px !important;         /* kalau parentnya flex */
+          }
+
+          /* Judul swipe: "Phone-out-of-sight" */
+          #focusSwipeSection .swiper-slide h3,
+          #focusSwipeSection .swipe-title,
+          #focusSwipeSection .swipe-heading{
+            margin: 0 !important;
+            padding: 0 !important;
+            line-height: 1.15 !important;
+          }
+
+          /* Sub swipe: "Hide it. Work deeper." */
+          #focusSwipeSection .swiper-slide p,
+          #focusSwipeSection .swipe-subtitle,
+          #focusSwipeSection .swipe-desc{
+            margin-top: 6px !important;   /* jarak ideal */
+            margin-bottom: 0 !important;
+            padding: 0 !important;
+            line-height: 1.35 !important;
+          }
+          
+          /* PELURU PAMUNGKAS (Wrapper Reset) */
+          #focusSwipeSection .swipe-content,
+          #focusSwipeSection .slide-content,
+          #focusSwipeSection .text-wrap{
+            margin: 0 !important;
+            padding: 0 !important;
+            gap: 8px !important;
+            row-gap: 8px !important;
+          }
         }
 
     </style>
@@ -2942,35 +3062,43 @@
                 </p>
               </div>
 
-              <!-- 3 Feature Callouts - FIX MUTLAK ALIGNMENT CENTER (MOBILE 100% WIDTH) -->
-              <!-- MOBILE REFINEMENT: mt-6/mb-8 -> mt-5/mb-6 -->
-              <div class="mt-5 md:mt-10 mb-6 md:mb-12">
+              <!-- 3 Feature Callouts -->
+              <!-- MOBILE REFINEMENT: mt-5/mb-6 -->
+              <!-- ADDED ID: focusSwipeSection (Target Selector Mobile Fix) -->
+              <div id="focusSwipeSection" class="mt-5 md:mt-10 mb-6 md:mb-12">
+                <!-- SWIPE TEXT CONTAINER -->
+                <!-- Removed previous layout classes that might conflict on mobile, rely on CSS override -->
                 <div class="
+                    swipe-text-viewport
                     flex md:grid md:grid-cols-3 
-                    gap-0 md:gap-8  /* REVISI: gap-0 di mobile agar tidak ada offset saat scroll 100% */
+                    /* GAP: 0 on mobile to ensure perfect w-full snapping */
+                    gap-0 md:gap-8 
                     overflow-x-auto md:overflow-visible 
                     scroll-smooth snap-x snap-mandatory 
-                    pb-4 md:pb-0 
-                    -mx-4 md:mx-0 /* REVISI: Hapus padding px-[5vw] di mobile, hanya full bleed -mx-4 */
+                    /* PADDING REMOVED on mobile via CSS override */
+                    md:pb-0 
+                    -mx-4 md:mx-0
+                    /* SCROLLBAR HIDE */
                     [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden
                 ">
                   
-                  <!-- Feature 1 - REVISI: w-full (100% viewport) + px-4 -->
-                  <div class="snap-center shrink-0 w-full md:w-auto text-center flex flex-col items-center justify-center px-4">
-                    <p class="text-lg font-bold text-black leading-snug mb-1">Phone-out-of-sight</p>
-                    <p class="text-sm font-normal text-gray-500">Hide it. Work deeper.</p>
+                  <!-- Feature 1 -->
+                  <div class="swipe-slide snap-center shrink-0 w-full md:w-auto text-center px-8"> 
+                    <!-- UPDATED: Changed to H3 and added classes to match CSS selectors -->
+                    <h3 class="swipe-title text-lg font-bold text-black leading-snug mb-1">Phone-out-of-sight</h3>
+                    <p class="swipe-desc text-sm font-normal text-gray-500">Hide it. Work deeper.</p>
                   </div>
 
-                  <!-- Feature 2 - REVISI: w-full (100% viewport) + px-4 -->
-                  <div class="snap-center shrink-0 w-full md:w-auto text-center flex flex-col items-center justify-center px-4">
-                    <p class="text-lg font-bold text-black leading-snug mb-1">Qi Wireless Charging</p>
-                    <p class="text-sm font-normal text-gray-500">Charges while you focus.</p>
+                  <!-- Feature 2 -->
+                  <div class="swipe-slide snap-center shrink-0 w-full md:w-auto text-center px-8">
+                    <h3 class="swipe-title text-lg font-bold text-black leading-snug mb-1">Qi Wireless Charging</h3>
+                    <p class="swipe-desc text-sm font-normal text-gray-500">Charges while you focus.</p>
                   </div>
 
-                  <!-- Feature 3 - REVISI: w-full (100% viewport) + px-4 -->
-                  <div class="snap-center shrink-0 w-full md:w-auto text-center flex flex-col items-center justify-center px-4">
-                    <p class="text-lg font-bold text-black leading-snug mb-1">Push-Push Precision</p>
-                    <p class="text-sm font-normal text-gray-500">Push to eject & lock.</p>
+                  <!-- Feature 3 -->
+                  <div class="swipe-slide snap-center shrink-0 w-full md:w-auto text-center px-8">
+                    <h3 class="swipe-title text-lg font-bold text-black leading-snug mb-1">Push-Push Precision</h3>
+                    <p class="swipe-desc text-sm font-normal text-gray-500">Push to eject & lock.</p>
                   </div>
 
                 </div>
@@ -3326,6 +3454,9 @@
           searchOverlay.classList.add("active");
           searchDropdown.classList.add("active");
           
+          // TUGAS 1: Tambah class ke body agar hamburger berubah warna
+          document.body.classList.add("search-open");
+          
           // Render Smart Panel Content
           renderTopSearches();
           renderSuggestedProducts();
@@ -3350,11 +3481,37 @@
 
           searchOverlay.classList.remove("active");
           searchDropdown.classList.remove("active");
+          
+          // TUGAS 1: Hapus class dari body saat tutup
+          document.body.classList.remove("search-open");
         };
 
-        // Attach listeners (Desktop & Mobile)
-        if(openSearchBtn) openSearchBtn.addEventListener("click", openSearch);
-        if(openSearchMobile) openSearchMobile.addEventListener("click", openSearch);
+        // TUGAS 2: Fungsi Toggle
+        const toggleSearch = (e) => {
+            if(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            const isOpen = searchDropdown.classList.contains("active");
+            if(isOpen) {
+                closeSearch();
+            } else {
+                openSearch();
+            }
+        };
+
+        // Attach listeners (Desktop & Mobile) - Menggunakan Toggle
+        if(openSearchBtn) {
+            // Hapus listener lama jika ada (good practice) lalu pasang toggle
+            openSearchBtn.removeEventListener("click", openSearch);
+            openSearchBtn.addEventListener("click", toggleSearch);
+        }
+        
+        if(openSearchMobile) {
+            // Mobile button juga pakai toggle
+            openSearchMobile.removeEventListener("click", openSearch);
+            openSearchMobile.addEventListener("click", toggleSearch);
+        }
         
         searchCloseBtn?.addEventListener("click", closeSearch);
         searchOverlay?.addEventListener("click", closeSearch);
