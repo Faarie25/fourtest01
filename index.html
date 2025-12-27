@@ -2789,7 +2789,7 @@
         .mv-section{
           width: 100%;
           padding: 34px 0 10px;
-          --mv-side-pad: 16px; /* Desktop side padding default */
+          /* --mv-side-pad removed to align with footer container */
         }
 
         .mv-header{
@@ -2798,8 +2798,10 @@
           justify-content:space-between;
           gap:16px;
           margin-bottom:18px;
-          padding-left: var(--mv-side-pad);
-          padding-right: var(--mv-side-pad);
+          
+          /* FIX 1: Alignment (Reset padding to align with container edge like footer) */
+          padding-left: 0;
+          padding-right: 0;
         }
 
         .mv-title{
@@ -2844,9 +2846,14 @@
           .mv-nav { display: none !important; }
         }
 
+        /* FIX 3: Swipe Full Horizontal & Remove White Shapes/Masks */
         .mv-rail-wrap{
           position:relative;
-          overflow:hidden;
+          overflow: visible !important; /* Changed from hidden */
+        }
+        /* Ensure no pseudo elements create masks */
+        .mv-rail-wrap::before, .mv-rail-wrap::after {
+            display: none !important;
         }
 
         .mv-rail{
@@ -2857,8 +2864,10 @@
           scroll-behavior: smooth;
           -webkit-overflow-scrolling: touch;
           padding-bottom: 20px; /* Space for shadow/peek */
-          padding-left: var(--mv-side-pad);
-          padding-right: var(--mv-side-pad);
+          
+          /* FIX 1: Alignment (Reset padding) */
+          padding-left: 0;
+          padding-right: 0;
           
           /* Hide scrollbar (all browsers) */
           scrollbar-width: none;
@@ -2872,6 +2881,10 @@
           text-decoration:none;
           color: inherit;
           width: 290px;
+          /* FIX 2: Animations Removed via HTML & CSS hygiene */
+          animation: none !important;
+          transition: none !important;
+          transform: none !important;
         }
 
         .mv-embed{
@@ -2908,13 +2921,48 @@
         }
 
         @media (max-width: 768px){
-          .mv-section { --mv-side-pad: 16px; }
-          .mv-rail { gap: 14px; }
-          .mv-card {
-            width: 72vw; /* Smaller mobile card */
-            max-width: 300px;
+          .mv-section { 
+              /* --mv-side-pad: 16px; removed */ 
           }
-          .mv-rail-wrap{ overflow: visible; }
+          .mv-rail { 
+              /* 1. SAMAKAN DISPLAY & WRAP */
+              display: flex !important;
+              flex-wrap: nowrap !important;
+              
+              /* 2. SAMAKAN GAP (SUMBER KEBENARAN: .lineup-container punya gap 16px) */
+              gap: 16px !important; /* Sebelumnya 14px (Penyebab utama tidak konsisten) */
+              
+              /* 3. SAMAKAN LAYOUT MARGIN/PADDING (POLA IDENTIK) */
+              margin: 0 -1rem !important; 
+              padding: 0 1rem 20px 1rem !important; /* Padding bawah 20px untuk shadow peek */
+              
+              /* 4. SAMAKAN SCROLL PHYSICS */
+              scroll-snap-type: x mandatory !important;
+              scroll-padding-left: 1rem !important; /* Snap offset sama dengan padding kiri */
+              
+              overflow-x: auto !important;
+              overflow-y: visible !important;
+              -webkit-overflow-scrolling: touch !important;
+              
+              /* Hide Scrollbar */
+              scrollbar-width: none;
+              -ms-overflow-style: none;
+          }
+          
+          .mv-card {
+            /* 5. SAMAKAN UKURAN CARD (POLA IDENTIK: .category-box) */
+            width: 72vw !important; 
+            max-width: 72vw !important; /* Paksa override max-width 300px desktop */
+            min-width: 0 !important;
+            
+            flex-shrink: 0 !important;
+            scroll-snap-align: start !important;
+            
+            /* Reset properti lain */
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+          }
+          /* .mv-rail-wrap{ overflow: visible; } -> Already set globally above */
         }
 
         /* On very small phones */
@@ -3472,25 +3520,26 @@
           <div class="mv-rail-wrap">
             <div class="mv-rail" id="mvRail">
               <!-- Placeholder cards (nanti link diganti user) -->
-              <a class="mv-card scroll-reveal reveal-sub" href="#" data-platform="youtube" aria-label="Open video 1">
+              <!-- FIX 2: Removed scroll-reveal and reveal-sub classes -->
+              <a class="mv-card" href="#" data-platform="youtube" aria-label="Open video 1">
                 <div class="mv-embed">
                   <div class="mv-play"></div>
                 </div>
               </a>
 
-              <a class="mv-card scroll-reveal reveal-sub" href="#" data-platform="instagram" aria-label="Open video 2">
+              <a class="mv-card" href="#" data-platform="instagram" aria-label="Open video 2">
                 <div class="mv-embed">
                   <div class="mv-play"></div>
                 </div>
               </a>
 
-              <a class="mv-card scroll-reveal reveal-sub" href="#" data-platform="tiktok" aria-label="Open video 3">
+              <a class="mv-card" href="#" data-platform="tiktok" aria-label="Open video 3">
                 <div class="mv-embed">
                   <div class="mv-play"></div>
                 </div>
               </a>
 
-              <a class="mv-card scroll-reveal reveal-sub" href="#" data-platform="youtube" aria-label="Open video 4">
+              <a class="mv-card" href="#" data-platform="youtube" aria-label="Open video 4">
                 <div class="mv-embed">
                   <div class="mv-play"></div>
                 </div>
@@ -3606,10 +3655,8 @@
         </div>
     </footer>
 
-    <!-- Back to Top Button -->
-    <button id="back-to-top" class="fixed bottom-6 right-6 p-4 bg-matte-black text-warm-white rounded-full shadow-lg opacity-0 pointer-events-none transition duration-300 hover:bg-muted-navy z-40" aria-label="Back to top">
-        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
-    </button>
+    <!-- REVISI: Back to Top Button DIHAPUS TOTAL -->
+    <!-- (Sebelumnya ada button #back-to-top di sini) -->
 
     <!-- FIREBASE AND APP LOGIC (MODULE SCRIPT) -->
     <script type="module">
@@ -3650,7 +3697,8 @@
         const header = document.getElementById('main-header'); 
         
         // --- REVISI: STATE GLOBAL ---
-        let activeDrawer = null; // "hamburger", "search", null
+        // activeDrawer values: "hamburger", "search", "store", null
+        let activeDrawer = null; 
         // -----------------------------
 
         const setHeaderInteraction = (isActive) => {
@@ -3707,17 +3755,18 @@
             wrap.appendChild(card);
         }
 
-        // --- REVISI: LOGIC BUKA-TUTUP SEARCH ---
+        // --- REVISI: LOGIC SINGLE SOURCE OF TRUTH (DRAWER SYSTEM) ---
+        
+        // 1. Fungsi Open Search (Integrasi activeDrawer)
         const openSearch = () => { 
-            // 1. Cek Hamburger, jika buka -> TUTUP dulu
-            if (activeDrawer === "hamburger" && window.toggleDrawer) {
-                window.toggleDrawer(false); 
-            }
+            // Cek konflik drawer lain & TUTUP jika terbuka
+            if (activeDrawer === "hamburger" && window.toggleDrawer) window.toggleDrawer(false); 
+            if (activeDrawer === "store" && window.toggleStore) window.toggleStore(false);
 
-            // 2. Set State
+            // Set State
             activeDrawer = "search";
 
-            // 3. Logic Buka UI
+            // Logic UI Buka
             setHeaderInteraction(true); 
             searchOverlay.classList.add("active"); 
             searchDropdown.classList.add("active"); 
@@ -3733,19 +3782,13 @@
         };
 
         const closeSearch = () => { 
-            // 1. Reset State (hanya jika state sebelumnya search)
+            // Hanya tutup jika memang sedang aktif
             if (activeDrawer === "search") {
                 activeDrawer = null;
+                // Reset UI
+                setHeaderInteraction(false); 
             }
 
-            const storeMenu = document.getElementById("store-menu"); 
-            const isStoreOpen = storeMenu && storeMenu.classList.contains("is-open"); 
-            // Cek manual overlay drawer untuk keamanan ekstra, walau logic utama via state
-            const isDrawerOpen = document.getElementById('mobile-drawer-overlay')?.classList.contains('active'); 
-            
-            if (!isStoreOpen && !isDrawerOpen) { 
-                setHeaderInteraction(false); 
-            } 
             searchOverlay.classList.remove("active"); 
             searchDropdown.classList.remove("active"); 
             document.body.classList.remove("search-open"); 
@@ -3754,14 +3797,12 @@
         const toggleSearch = (e) => { 
             if(e) { e.preventDefault(); e.stopPropagation(); } 
             
-            // Logic Toggle berdasarkan State Global
             if (activeDrawer === "search") { 
                 closeSearch(); 
             } else { 
                 openSearch(); 
             } 
         };
-        // ----------------------------------------
 
         if(openSearchBtn) { openSearchBtn.removeEventListener("click", openSearch); openSearchBtn.addEventListener("click", toggleSearch); }
         if(openSearchMobile) { openSearchMobile.removeEventListener("click", openSearch); openSearchMobile.addEventListener("click", toggleSearch); }
@@ -3786,28 +3827,24 @@
             const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
             const drawerOverlay = document.getElementById('mobile-drawer-overlay');
             
-            // --- REVISI: LOGIC BUKA-TUTUP DRAWER (HAMBURGER) ---
-            // Expose ke window agar bisa dipanggil dari openSearch
+            // 2. Fungsi Toggle Drawer (Hamburger)
             window.toggleDrawer = (open) => {
                 if (!drawerOverlay || !mobileMenuToggle) return;
                 
-                // Logic Toggle: Jika argumen 'open' tidak ada, gunakan kebalikan state saat ini
-                // State based check: Jika activeDrawer == hamburger, berarti kita mau tutup.
+                // Logic Toggle
                 const shouldOpen = (typeof open !== 'undefined') ? open : (activeDrawer !== 'hamburger');
-                
                 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
                 const DURATION = prefersReduced ? 0 : 300;
 
                 if (shouldOpen === true) { 
-                    // 1. Cek Search, jika buka -> TUTUP dulu
-                    if (activeDrawer === "search") {
-                        closeSearch();
-                    }
+                    // Cek konflik drawer lain & TUTUP jika terbuka
+                    if (activeDrawer === "search") closeSearch();
+                    if (activeDrawer === "store" && window.toggleStore) window.toggleStore(false);
 
-                    // 2. Set State
+                    // Set State
                     activeDrawer = "hamburger";
 
-                    // 3. Logic UI Buka
+                    // Logic UI Buka
                     setHeaderInteraction(true); 
                     drawerOverlay.classList.remove('closing'); 
                     drawerOverlay.classList.add('active'); 
@@ -3815,18 +3852,13 @@
                     mobileMenuToggle.setAttribute('aria-expanded', 'true'); 
                     document.body.style.overflow = 'hidden'; 
                 } else { 
-                    // 1. Reset State (hanya jika state sebelumnya hamburger)
+                    // Hanya reset jika state hamburger
                     if (activeDrawer === "hamburger") {
                         activeDrawer = null;
+                        setHeaderInteraction(false); 
                     }
 
-                    // 2. Logic UI Tutup
-                    const isStoreOpen = document.getElementById("store-menu") && document.getElementById("store-menu").classList.contains("is-open"); 
-                    // Cek jika activeDrawer sudah "search" (berarti transisi dari drawer -> search), jangan matikan header interaction
-                    if (activeDrawer !== "search" && !isStoreOpen) { 
-                        setHeaderInteraction(false); 
-                    } 
-                    
+                    // Logic UI Tutup
                     drawerOverlay.classList.add('closing'); 
                     mobileMenuToggle.classList.remove('active'); 
                     mobileMenuToggle.setAttribute('aria-expanded', 'false'); 
@@ -3837,29 +3869,92 @@
                     }, DURATION + 30); 
                 }
             };
-            // ----------------------------------------------------
-            
+
+            // 3. Fungsi Toggle Store (BARU: Terintegrasi Global State)
+            const storeBtn = document.getElementById("store-btn");
+            const storeMenu = document.getElementById("store-menu");
+            const storeArrow = document.getElementById("store-arrow");
+
+            window.toggleStore = (open) => {
+                if (!storeMenu || !storeArrow) return;
+
+                // Logic Toggle
+                const shouldOpen = (typeof open !== 'undefined') ? open : (activeDrawer !== 'store');
+
+                if (shouldOpen === true) {
+                    // Cek konflik drawer lain & TUTUP jika terbuka
+                    if (activeDrawer === "search") closeSearch();
+                    if (activeDrawer === "hamburger" && window.toggleDrawer) window.toggleDrawer(false);
+
+                    // Set State
+                    activeDrawer = "store";
+
+                    // Logic UI Buka
+                    storeMenu.classList.add("is-open");
+                    storeArrow.classList.add("rotate-180");
+                    setHeaderInteraction(true);
+                } else {
+                    // Hanya reset jika state store
+                    if (activeDrawer === "store") {
+                        activeDrawer = null;
+                        setHeaderInteraction(false);
+                    }
+
+                    // Logic UI Tutup
+                    storeMenu.classList.remove("is-open");
+                    storeArrow.classList.remove("rotate-180");
+                }
+            };
+
+            // Setup Event Listeners
             const animationElements = document.querySelectorAll('.reveal-title, .reveal-sub, .card-reveal');
             const revealObserver = new IntersectionObserver((entries, observer) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); } }); }, { root: null, rootMargin: '0px', threshold: 0.1 });
             animationElements.forEach(el => revealObserver.observe(el));
-            const backToTopBtn = document.getElementById('back-to-top');
-            backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
             
-            // Panggil window.toggleDrawer di sini
+            // REVISI: Back to Top JS Logic DIHAPUS TOTAL
+            // (Sebelumnya ada deklarasi const backToTopBtn dan listener click)
+
+            // Hamburger Click
             mobileMenuToggle?.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); window.toggleDrawer(); });
             
+            // Drawer Overlay Click
             drawerOverlay?.addEventListener('click', (e) => { if (e.target === drawerOverlay) window.toggleDrawer(false); });
             document.addEventListener("keydown", (e) => { if (e.key === "Escape" && drawerOverlay?.classList.contains("active")) window.toggleDrawer(false); });
             function closeDrawerAndThen(fn) { const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; const DURATION = prefersReduced ? 0 : 300; window.toggleDrawer(false); setTimeout(() => { try { fn(); } catch (e) { console.error("Navigation/Scroll function error:", e); } }, DURATION + 30); }
             document.getElementById('mobile-drawer')?.addEventListener('click', (e) => { const a = e.target.closest('a'); if (!a) return; const href = a.getAttribute('href'); if (!href) return; if (a.dataset.nav === "account") return; if (href.startsWith('#')) { e.preventDefault(); const target = document.querySelector(href); closeDrawerAndThen(() => target?.scrollIntoView({ behavior: 'smooth', block: 'start' })); return; } e.preventDefault(); closeDrawerAndThen(() => window.location.assign(href)); });
 
-            const storeBtn = document.getElementById("store-btn");
-            const storeMenu = document.getElementById("store-menu");
-            const storeArrow = document.getElementById("store-arrow");
-            storeBtn?.addEventListener("click", (e) => { e.stopPropagation(); storeMenu.classList.toggle("is-open"); storeArrow.classList.toggle("rotate-180"); const isOpen = storeMenu.classList.contains("is-open"); if (isOpen) { setHeaderInteraction(true); } else { const isSearchOpen = document.getElementById("searchDropdown")?.classList.contains("active"); if (!isSearchOpen) { setHeaderInteraction(false); } } });
-            document.addEventListener("click", (e) => { if (storeMenu && !storeMenu.contains(e.target) && !storeBtn.contains(e.target)) { if (storeMenu.classList.contains("is-open")) { storeMenu.classList.remove("is-open"); storeArrow.classList.remove("rotate-180"); const isSearchOpen = document.getElementById("searchDropdown")?.classList.contains("active"); if (!isSearchOpen) { setHeaderInteraction(false); } } } });
+            // Store Button Click (Menggunakan fungsi baru toggleStore)
+            storeBtn?.addEventListener("click", (e) => { 
+                e.preventDefault(); 
+                e.stopPropagation(); 
+                window.toggleStore(); // Toggle state
+            });
 
-            const handleScroll = () => { const scrollY = window.scrollY; const isTop = scrollY <= 10; if (isTop) header.classList.add('is-top'); else header.classList.remove('is-top'); if (scrollY > 50) header.classList.add('scrolled'); else header.classList.remove('scrolled'); if (scrollY > 400) backToTopBtn.classList.remove('opacity-0', 'pointer-events-none'); else backToTopBtn.classList.add('opacity-0', 'pointer-events-none'); };
+            // Global Click Listener (Click Outside Logic)
+            document.addEventListener("click", (e) => { 
+                // Jika Store aktif, dan klik di luar store menu & tombolnya
+                if (activeDrawer === "store" && storeMenu && !storeMenu.contains(e.target) && !storeBtn.contains(e.target)) {
+                    window.toggleStore(false);
+                }
+                // (Optional) Hamburger overlay sudah dihandle listener overlay di atas
+            });
+
+            // REVISI: Logic handleScroll dibersihkan dari referensi backToTopBtn
+            const handleScroll = () => { 
+                const scrollY = window.scrollY; 
+                const isTop = scrollY <= 10; 
+                
+                // Logic Header Transparan
+                if (isTop) header.classList.add('is-top'); 
+                else header.classList.remove('is-top'); 
+                
+                // Logic Header Shadow/Scrolled State
+                if (scrollY > 50) header.classList.add('scrolled'); 
+                else header.classList.remove('scrolled'); 
+                
+                // Logic Scroll-to-Top DIHAPUS
+            };
+            
             window.addEventListener('scroll', handleScroll);
             handleScroll();
 
