@@ -11,10 +11,10 @@
     <meta property="og:description" content="Minimal form. Maximum function—built for modern desks and rooms.">
     <meta property="og:type" content="website">
 
-    <!-- START MODIFICATION: LOAD INTER FONT (UGREEN STYLE) -->
+    <!-- START MODIFICATION: LOAD PUBLIC SANS FONT -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- END MODIFICATION -->
 
     <!-- Load Tailwind CSS CDN -->
@@ -66,9 +66,9 @@
             --color-soft-gold: #D9C78F;
             --color-milk-green-placeholder: #F0F5F0; 
 
-            /* Global Typography: INTER Primary (UGREEN-like consistency) */
-            /* Fallbacks: system-ui -> Apple -> Segoe UI -> Roboto -> Helvetica -> Arial */
-            --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            /* Global Typography: Public Sans Primary */
+            /* Fallbacks: system-ui -> Apple -> sans-serif */
+            --font-sans: "Public Sans", system-ui, -apple-system, sans-serif;
         }
 
         /* Base styles - Apply system font globally */
@@ -215,7 +215,7 @@
         
         /* Desktop Nav Links Styling */
         .header-nav-link {
-            @apply text-sm font-medium tracking-wide transition duration-300 ease-in-out hover:opacity-75;
+            @apply text-[12px] font-medium tracking-wide transition duration-300 ease-in-out hover:opacity-75;
             color: var(--color-matte-black) !important;
         }
         
@@ -1132,106 +1132,181 @@
         /* END MODIFICATION: Hero Slider UI */
 
 
-        /* ===== UGREEN CATEGORY LINEUP STYLE (SECTION A) - FIX MUTLAK: 4:5 Aspect Ratio ===== */
-        .category-box{
-          display:flex !important;
-          flex-direction:column !important;
-          justify-content:flex-end !important;  /* judul nempel bawah */
-          align-items:center !important;
-          text-align:center !important;
-
-          background:#F3F3F3 !important;
-          border-radius:0 !important;
-
-          /* 🔒 FIX MUTLAK: 4:5 */
-          aspect-ratio: 4 / 5 !important;
-          width:100% !important;
-          height:auto !important;
-
-          padding:24px !important; /* sedikit lebih pas untuk 4:5 */
-          box-shadow:none !important;
-          transition:all .2s ease;
-          cursor:pointer !important;
-          overflow:hidden !important; /* jaga konten gak bocor */
-        }
-        .category-box:hover{ background:#EBECEE !important; }
-
-        /* PATCH B: Media area (for image) and label refinement */
-        .category-media{
-          width:100%;
-          flex:1 1 auto;              /* area atas untuk foto */
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          padding:18px 18px 10px;
+        /* ===== MARKETPLACE PRODUCT GRID STYLE (SECTION A) ===== */
+        .marketplace-card {
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: flex-start !important;
+            align-items: center !important; /* REVISED: Center alignment */
+            text-align: center !important; /* REVISED: Center alignment */
+            background: transparent !important;
+            border: 1px solid #e0e0e0 !important; /* REVISED: Added thin grey outline */
+            border-radius: 0 !important; /* REVISED: Sharp edges */
+            width: 100% !important;
+            height: auto !important;
+            padding: 0 !important;
+            box-shadow: none !important;
+            transition: all .2s ease;
+            cursor: pointer !important;
+            position: relative;
         }
 
-        .category-media img{
-          width:100%;
-          height:100%;
-          object-fit:contain;             /* aman untuk foto produk */
-          max-height:100%;
+        .marketplace-media-wrap {
+            width: 100%;
+            aspect-ratio: 4 / 5;
+            position: relative;
+            background: #F8F8F8;
+            overflow: hidden;
+            border-radius: 0 !important; /* REVISED: Removed 8px to keep sharp edges */
+            margin-bottom: 16px;
         }
 
-        /* Menggunakan kelas drawer-anim di sini (sudah dihapus di HTML) */
-        /* .drawer-anim { opacity: 1; } */
-
-        .category-label{
-          width:100% !important;
-          font-size:16px !important;
-          font-weight:600 !important;
-          color: var(--color-matte-black) !important; /* Ensure color is set */
-          line-height:1.2 !important;
-          margin-top:12px !important;
-          margin-bottom:0 !important; /* Ensure tight fit at bottom */
-
-          white-space:nowrap !important;
-          overflow:hidden !important;
-          text-overflow:ellipsis !important;
-          text-align:center !important;
-          display: block !important; /* Ensure block display for width */
+        .marketplace-img-primary,
+        .marketplace-img-hover {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        
-        /* Ensure the CTA buttons inside the categories are hidden if they exist */
-        .category-box .btn-primary {
-            display: none !important;
+
+        .marketplace-img-hover {
+            opacity: 0;
+            z-index: 2;
+        }
+
+        .marketplace-card:hover .marketplace-img-primary {
+            opacity: 0;
+            transform: scale(1.05);
+        }
+
+        .marketplace-card:hover .marketplace-img-hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .marketplace-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(4px);
+            color: var(--color-matte-black);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            z-index: 3;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .marketplace-cart-btn {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            width: 40px;
+            height: 40px;
+            background: #FFFFFF;
+            color: var(--color-matte-black);
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 4;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .marketplace-card:hover .marketplace-cart-btn {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .marketplace-cart-btn:hover {
+            background: var(--color-matte-black);
+            color: #FFFFFF;
+            transform: scale(1.05) translateY(0);
+        }
+
+        .marketplace-info {
+            width: 100%;
+            padding: 0 16px 16px 16px; /* REVISED: Added padding inside the card to balance the new border */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* REVISED: Center alignment */
+        }
+
+        .marketplace-title {
+            font-size: 15px;
+            font-weight: 400; /* REVISED: Public Sans Regular */
+            color: var(--color-matte-black);
+            line-height: 1.3;
+            margin-bottom: 6px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-align: center; /* REVISED: Ensure text is centered */
+        }
+
+        .marketplace-price-row {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* REVISED: Center alignment */
+            gap: 6px;
+            flex-wrap: wrap; /* Safety for mobile */
+        }
+
+        .marketplace-price-label {
+            font-size: 13px;
+            font-weight: 400; /* REVISED: Public Sans Regular */
+            color: rgba(0, 0, 0, 0.9); /* REVISED: Black with 10% opacity reduction */
+        }
+
+        .marketplace-price {
+            font-size: 15px;
+            font-weight: 400; /* REVISED: Public Sans Regular */
+            color: var(--color-matte-black); /* Normal opacity, more prominent */
+        }
+
+        .marketplace-price-old {
+            font-size: 13px;
+            font-weight: 400; /* REVISED: Public Sans Regular */
+            color: rgba(0, 0, 0, 0.9); /* REVISED: Black with 10% opacity reduction */
+            text-decoration: line-through;
         }
         
         /* PATCH C: Responsive Grid Fixes for .lineup-container */
-        /* Desktop & tablet: grid normal, ensures all cards are same height */
         .lineup-container{
-          align-items:stretch !important; /* semua kartu sama tinggi */
+          align-items:stretch !important; 
         }
         @media (min-width: 768px){
-          /* Explicitly enforce the grid for tablet/desktop to avoid layout collapse */
           .lineup-container{
             display:grid !important;
-            grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-            /* Remove flex properties potentially set globally on .lineup-container */
+            /* REVISED: Changed to 3 columns for exactly 3 items */
+            grid-template-columns: repeat(3, minmax(0, 1fr)) !important; 
             flex-wrap: wrap !important; 
             overflow-x: visible !important;
           }
         }
-        /* Mobile: horizontal swipe + snap (reconfirming previous mobile styles) */
         @media (max-width: 767px) {
-          /* Reconfirming mobile horizontal scroll logic which was already robust, but adding overrides to ensure new desktop grid doesn't interfere */
           .lineup-container {
             display: flex !important;
             flex-wrap: nowrap !important;
-            overflow-x: auto !important; /* REVISI: auto lebih clean dibanding scroll */
-            overflow-y: visible !important; /* Pastikan shadow/peek gak kepotong vertikal */
-            
+            overflow-x: auto !important; 
+            overflow-y: visible !important; 
             margin: 0 -1rem !important; 
             padding: 0 1rem 20px 1rem !important;
-            
             gap: 16px !important; 
-            
             scroll-snap-type: x mandatory !important;
             scroll-padding-left: 1rem !important; 
             scroll-behavior: smooth !important;
             -webkit-overflow-scrolling: touch !important;
-
-            /* Hide scrollbar */
             -ms-overflow-style: none;
             scrollbar-width: none; 
           }
@@ -1240,16 +1315,18 @@
             display: none;
           }
 
-          /* Card specific width for horizontal scroll - FIX MOBILE PEEK 1.5 Cards */
-          /* REVISI FINAL: Menggunakan WIDTH (bukan min-width) dan angka 72vw agar peek kartu sebelah JELAS terlihat */
-          .category-box {
-            width: 72vw !important; /* FORCE width, override 100% global */
+          .marketplace-card {
+            width: 72vw !important; 
             max-width: 72vw !important;
-            min-width: 0 !important; /* Reset min-width lama */
-            
+            min-width: 0 !important; 
             flex-shrink: 0 !important;
             scroll-snap-align: start !important;
-            text-align: center !important;
+          }
+          
+          /* Always show cart button on mobile (no hover state) */
+          .marketplace-cart-btn {
+            opacity: 1;
+            transform: translateY(0);
           }
         }
 
@@ -1436,7 +1513,7 @@
         #main-header.is-top .text-gray-700 {
             color: #FFFFFF !important;
             /* REVISI: HAPUS fill & stroke paksa ini. 
-               Biarkan SVG ikut 'currentColor' dari properti color di atas. */
+                Biarkan SVG ikut 'currentColor' dari properti color di atas. */
             /* fill: #FFFFFF !important;  <-- PENYEBAB MASALAH */
             /* stroke: #FFFFFF !important; <-- PENYEBAB MASALAH */
         }
@@ -1505,7 +1582,7 @@
 
         /* Store Button: Revert to Solid Black Pill (FIXED VISIBILITY ISSUE) */
         /* Kita chain .is-top.interaction-active dan tambahkan :hover state untuk memastikan 
-           ia mengalahkan style transparansi .is-top saat mouse masih di atas tombol (klik) */
+            ia mengalahkan style transparansi .is-top saat mouse masih di atas tombol (klik) */
         #main-header.interaction-active .force-solid-black,
         #main-header.is-top.interaction-active .force-solid-black,
         #main-header.is-top.interaction-active .force-solid-black:hover {
@@ -1794,7 +1871,7 @@
 
         /* ===== FOUR ANCHOR NEW HORIZONTAL CARD SYSTEM STYLES (DELETED) ===== */
         /* The previous CSS blocks for .anchor-track, .anchor-card, and their media queries were removed
-            to ensure consistency with .lineup-container and .category-box. */
+           to ensure consistency with .lineup-container and .category-box. */
         /* ================================================================= */
 
         /* ===== SCROLL REVEAL ANIMATION STYLES (NEW) ===== */
@@ -1868,19 +1945,19 @@
             width: auto;
             object-fit: contain;
             display: none; /* Managed by header state */
-            /* Sizing Rules (Desktop: 48px, Tablet: 40px, Mobile: 36px) */
-            height: 36px; /* Mobile */
+            /* Sizing Rules (Desktop: 48px, Tablet: 52px, Mobile: 46px) */
+            height: 46px; /* Mobile */
         }
 
         @media (min-width: 640px) {
             .logo-wrapper .logo-white,
-            .logo-wrapper .logo-black { height: 40px; } /* Tablet */
+            .logo-wrapper .logo-black { height: 52px; } /* Tablet */
         }
 
         @media (min-width: 1024px) {
             .logo-wrapper .logo-white,
-            /* REVISI: Ukuran Desktop diperkecil (32px) agar visual balance dengan tombol Store (40px) */
-            .logo-wrapper .logo-black { height: 32px; } /* Desktop */
+            /* REVISI: Ukuran Desktop diperbesar (+20% agar lebih dominan) */
+            .logo-wrapper .logo-black { height: 58px; } /* Desktop */
         }
 
         /* State Logic */
@@ -2684,7 +2761,7 @@
         /* 1) Wrapper: bikin area benefits pasti center vertikal */
         .footer-benefits-wrap{
           display:flex;
-          align-items:center;           /* ✅ center vertikal */
+          align-items:center;            /* ✅ center vertikal */
           justify-content:center;
           padding: 22px 0 18px;         /* ✅ seimbang (atas/bawah) desktop */
           width: 100%;
@@ -3141,65 +3218,82 @@
     <!-- HEADER + NAVIGATION -->
     <header id="main-header" class="fixed top-0 left-0 right-0 z-40 sticky-header is-top">
         <!-- ... header content ... -->
-        <div class="header-content-wrapper max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
-            <div class="flex items-center h-full">
-                <a href="/" class="logo-wrapper mr-6 flex items-center shrink-0 transition-opacity duration-300 hover:opacity-80">
-                    <img src="https://i.imgur.com/y7XFmxd.png" alt="FOUR" class="logo-white" width="132" height="48">
-                    <img src="https://i.imgur.com/5GZCy1g.png" alt="FOUR" class="logo-black" width="132" height="48">
-                </a>
-                <nav class="hidden lg:flex items-center space-x-8 h-full ml-6">
+        <div class="header-content-wrapper max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center w-full lg:pt-3 lg:pb-3 min-h-[4rem]">
+            
+            <!-- Row 1: Actions (Mobile), Logo (Center), Empty Spacer (Desktop) -->
+            <div class="flex justify-between items-center w-full h-16 lg:h-auto">
+                
+                <!-- LEFT SIDE -->
+                <!-- Mobile Actions (Hamburger + Search) -->
+                <div class="lg:hidden flex flex-1 items-center justify-start gap-1 sm:gap-2">
+                    <button id="mobile-menu-toggle" class="hamburger-btn !ml-0" aria-label="Toggle Menu" aria-expanded="false">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                    <button id="openSearchMobile" class="p-2 rounded-full hover:bg-black/5 transition text-matte-black header-nav-link flex items-center justify-center" aria-label="Search">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="7"></circle>
+                            <path d="M21 21l-4.3-4.3"></path>
+                        </svg>
+                    </button>
+                </div>
+                <!-- Desktop Left Spacer (Keeps logo absolute centered) -->
+                <div class="hidden lg:flex flex-1"></div>
+
+                <!-- CENTER SIDE (Logo) -->
+                <div class="flex-none flex justify-center items-center">
+                    <a href="/" class="logo-wrapper flex items-center shrink-0 transition-opacity duration-300 hover:opacity-80" style="letter-spacing: 6px;">
+                        <img src="https://i.imgur.com/x57qrbV.png" alt="ENDUSSEE" class="logo-white" width="170" height="62">
+                        <img src="https://i.imgur.com/458prmy.png" alt="ENDUSSEE" class="logo-black" width="170" height="62">
+                    </a>
+                </div>
+
+                <!-- RIGHT SIDE (Spacer to balance the left side and keep logo perfectly centered) -->
+                <div class="flex flex-1 items-center justify-end"></div>
+            </div>
+
+            <!-- Row 2: Navigation Menu & Actions (Desktop Only) -->
+            <div class="hidden lg:flex w-full mt-3 items-center justify-between">
+                <!-- Left invisible spacer to perfectly balance the right actions -->
+                <div class="flex-1"></div>
+                
+                <!-- Center Navigation -->
+                <nav class="flex-none flex items-center justify-center space-x-8">
                     <a href="#explore-lineup" class="header-nav-link">Explore</a>
                     <a href="#signature-collections" class="header-nav-link">Collections</a>
                     <a href="#four-principles" class="header-nav-link">Principles</a>
                     <a href="#precision-design" class="header-nav-link">Driven</a>
                     <a href="#newsroom" class="header-nav-link">Newsroom</a>
                 </nav>
-            </div>
-            
-            <!-- DESKTOP ACTIONS (Search + Store) -->
-            <div class="relative hidden lg:flex items-center gap-4">
-                <!-- Search Button Desktop -->
-                <button id="openSearchDesktop" type="button" class="p-2 rounded-full hover:bg-black/5 transition header-nav-link flex items-center justify-center" aria-label="Search">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="11" cy="11" r="7"></circle>
-                    <path d="M21 21l-4.3-4.3"></path>
-                  </svg>
-                </button>
 
-                <!-- Store Button Wrapper -->
-                <div class="relative">
-                   <button id="store-btn" class="force-solid-black font-medium text-base px-5 py-2 flex items-center h-10 transition duration-300 ease-in-out rounded-full whitespace-nowrap hover:bg-muted-navy">
-                        Store 
-                        <svg id="store-arrow" class="w-4 h-4 ml-1.5 transition duration-300 transform rotate-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                    </button>
-                    
-                    <!-- Store Menu Dropdown -->
-                    <!-- REVISI PENTING: HAPUS CLASS 'hidden' DI SINI! -->
-                    <!-- Biarkan CSS .four-ugreen-menu yang handle visibility via opacity agar animasi jalan -->
-                    <div id="store-menu" class="four-ugreen-menu">
-                        <a class="four-ugreen-item" href="cart.html" rel="noopener">Shopping Cart <span class="four-ugreen-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></span></a>
-                        <a class="four-ugreen-item" href="#" rel="noopener">Checkout <span class="four-ugreen-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></span></a>
-                        <a class="four-ugreen-item" href="#" rel="noopener" data-nav="account">Account <span class="four-ugreen-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></span></a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MOBILE ACTIONS (Search + Hamburger) -->
-            <div class="lg:hidden flex items-center gap-1">
-                <!-- Search Button Mobile -->
-                <button id="openSearchMobile" class="p-2 rounded-full hover:bg-black/5 transition text-matte-black header-nav-link flex items-center justify-center" aria-label="Search">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <!-- Right Actions (Search + Store) -->
+                <div class="flex-1 flex justify-end items-center gap-4">
+                    <!-- Search Button Desktop -->
+                    <button id="openSearchDesktop" type="button" class="p-2 rounded-full hover:bg-black/5 transition header-nav-link flex items-center justify-center" aria-label="Search">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="11" cy="11" r="7"></circle>
                         <path d="M21 21l-4.3-4.3"></path>
-                    </svg>
-                </button>
+                      </svg>
+                    </button>
 
-                <!-- Hamburger Menu -->
-                <button id="mobile-menu-toggle" class="hamburger-btn ml-1" aria-label="Toggle Menu" aria-expanded="false">
-                    <span class="hamburger-line"></span>
-                    <span class="hamburger-line"></span>
-                    <span class="hamburger-line"></span>
-                </button>
+                    <!-- Store Button Wrapper -->
+                    <div class="relative">
+                       <button id="store-btn" class="force-solid-black font-medium text-base px-5 py-2 flex items-center h-10 transition duration-300 ease-in-out rounded-full whitespace-nowrap hover:bg-muted-navy">
+                            Store 
+                            <svg id="store-arrow" class="w-4 h-4 ml-1.5 transition duration-300 transform rotate-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        
+                        <!-- Store Menu Dropdown -->
+                        <!-- REVISI PENTING: HAPUS CLASS 'hidden' DI SINI! -->
+                        <!-- Biarkan CSS .four-ugreen-menu yang handle visibility via opacity agar animasi jalan -->
+                        <div id="store-menu" class="four-ugreen-menu">
+                            <a class="four-ugreen-item" href="cart.html" rel="noopener">Shopping Cart <span class="four-ugreen-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></span></a>
+                            <a class="four-ugreen-item" href="#" rel="noopener">Checkout <span class="four-ugreen-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></span></a>
+                            <a class="four-ugreen-item" href="#" rel="noopener" data-nav="account">Account <span class="four-ugreen-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></span></a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -3299,138 +3393,86 @@
 
         <!-- Sections A-I (kept intact, just summarizing structure) -->
         <section id="explore-lineup" class="scroll-anchor max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-30">
-            <!-- ... content ... -->
-            <!-- UPDATED TITLE (A) -->
-            <h2 class="font-display text-4xl lg:text-5xl font-semibold mb-16 text-center reveal-title">Explore the Essentials</h2>
-            <div id="lineup-container" class="lineup-container grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12">
-                <!-- ... category boxes ... -->
-                <a href="#" class="category-box group scroll-reveal card-reveal">
-                    <div class="category-media">
-                        <img src="https://placehold.co/400x500/F3F3F3/0A0A0A?text=Charging+Stand" alt="Wireless Charging Product" width="100%" height="100%" loading="lazy">
-                    </div>
-                    <p class="category-label">Wireless Charging</p>
-                </a>
-                <a href="#" class="category-box group scroll-reveal card-reveal">
-                    <div class="category-media">
-                        <img src="https://placehold.co/400x500/F3F3F3/0A0A0A?text=Storage+System" alt="Storage Systems Product" width="100%" height="100%" loading="lazy">
-                    </div>
-                    <p class="category-label">Storage Systems</p>
-                </a>
-                <a href="#" class="category-box group scroll-reveal card-reveal">
-                    <div class="category-media">
-                        <img src="https://placehold.co/400x500/F3F3F3/0A0A0A?text=Monitor+Riser" alt="Monitor Risers Product" width="100%" height="100%" loading="lazy">
-                    </div>
-                    <p class="category-label">Monitor Risers</p>
-                </a>
-                <a href="#" class="category-box group scroll-reveal card-reveal">
-                    <div class="category-media">
-                        <img src="https://placehold.co/400x500/F3F3F3/0A0A0A?text=Cable+Mgmt" alt="Cable Management Product" width="100%" height="100%" loading="lazy">
-                    </div>
-                    <p class="category-label">Cable Management</p>
-                </a>
-            </div>
-        </section>
-
-        <!-- ===================== -->
-        <!--  PRODUCT DETAIL PAGE  -->
-        <!--  (Replaced per Strict Instruction) -->
-        <!-- ===================== -->
-        <section id="signature-collections" class="scroll-anchor bg-white">
-          
-          <!-- A) CINEMATIC HERO (Light Mode, Wide) -->
-          <!-- MOBILE REFINEMENT: Reduced padding from pt-16/pb-12 to pt-10/pb-6 for density -->
-          <div class="relative bg-white pt-10 pb-6 md:pt-24 md:pb-20">
-            <div class="mx-auto max-w-6xl px-4 md:px-6"> <!-- Tighter side padding on mobile (px-4) -->
-              
-              <!-- Headline Block -->
-              <!-- MOBILE REFINEMENT: mb-16 -> mb-6 -->
-              <div class="text-center max-w-3xl mx-auto mb-6 md:mb-16">
-                <!-- Chip: Smaller text on mobile, mb-6 -> mb-3 -->
-                <p class="inline-flex items-center rounded-full border border-black/10 bg-black/[0.03] px-3 py-1 text-[11px] md:text-xs font-medium tracking-wide text-black/70 mb-3 md:mb-6">
-                  Magnetic Focus Dock • Qi Wireless • Modular Mount
-                </p>
-                <!-- H1: text-3xl on mobile for density, leading-tight, mb-6 -> mb-3 -->
-                <h1 class="text-3xl md:text-6xl font-semibold tracking-tight text-black leading-tight md:leading-[1.1] mb-3 md:mb-6">
-                  Built for deep focus,<br class="hidden md:block" />
-                  wherever you work.
-                </h1>
-                <!-- P: Added px-2 for safe margins -->
-                <p class="text-sm md:text-base leading-relaxed text-black/70 max-w-xl mx-auto px-2">
-                  Lock your phone away under your desk to stay distraction-free—while it charges. 
-                  Compatible with iPhone & Android, even with a case.
-                </p>
-              </div>
-
-              <!-- 3 Feature Callouts -->
-              <!-- MOBILE REFINEMENT: mt-5/mb-6 -->
-              <!-- ADDED ID: focusSwipeSection (Target Selector Mobile Fix) -->
-              <div id="focusSwipeSection" class="mt-5 md:mt-10 mb-6 md:mb-12">
-                <!-- SWIPE TEXT CONTAINER -->
-                <!-- Removed previous layout classes that might conflict on mobile, rely on CSS override -->
-                <div class="
-                    swipe-text-viewport
-                    flex md:grid md:grid-cols-3 
-                    /* GAP: 0 on mobile to ensure perfect w-full snapping */
-                    gap-0 md:gap-8 
-                    overflow-x-auto md:overflow-visible 
-                    scroll-smooth snap-x snap-mandatory 
-                    /* PADDING REMOVED on mobile via CSS override */
-                    md:pb-0 
-                    -mx-4 md:mx-0
-                    /* SCROLLBAR HIDE */
-                    [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden
-                ">
-                  
-                  <!-- Feature 1 -->
-                  <div class="swipe-slide snap-center shrink-0 w-full md:w-auto text-center px-8"> 
-                    <!-- UPDATED: Changed to H3 and added classes to match CSS selectors -->
-                    <h3 class="swipe-title text-lg font-bold text-black leading-snug mb-1">Phone-out-of-sight</h3>
-                    <p class="swipe-desc text-sm font-normal text-gray-500">Hide it. Work deeper.</p>
-                  </div>
-
-                  <!-- Feature 2 -->
-                  <div class="swipe-slide snap-center shrink-0 w-full md:w-auto text-center px-8">
-                    <h3 class="swipe-title text-lg font-bold text-black leading-snug mb-1">Qi Wireless Charging</h3>
-                    <p class="swipe-desc text-sm font-normal text-gray-500">Charges while you focus.</p>
-                  </div>
-
-                  <!-- Feature 3 -->
-                  <div class="swipe-slide snap-center shrink-0 w-full md:w-auto text-center px-8">
-                    <h3 class="swipe-title text-lg font-bold text-black leading-snug mb-1">Push-Push Precision</h3>
-                    <p class="swipe-desc text-sm font-normal text-gray-500">Push to eject & lock.</p>
-                  </div>
-
-                </div>
-              </div>
-
-              <!-- Cinematic Wide Image (Bottom Anchored) -->
-              <!-- MOBILE REFINEMENT: Full Bleed (-mx-4) & Shorter Height -->
-              <div class="relative w-[calc(100%+2rem)] -mx-4 md:mx-0 md:w-full">
+            <!-- UPDATED TITLE -->
+            <h2 class="font-display text-4xl lg:text-5xl font-semibold mb-16 text-center reveal-title">Choose Your Character</h2>
+            
+            <!-- INCREASED SPACING & ADJUSTED TO 3 COLS -->
+            <div id="lineup-container" class="lineup-container grid grid-cols-2 md:grid-cols-3 gap-8 lg:gap-16">
                 
-                <div class="group relative overflow-hidden bg-black/[0.02] shadow-sm">
-                  <!-- Static Cinematic Hero Image -->
-                  <!-- MOBILE REFINEMENT: aspect-[2/1] for shorter vertical footprint on mobile -->
-                  <div class="aspect-[2/1] md:aspect-[21/9] w-full bg-[#F5F5F5]">
-                    <img src="https://placehold.co/1600x700/F5F5F5/111?text=FOUR+MagCore+Cinematic+View" alt="Cinematic Hero View" class="w-full h-full object-cover mix-blend-multiply opacity-90 transition-transform duration-1000 ease-in-out group-hover:scale-[1.02]">
-                  </div>
-                  <!-- Subtle bottom gradient overlay -->
-                  <div class="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white to-transparent opacity-80"></div>
+                <!-- PRODUCT 1: The River -->
+                <div class="marketplace-card group scroll-reveal card-reveal" onclick="window.location.href='#'">
+                    <div class="marketplace-media-wrap">
+                        <span class="marketplace-badge">NEW ARRIVAL</span>
+                        <!-- Main Image -->
+                        <img src="https://placehold.co/600x750/F8F8F8/0A0A0A?text=The+River" alt="Extrait de Parfum - The River" class="marketplace-img-primary" loading="lazy">
+                        <!-- Hover Image -->
+                        <img src="https://placehold.co/600x750/EAEAEA/0A0A0A?text=The+River+Lifestyle" alt="The River Lifestyle" class="marketplace-img-hover" loading="lazy">
+                        
+                        <!-- Cart Action Button -->
+                        <button class="marketplace-cart-btn" aria-label="Add to cart" onclick="event.stopPropagation(); alert('Item added to cart!');">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                        </button>
+                    </div>
+                    <div class="marketplace-info">
+                        <h3 class="marketplace-title">Extrait de Parfum - The River</h3>
+                        <div class="marketplace-price-row">
+                            <span class="marketplace-price-label">From</span>
+                            <span class="marketplace-price-old">Rp 499.000</span>
+                            <span class="marketplace-price-label ml-1">To</span>
+                            <span class="marketplace-price">Rp 299.000</span>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- NEW CTA (Preorder Now) -->
-                <!-- Reduced margin for proximity -->
-                <div class="mt-4 md:mt-4 flex justify-center pb-2">
-                  <a href="#" class="btn-ugreen-cta">
-                    <span>Preorder Now</span>
-                    <svg class="cta-arrow-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                    </svg>
-                  </a>
+                <!-- PRODUCT 2: The Forest -->
+                <div class="marketplace-card group scroll-reveal card-reveal" onclick="window.location.href='#'">
+                    <div class="marketplace-media-wrap">
+                        <span class="marketplace-badge">NEW ARRIVAL</span>
+                        <!-- Main Image -->
+                        <img src="https://placehold.co/600x750/F8F8F8/0A0A0A?text=The+Forest" alt="Extrait de Parfum - The Forest" class="marketplace-img-primary" loading="lazy">
+                        <!-- Hover Image -->
+                        <img src="https://placehold.co/600x750/EAEAEA/0A0A0A?text=The+Forest+Lifestyle" alt="The Forest Lifestyle" class="marketplace-img-hover" loading="lazy">
+                        
+                        <button class="marketplace-cart-btn" aria-label="Add to cart" onclick="event.stopPropagation(); alert('Item added to cart!');">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                        </button>
+                    </div>
+                    <div class="marketplace-info">
+                        <h3 class="marketplace-title">Extrait de Parfum - The Forest</h3>
+                        <div class="marketplace-price-row">
+                            <span class="marketplace-price-label">From</span>
+                            <span class="marketplace-price-old">Rp 499.000</span>
+                            <span class="marketplace-price-label ml-1">To</span>
+                            <span class="marketplace-price">Rp 299.000</span>
+                        </div>
+                    </div>
                 </div>
-              </div>
+
+                <!-- PRODUCT 3: The Sunset -->
+                <div class="marketplace-card group scroll-reveal card-reveal" onclick="window.location.href='#'">
+                    <div class="marketplace-media-wrap">
+                        <span class="marketplace-badge">NEW ARRIVAL</span>
+                        <!-- Main Image -->
+                        <img src="https://placehold.co/600x750/F8F8F8/0A0A0A?text=The+Sunset" alt="Extrait de Parfum - The Sunset" class="marketplace-img-primary" loading="lazy">
+                        <!-- Hover Image -->
+                        <img src="https://placehold.co/600x750/EAEAEA/0A0A0A?text=The+Sunset+Lifestyle" alt="The Sunset Lifestyle" class="marketplace-img-hover" loading="lazy">
+                        
+                        <button class="marketplace-cart-btn" aria-label="Add to cart" onclick="event.stopPropagation(); alert('Item added to cart!');">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                        </button>
+                    </div>
+                    <div class="marketplace-info">
+                        <h3 class="marketplace-title">Extrait de Parfum - The Sunset</h3>
+                        <div class="marketplace-price-row">
+                            <span class="marketplace-price-label">From</span>
+                            <span class="marketplace-price-old">Rp 499.000</span>
+                            <span class="marketplace-price-label ml-1">To</span>
+                            <span class="marketplace-price">Rp 299.000</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-          </div>
-          
         </section>
 
         <!-- Lifestyle Section -->
@@ -3486,17 +3528,6 @@
                      <div class="principle-card scroll-reveal"><div class="principle-symbol reveal-sub"><img src="https://i.imgur.com/owasf4j.png" alt="R" class="principle-png" loading="lazy"></div><h3 class="font-display text-xl font-bold reveal-title">Refinement</h3><p class="text-sm text-soft-gray">Precision in Every Corner: Thoughtful details and premium materials.</p></div>
                  </div>
              </div>
-        </section>
-
-        <!-- Stats -->
-        <section id="precision-design" class="scroll-anchor max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-30">
-            <h2 class="font-display text-4xl lg:text-5xl font-semibold mb-16 text-center reveal-title">Driven by Precision Design</h2>
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8">
-                <div class="text-center scroll-reveal"><p class="font-display text-5xl lg:text-6xl font-bold text-muted-navy reveal-title">4-Step</p><p class="text-lg font-medium mt-2 reveal-sub">Design System</p><p class="text-sm text-soft-gray mt-1 reveal-sub">Designed with a 4-step system</p></div>
-                <div class="text-center scroll-reveal"><p class="font-display text-5xl lg:text-6xl font-bold text-muted-navy reveal-title">100%</p><p class="text-lg font-medium mt-2 reveal-sub">Modular Parts</p><p class="text-sm text-soft-gray mt-1 reveal-sub">Across collections for flexibility</p></div>
-                <div class="text-center scroll-reveal"><p class="font-display text-5xl lg:text-6xl font-bold text-muted-navy reveal-title">Optimized</p><p class="text-lg font-medium mt-2 reveal-sub">Space Usage</p><p class="text-sm text-soft-gray mt-1 reveal-sub">For small spaces and efficiency</p></div>
-                <div class="text-center scroll-reveal"><p class="font-display text-5xl lg:text-6xl font-bold text-muted-navy reveal-title">Built</p><p class="text-lg font-medium mt-2 reveal-sub">For Daily Use</p><p class="text-sm text-soft-gray mt-1 reveal-sub">Durable construction for longevity</p></div>
-            </div>
         </section>
 
         <!-- Media Voices (REPLACED) -->
