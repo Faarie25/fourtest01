@@ -1603,6 +1603,17 @@
         #main-header.interaction-active .hamburger-line {
             background-color: var(--color-matte-black) !important;
         }
+        
+        /* Cart Badge Theme Swap */
+        .header-cart-badge {
+            background-color: var(--color-matte-black) !important;
+            color: var(--color-warm-white) !important;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #main-header.is-top:not(.interaction-active) .header-cart-badge {
+            background-color: var(--color-warm-white) !important;
+            color: var(--color-matte-black) !important;
+        }
         /* ===== END INTERACTION ACTIVE STATE ===== */
 
         /* FIX #2: Drawer/Dropdown Store (four-ugreen-menu) WAJIB tetap hitam/putih */
@@ -2222,7 +2233,7 @@
         }
 
         /* =======================================================
-            CART DRAWER STYLES (UGREEN-LIKE)
+            CART DRAWER STYLES (PREMIUM MARKETPLACE)
             ======================================================= */
         .cart-overlay {
             position: fixed;
@@ -2237,18 +2248,19 @@
         .cart-drawer {
             position: fixed;
             top: 0;
-            right: 0;
+            right: 0; /* REVISED: Slide from right side */
             height: 100vh;
-            width: 420px;
-            max-width: 92vw;
+            width: 440px;
+            max-width: 90vw;
             background: #fff;
-            transform: translateX(100%);
+            transform: translateX(100%); /* REVISED: Slide from right side */
             transition: transform 320ms cubic-bezier(0.4,0,0.2,1);
             z-index: 9999;
             display: flex;
             flex-direction: column;
-            border-left: 1px solid rgba(0,0,0,0.08);
-            box-shadow: -4px 0 24px rgba(0,0,0,0.1);
+            box-shadow: -4px 0 24px rgba(0,0,0,0.1); /* REVISED: Shadow to the left */
+            font-family: var(--font-sans);
+            border-left: 1px solid rgba(0,0,0,0.06); /* REVISED: Border on the left */
         }
 
         .cart-drawer.is-open {
@@ -2265,156 +2277,228 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 18px 24px;
+            padding: 24px;
             border-bottom: 1px solid rgba(0,0,0,0.06);
         }
 
         .cart-drawer__title {
-            font-weight: 400; /* Regular */
+            font-weight: 400;
             letter-spacing: 0.05em;
-            font-size: 20px; /* Match close icon */
+            font-size: 16px;
             text-transform: uppercase;
+            color: var(--color-matte-black);
         }
 
         .cart-drawer__close {
             border: none;
             background: transparent;
-            font-size: 20px; /* Ensure match */
             cursor: pointer;
-            line-height: 1;
             padding: 4px;
-            color: #999;
-            transition: color 0.2s, transform 220ms cubic-bezier(0.4,0,0.2,1), opacity 220ms ease;
-            transform-origin: center;
+            color: var(--color-matte-black);
+            transition: transform 220ms ease, opacity 220ms ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .cart-drawer__close:hover {
-            color: #000;
-            transform: rotate(180deg);
-            opacity: 0.9;
+            opacity: 0.7;
+        }
+
+        .cart-drawer__label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--color-matte-black);
+            padding: 20px 24px 0;
         }
 
         /* Items list */
         .cart-drawer__items {
-            padding: 0 24px;
+            padding: 0 24px 24px;
             overflow-y: auto;
             flex: 1;
         }
 
         .cart-item {
-            display: grid;
-            grid-template-columns: 80px 1fr;
-            gap: 16px;
-            padding: 20px 0;
+            display: flex;
+            gap: 20px;
+            padding: 24px 0;
             border-bottom: 1px solid rgba(0,0,0,0.06);
         }
 
         .cart-item__thumb {
-            width: 80px;
-            height: 80px;
+            width: 90px;
+            height: 90px;
             background: #F9F9F9;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            border-radius: 4px;
         }
 
         .cart-item__thumb img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
-            mix-blend-mode: multiply;
+            object-fit: cover;
+        }
+
+        .cart-item__details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .cart-item__name {
-            font-weight: 600;
-            font-size: 14px;
+            font-weight: 400;
+            font-size: 15px;
             line-height: 1.4;
-            margin-bottom: 4px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            color: var(--color-matte-black);
         }
 
-        .cart-item__meta {
-            font-size: 13px;
-            color: #777;
-            margin-bottom: 12px;
-        }
-
-        .cart-item__row {
+        .cart-item__price-row {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 16px;
         }
 
         .cart-item__price {
-            font-weight: 600;
+            font-weight: 400;
             font-size: 14px;
+            color: var(--color-matte-black);
+        }
+        
+        .cart-item__price-old {
+            font-weight: 400;
+            font-size: 13px;
+            color: rgba(0,0,0,0.5);
+            text-decoration: line-through;
         }
 
-        /* Stepper like UGREEN (outline box) */
+        /* Controls Row */
+        .cart-item__controls {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
         .stepper {
             display: flex;
             align-items: center;
             border: 1px solid #E5E5E5;
-            height: 32px;
-            border-radius: 4px;
+            height: 38px;
+            border-radius: 9999px; /* Pill shape based on image */
+            overflow: hidden;
         }
 
         .stepper button {
-            width: 32px;
+            width: 36px;
             height: 100%;
             border: none;
             background: transparent;
             cursor: pointer;
             font-size: 16px;
-            line-height: 1;
-            color: #555;
+            color: var(--color-matte-black);
             transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .stepper button:hover { background: #f5f5f5; }
 
         .stepper span {
-            width: 36px;
+            width: 30px;
             text-align: center;
-            font-weight: 600;
-            font-size: 13px;
-            color: #111;
+            font-weight: 400;
+            font-size: 14px;
+            color: var(--color-matte-black);
         }
 
         .remove-btn {
             border: none;
             background: transparent;
             cursor: pointer;
-            color: #999;
-            padding: 4px;
-            transition: color 0.2s;
+            color: var(--color-matte-black);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 0;
+            transition: opacity 0.2s;
         }
-        .remove-btn:hover { color: #d32f2f; }
+        .remove-btn:hover { opacity: 0.6; }
+
+        /* Footer */
+        .cart-drawer__footer {
+            padding: 24px;
+            background: #fff;
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .cart-drawer__subtotal-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
         
+        .cart-drawer__subtotal-label {
+            font-size: 12px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--color-matte-black);
+            font-weight: 400;
+        }
+
+        .cart-drawer__subtotal-price {
+            font-size: 26px;
+            font-weight: 400;
+            color: var(--color-matte-black);
+        }
+
+        .btn-checkout-full {
+            width: 100%;
+            background: var(--color-matte-black);
+            color: #fff;
+            border-radius: 9999px;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+        
+        .btn-checkout-full:hover {
+            opacity: 0.9;
+        }
+
+        .cart-drawer__note {
+            font-size: 12px;
+            font-style: italic;
+            color: rgba(0,0,0,0.6);
+            margin-top: 16px;
+            text-align: left;
+        }
+
         /* Apply click animation to all clickable buttons in cart drawer */
         .cart-drawer button {
             transition: transform 120ms ease;
         }
         .cart-drawer button:active {
-            transform: scale(1.06);
+            transform: scale(0.98);
         }
-
-        /* Footer */
-        .cart-drawer__footer {
-            border-top: 1px solid rgba(0,0,0,0.06);
-            padding: 24px;
-            background: #fff;
-        }
-
-        /* ... existing cart styles ... */
 
         /* Mobile: full width drawer */
         @media (max-width: 520px) {
             .cart-drawer { width: 100vw; max-width: none; }
-            .cart-drawer__actions { grid-template-columns: 1fr; }
         }
 
         /* UTILITY: Hide Scrollbar but allow scrolling */
@@ -3048,6 +3132,14 @@
           .mv-card{ width: 84vw; }
         }
 
+        /* ===== STANDARDIZED SECTION TITLES ===== */
+        .standard-section-title {
+            font-family: "Public Sans", system-ui, -apple-system, sans-serif !important;
+            font-size: 35px !important;
+            font-weight: 400 !important; /* Regular */
+            color: #000000 !important;
+        }
+
     </style>
 </head>
 <body class="font-sans">
@@ -3111,27 +3203,29 @@
 
     <aside id="cartDrawer" class="cart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Cart">
       <div class="cart-drawer__header">
-        <div class="cart-drawer__title">Shopping Cart</div>
-        <button id="cartCloseBtn" class="cart-drawer__close" type="button" aria-label="Close cart">✕</button>
+        <div class="cart-drawer__title">CART (<span id="cartItemCount">0</span>)</div>
+        <button id="cartCloseBtn" class="cart-drawer__close" type="button" aria-label="Close cart">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
       </div>
+
+      <div class="cart-drawer__label">Products</div>
 
       <div id="cartDrawerItems" class="cart-drawer__items">
         <!-- Items injected via JS -->
       </div>
 
       <div class="cart-drawer__footer">
-        <div class="cart-drawer__subtotal">
-          <div class="cart-drawer__subtotal-row">
-            <span>Subtotal:</span>
-            <strong id="cartSubtotal">$0.00</strong>
-          </div>
-          <div class="cart-drawer__note">Taxes and shipping calculated at checkout</div>
+        <div class="cart-drawer__subtotal-row">
+          <span class="cart-drawer__subtotal-label">SUBTOTAL</span>
+          <strong id="cartSubtotal" class="cart-drawer__subtotal-price">Rp 0</strong>
         </div>
 
-        <div class="cart-drawer__actions">
-          <button id="viewCartBtn" class="btn-viewcart" type="button">VIEW CART</button>
-          <button id="checkoutBtn" class="btn-checkout" type="button">CHECK OUT</button>
-        </div>
+        <button id="checkoutBtn" class="btn-checkout-full" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          CHECK OUT
+        </button>
+        <div class="cart-drawer__note">Shipping, taxes, and discount codes are calculated at checkout</div>
       </div>
     </aside>
 
@@ -3193,7 +3287,7 @@
                     </span>
                 </a>
                 
-                <a href="cart.html" class="drawer-secondary-link">
+                <a href="#" class="drawer-secondary-link open-cart-btn"> <!-- REVISED: Added open-cart-btn and removed navigation link -->
                     <span class="drawer-label text-base font-normal drawer-anim-text">Shopping Cart</span>
                     <span class="drawer-external">
                         <svg class="drawer-external-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
@@ -3249,8 +3343,18 @@
                     </a>
                 </div>
 
-                <!-- RIGHT SIDE (Spacer to balance the left side and keep logo perfectly centered) -->
-                <div class="flex flex-1 items-center justify-end"></div>
+                <!-- RIGHT SIDE (Cart Icon to balance the left side and keep logo perfectly centered) -->
+                <div class="flex flex-1 items-center justify-end">
+                    <!-- Cart Button Mobile -->
+                    <div class="lg:hidden flex justify-end">
+                        <button type="button" class="open-cart-btn p-2 rounded-full hover:bg-black/5 transition text-matte-black header-nav-link flex items-center justify-center relative" aria-label="Cart">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                            </svg>
+                            <span class="header-cart-badge absolute top-0 right-0 text-[9px] font-bold h-4 w-4 rounded-full flex items-center justify-center pointer-events-none">0</span>
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <!-- Row 2: Navigation Menu & Actions (Desktop Only) -->
@@ -3288,11 +3392,13 @@
                         <!-- REVISI PENTING: HAPUS CLASS 'hidden' DI SINI! -->
                         <!-- Biarkan CSS .four-ugreen-menu yang handle visibility via opacity agar animasi jalan -->
                         <div id="store-menu" class="four-ugreen-menu">
-                            <a class="four-ugreen-item" href="cart.html" rel="noopener">Shopping Cart <span class="four-ugreen-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></span></a>
+                            <a class="four-ugreen-item open-cart-btn" href="#" rel="noopener">Shopping Cart <span class="four-ugreen-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></span></a>
                             <a class="four-ugreen-item" href="#" rel="noopener">Checkout <span class="four-ugreen-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></span></a>
                             <a class="four-ugreen-item" href="#" rel="noopener" data-nav="account">Account <span class="four-ugreen-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></span></a>
                         </div>
                     </div>
+
+                    <!-- REVISED: Cart Button Desktop REMOVED as requested -->
                 </div>
             </div>
         </div>
@@ -3394,7 +3500,7 @@
         <!-- Sections A-I (kept intact, just summarizing structure) -->
         <section id="explore-lineup" class="scroll-anchor max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-30">
             <!-- UPDATED TITLE -->
-            <h2 class="font-display text-4xl lg:text-5xl font-semibold mb-16 text-center reveal-title">Choose Your Character</h2>
+            <h2 class="font-display text-4xl lg:text-5xl font-semibold mb-16 text-center reveal-title standard-section-title">Choose Your Character</h2>
             
             <!-- INCREASED SPACING & ADJUSTED TO 3 COLS -->
             <div id="lineup-container" class="lineup-container grid grid-cols-2 md:grid-cols-3 gap-8 lg:gap-16">
@@ -3409,7 +3515,7 @@
                         <img src="https://placehold.co/600x750/EAEAEA/0A0A0A?text=The+River+Lifestyle" alt="The River Lifestyle" class="marketplace-img-hover" loading="lazy">
                         
                         <!-- Cart Action Button -->
-                        <button class="marketplace-cart-btn" aria-label="Add to cart" onclick="event.stopPropagation(); alert('Item added to cart!');">
+                        <button class="marketplace-cart-btn" aria-label="Add to cart" onclick="event.stopPropagation(); window.addToCartFromGrid('Extrait de Parfum - The River', 299000, 'https://placehold.co/150x150/F8F8F8/0A0A0A?text=The+River');">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
                         </button>
                     </div>
@@ -3433,7 +3539,7 @@
                         <!-- Hover Image -->
                         <img src="https://placehold.co/600x750/EAEAEA/0A0A0A?text=The+Forest+Lifestyle" alt="The Forest Lifestyle" class="marketplace-img-hover" loading="lazy">
                         
-                        <button class="marketplace-cart-btn" aria-label="Add to cart" onclick="event.stopPropagation(); alert('Item added to cart!');">
+                        <button class="marketplace-cart-btn" aria-label="Add to cart" onclick="event.stopPropagation(); window.addToCartFromGrid('Extrait de Parfum - The Forest', 299000, 'https://placehold.co/150x150/F8F8F8/0A0A0A?text=The+Forest');">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
                         </button>
                     </div>
@@ -3457,7 +3563,7 @@
                         <!-- Hover Image -->
                         <img src="https://placehold.co/600x750/EAEAEA/0A0A0A?text=The+Sunset+Lifestyle" alt="The Sunset Lifestyle" class="marketplace-img-hover" loading="lazy">
                         
-                        <button class="marketplace-cart-btn" aria-label="Add to cart" onclick="event.stopPropagation(); alert('Item added to cart!');">
+                        <button class="marketplace-cart-btn" aria-label="Add to cart" onclick="event.stopPropagation(); window.addToCartFromGrid('Extrait de Parfum - The Sunset', 299000, 'https://placehold.co/150x150/F8F8F8/0A0A0A?text=The+Sunset');">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
                         </button>
                     </div>
@@ -3477,7 +3583,7 @@
 
         <!-- Lifestyle Section -->
         <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-30 text-center"> <!-- Reduced py-20 to py-10 -->
-            <h2 class="font-display text-3xl lg:text-5xl font-semibold mb-6 lg:mb-16 reveal-title">Made to Match Your World</h2> <!-- Reduced mb-16 to mb-6, text-4xl to text-3xl -->
+            <h2 class="font-display text-3xl lg:text-5xl font-semibold mb-6 lg:mb-16 reveal-title standard-section-title">Made to Match Your World</h2> <!-- Reduced mb-16 to mb-6, text-4xl to text-3xl -->
             <div class="max-w-6xl mx-auto mt-6 lg:mt-16 space-y-6 lg:space-y-10"> <!-- Reduced mt-16 to mt-6, space-y-10 to space-y-6 -->
                 
                 <!-- MODIFIED IMAGE WRAPPER (Dual Layer for Crossfade) -->
@@ -3519,7 +3625,7 @@
         <!-- Other sections (Principles, Stats, Quotes, Newsroom) remain same structure -->
         <section id="four-principles" class="scroll-anchor text-matte-black py-20 lg:py-30">
              <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                 <h2 class="font-display text-4xl lg:text-5xl font-semibold mb-16 text-center reveal-title">Built on Four Principles</h2>
+                 <h2 class="font-display text-4xl lg:text-5xl font-semibold mb-16 text-center reveal-title standard-section-title">Built on Four Principles</h2>
                  <div class="principles-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                      <!-- Cards... -->
                      <div class="principle-card scroll-reveal"><div class="principle-symbol reveal-sub"><img src="https://i.imgur.com/oNP1Kin.png" alt="F" class="principle-png" loading="lazy"></div><h3 class="font-display text-xl font-bold reveal-title">Function</h3><p class="text-sm text-soft-gray">Functional Aesthetic: Beautiful form that solves a real-world problem.</p></div>
@@ -3533,7 +3639,7 @@
         <!-- Media Voices (REPLACED) -->
         <section id="media-voices" class="mv-section max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="mv-header">
-            <h2 class="mv-title reveal-title">What Creators Are Saying</h2>
+            <h2 class="mv-title reveal-title standard-section-title">What Creators Are Saying</h2>
 
             <div class="mv-nav" aria-label="Media Voices navigation">
               <button class="mv-arrow" type="button" id="mvPrev" aria-label="Previous">
@@ -3582,7 +3688,7 @@
 
         <!-- Newsroom -->
         <section id="newsroom" class="scroll-anchor max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-30">
-            <h2 class="font-display text-4xl lg:text-5xl font-semibold mb-16 text-center reveal-title">Newsroom</h2>
+            <h2 class="font-display text-4xl lg:text-5xl font-semibold mb-16 text-center reveal-title standard-section-title">Newsroom</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <a href="#" class="group scroll-reveal block overflow-hidden bg-warm-white border border-soft-gray/30 hover:shadow-premium transition duration-300 reveal-sub"><div class="h-40 bg-muted-navy/20 flex items-center justify-center"><p class="text-sm text-white">Article Image Placeholder</p></div><div class="p-6"><p class="text-xs text-soft-gray mb-2">November 10, 2025</p><h3 class="font-display text-xl font-bold group-hover:text-muted-navy transition duration-200">FOUR Launch: Desk Setup Essentials</h3><p class="text-sm text-soft-gray mt-2">Discover the first collection: the core pieces for a clean, optimized desk.</p></div></a>
                 <a href="#" class="group scroll-reveal block overflow-hidden bg-warm-white border border-soft-gray/30 hover:shadow-premium transition duration-300 reveal-sub"><div class="h-40 bg-muted-navy/20 flex items-center justify-center"><p class="text-sm text-white">Article Image Placeholder</p></div><div class="p-6"><p class="text-xs text-soft-gray mb-2">November 20, 2025</p><h3 class="font-display text-xl font-bold group-hover:text-muted-navy transition duration-200">Introducing Modular Drawer System</h3><p class="text-sm text-soft-gray mt-2">The future of flexible storage is here with stackable, smart drawer cubes.</p></div></a>
@@ -4085,6 +4191,39 @@
                     showSlide(currentSlide + 1); // This restarts engine from 0
                 });
 
+                // --- TOUCH SWIPE LOGIC (MOBILE ONLY) ---
+                let touchStartX = 0;
+                let touchStartY = 0;
+                let touchEndX = 0;
+                let touchEndY = 0;
+                const SWIPE_THRESHOLD = 40; // Minimum distance (px) to register as intentional swipe
+
+                slidesContainer.addEventListener('touchstart', (e) => {
+                    touchStartX = e.changedTouches[0].screenX;
+                    touchStartY = e.changedTouches[0].screenY;
+                }, { passive: true });
+
+                slidesContainer.addEventListener('touchend', (e) => {
+                    touchEndX = e.changedTouches[0].screenX;
+                    touchEndY = e.changedTouches[0].screenY;
+                    
+                    const diffX = touchStartX - touchEndX;
+                    const diffY = Math.abs(touchStartY - touchEndY);
+                    
+                    // Check if it's a clear horizontal swipe (ignores mostly vertical scrolling)
+                    if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(diffX) > diffY) {
+                        stopSlider(); // Reset timer engine smoothly
+                        if (diffX > 0) {
+                            // Swipe Left -> Go to Next Slide
+                            showSlide(currentSlide + 1);
+                        } else {
+                            // Swipe Right -> Go to Previous Slide
+                            showSlide(currentSlide - 1);
+                        }
+                    }
+                }, { passive: true });
+                // --- END TOUCH SWIPE LOGIC ---
+
                 // Init
                 showSlide(0); 
             }
@@ -4112,17 +4251,75 @@
             const CART_KEY = "four_cart";
             function getCart(){ try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; } catch { return []; } }
             function setCart(cart){ localStorage.setItem(CART_KEY, JSON.stringify(cart)); }
-            function money(n){ return `$${Number(n).toFixed(2)}`; }
+            function money(n){ return `Rp ${Number(n).toLocaleString('id-ID')}`; }
             function renderCartDrawer(){
                 const itemsEl = document.getElementById("cartDrawerItems");
                 const subtotalEl = document.getElementById("cartSubtotal");
+                const countEl = document.getElementById("cartItemCount");
                 const cart = getCart();
+                
                 if(!itemsEl || !subtotalEl) return;
-                if(cart.length === 0){ itemsEl.innerHTML = `<div style="padding:40px 0;text-align:center;color:#999;">Your cart is empty.</div>`; subtotalEl.textContent = money(0); return; }
+
+                const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+                if(countEl) countEl.textContent = totalItems;
+                
+                // Update header badges
+                const headerBadges = document.querySelectorAll(".header-cart-badge");
+                if (headerBadges.length) headerBadges.forEach(b => b.textContent = totalItems);
+
+                if(cart.length === 0){ 
+                    itemsEl.innerHTML = `<div style="padding:40px 0;text-align:center;color:#999;font-size:14px;">Your cart is empty.</div>`; 
+                    subtotalEl.textContent = money(0); 
+                    return; 
+                }
+                
                 let subtotal = 0;
-                itemsEl.innerHTML = cart.map((item, idx) => { const line = item.price * item.qty; subtotal += line; return ` <div class="cart-item"> <div class="cart-item__thumb"> ${item.image ? `<img src="${item.image}" alt="${item.name}">` : ``} </div> <div> <div class="cart-item__name">${item.name}</div> <div class="cart-item__meta">Finish: ${item.variantName || item.variant}</div> <div class="cart-item__row"> <div class="cart-item__price">${money(item.price)}</div> <div style="display:flex; align-items:center; gap:12px;"> <div class="stepper"> <button type="button" data-action="dec" data-idx="${idx}">−</button> <span>${item.qty}</span> <button type="button" data-action="inc" data-idx="${idx}">+</button> </div> <button class="remove-btn" type="button" data-action="remove" data-idx="${idx}" aria-label="Remove"> <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/></svg> </button> </div> </div> </div> </div> `; }).join("");
+                itemsEl.innerHTML = cart.map((item, idx) => { 
+                    const line = item.price * item.qty; 
+                    subtotal += line; 
+                    
+                    // Generate simulated old price (+100.000 for display purposes)
+                    const oldPriceDisplay = money(item.price + 100000);
+
+                    return `
+                    <div class="cart-item">
+                        <div class="cart-item__thumb">
+                            ${item.image ? `<img src="${item.image}" alt="${item.name}">` : ``}
+                        </div>
+                        <div class="cart-item__details">
+                            <div class="cart-item__name">${item.name}</div>
+                            <div class="cart-item__price-row">
+                                <span class="cart-item__price">${money(item.price)}</span>
+                                <span class="cart-item__price-old">${oldPriceDisplay}</span>
+                            </div>
+                            <div class="cart-item__controls">
+                                <div class="stepper">
+                                    <button type="button" data-action="dec" data-idx="${idx}">−</button>
+                                    <span>${item.qty}</span>
+                                    <button type="button" data-action="inc" data-idx="${idx}">+</button>
+                                </div>
+                                <button class="remove-btn" type="button" data-action="remove" data-idx="${idx}">REMOVE</button>
+                            </div>
+                        </div>
+                    </div>
+                    `; 
+                }).join("");
+                
                 subtotalEl.textContent = money(subtotal);
-                itemsEl.querySelectorAll("button[data-action]").forEach(btn => { btn.addEventListener("click", () => { const action = btn.getAttribute("data-action"); const idx = Number(btn.getAttribute("data-idx")); const cart = getCart(); if(!cart[idx]) return; if(action === "inc") cart[idx].qty += 1; if(action === "dec") cart[idx].qty = Math.max(1, cart[idx].qty - 1); if(action === "remove") cart.splice(idx, 1); setCart(cart); renderCartDrawer(); }); });
+                
+                itemsEl.querySelectorAll("button[data-action]").forEach(btn => { 
+                    btn.addEventListener("click", () => { 
+                        const action = btn.getAttribute("data-action"); 
+                        const idx = Number(btn.getAttribute("data-idx")); 
+                        const cart = getCart(); 
+                        if(!cart[idx]) return; 
+                        if(action === "inc") cart[idx].qty += 1; 
+                        if(action === "dec") cart[idx].qty = Math.max(1, cart[idx].qty - 1); 
+                        if(action === "remove") cart.splice(idx, 1); 
+                        setCart(cart); 
+                        renderCartDrawer(); 
+                    }); 
+                });
             }
             function openCartDrawer(){ const drawer = document.getElementById("cartDrawer"); const overlay = document.getElementById("cartOverlay"); if(!drawer || !overlay) return; renderCartDrawer(); drawer.classList.add("is-open"); overlay.classList.add("is-open"); drawer.setAttribute("aria-hidden","false"); overlay.setAttribute("aria-hidden","false"); document.body.style.overflow = 'hidden'; }
             function closeCartDrawer(){ const drawer = document.getElementById("cartDrawer"); const overlay = document.getElementById("cartOverlay"); if(!drawer || !overlay) return; drawer.classList.remove("is-open"); overlay.classList.remove("is-open"); drawer.setAttribute("aria-hidden","true"); overlay.setAttribute("aria-hidden","true"); document.body.style.overflow = ''; }
@@ -4133,7 +4330,42 @@
             cartOverlay?.addEventListener("click", closeCartDrawer);
             cartCloseBtn?.addEventListener("click", closeCartDrawer);
             document.addEventListener("keydown", (e) => { if(e.key === "Escape") closeCartDrawer(); });
-            viewCartBtn?.addEventListener("click", () => { window.location.href = "cart.html"; });
+            
+            // Add To Cart Function accessible globally for product cards
+            window.addToCartFromGrid = function(name, price, image) {
+                const cart = getCart();
+                const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                const existing = cart.find(x => x.id === id);
+                if(existing) {
+                    existing.qty += 1;
+                } else {
+                    cart.push({
+                        id: id,
+                        name: name,
+                        variantId: id + '-default',
+                        variantName: 'Standard',
+                        price: price,
+                        qty: 1,
+                        image: image
+                    });
+                }
+                setCart(cart);
+                openCartDrawer();
+            };
+            
+            // Connect the newly added open cart buttons in header & menu
+            document.querySelectorAll(".open-cart-btn").forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    if (activeDrawer === "hamburger" && window.toggleDrawer) window.toggleDrawer(false);
+                    if (activeDrawer === "search") closeSearch();
+                    if (activeDrawer === "store" && window.toggleStore) window.toggleStore(false);
+                    openCartDrawer();
+                });
+            });
+            
+            // Initialize cart badges on load
+            renderCartDrawer();
 
             const pdpData = { currentVariantId: 'obsidian-black', qty: 1, variants: [ { id: 'obsidian-black', name: 'Obsidian Black', image: 'https://placehold.co/800x1000/F3F3F3/0A0A0A?text=ANCHOR+MAG+%E2%80%94+BLACK', thumb: 'https://placehold.co/150x150/F3F3F3/0A0A0A?text=Black' }, { id: 'lunar-silver', name: 'Lunar Silver', image: 'https://placehold.co/800x1000/E5E5E5/0A0A0A?text=ANCHOR+MAG+%E2%80%94+SILVER', thumb: 'https://placehold.co/150x150/E5E5E5/0A0A0A?text=Silver' }, { id: 'deep-navy', name: 'Deep Navy', image: 'https://placehold.co/800x1000/1A237E/FFFFFF?text=ANCHOR+MAG+%E2%80%94+NAVY', thumb: 'https://placehold.co/150x150/1A237E/FFFFFF?text=Navy' } ] };
             const pdpMainImage = document.getElementById('pdp-main-image');
