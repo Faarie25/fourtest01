@@ -3135,9 +3135,36 @@
         /* ===== STANDARDIZED SECTION TITLES ===== */
         .standard-section-title {
             font-family: "Public Sans", system-ui, -apple-system, sans-serif !important;
-            font-size: 35px !important;
-            font-weight: 400 !important; /* Regular */
+            font-size: min(35px, 7.5vw) !important; /* REVISED: Responsive scaling to prevent wrapping on small screens */
+            font-weight: 500 !important; /* REVISED: Changed to Medium */
             color: #000000 !important;
+            white-space: nowrap !important; /* REVISED: Force single line */
+            letter-spacing: -0.02em !important;
+        }
+
+        /* MOBILE HERO SWIPE ANIMATION */
+        @media (max-width: 1023px) {
+            .hero-slide {
+                transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0s !important;
+                opacity: 1 !important; /* Force visible for slide effect */
+                transform: translateX(100%);
+                z-index: 1;
+            }
+            .hero-slide.active {
+                transform: translateX(0);
+                z-index: 3;
+            }
+            .hero-slide.slide-prev-out {
+                transform: translateX(-100%);
+                z-index: 2;
+            }
+            .hero-slide.slide-next-out {
+                transform: translateX(100%);
+                z-index: 2;
+            }
+            .hero-slide.is-dragging {
+                transition: none !important; /* Remove transition during touch drag */
+            }
         }
 
     </style>
@@ -4059,7 +4086,25 @@
             drawerOverlay?.addEventListener('click', (e) => { if (e.target === drawerOverlay) window.toggleDrawer(false); });
             document.addEventListener("keydown", (e) => { if (e.key === "Escape" && drawerOverlay?.classList.contains("active")) window.toggleDrawer(false); });
             function closeDrawerAndThen(fn) { const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; const DURATION = prefersReduced ? 0 : 300; window.toggleDrawer(false); setTimeout(() => { try { fn(); } catch (e) { console.error("Navigation/Scroll function error:", e); } }, DURATION + 30); }
-            document.getElementById('mobile-drawer')?.addEventListener('click', (e) => { const a = e.target.closest('a'); if (!a) return; const href = a.getAttribute('href'); if (!href) return; if (a.dataset.nav === "account") return; if (href.startsWith('#')) { e.preventDefault(); const target = document.querySelector(href); closeDrawerAndThen(() => target?.scrollIntoView({ behavior: 'smooth', block: 'start' })); return; } e.preventDefault(); closeDrawerAndThen(() => window.location.assign(href)); });
+            document.getElementById('mobile-drawer')?.addEventListener('click', (e) => { 
+                const a = e.target.closest('a'); 
+                if (!a) return; 
+                const href = a.getAttribute('href'); 
+                if (!href) return; 
+                if (a.dataset.nav === "account") return; 
+                if (href.startsWith('#')) { 
+                    e.preventDefault(); 
+                    if (href.length > 1) { // FIX: Prevent error on empty '#'
+                        const target = document.querySelector(href); 
+                        closeDrawerAndThen(() => target?.scrollIntoView({ behavior: 'smooth', block: 'start' })); 
+                    } else {
+                        closeDrawerAndThen(() => {}); // Just close drawer
+                    }
+                    return; 
+                } 
+                e.preventDefault(); 
+                closeDrawerAndThen(() => window.location.assign(href)); 
+            });
 
             // Store Button Click (Menggunakan fungsi baru toggleStore)
             storeBtn?.addEventListener("click", (e) => { 
@@ -4159,9 +4204,34 @@
                 function showSlide(index) {
                     // Normalize Index
                     index = (index + slides.length) % slides.length;
+                    const isMobile = window.innerWidth < 1024;
                     
-                    // Toggle Active Slide Class
-                    slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+                    // Determine slide direction for mobile
+                    let movingForward = (index > currentSlide) || (currentSlide === slides.length - 1 && index === 0);
+                    if (currentSlide === 0 && index === slides.length - 1) movingForward = false;
+                    if (index === currentSlide) movingForward = true;
+
+                    // Toggle Active Slide Class with mobile directional logic
+                    slides.forEach((slide, i) => {
+                        if (isMobile) {
+                            slide.classList.remove('active', 'slide-prev-out', 'slide-next-out');
+                            if (i === index) {
+                                if (i !== currentSlide) {
+                                    // Pre-position without animating
+                                    slide.style.transition = 'none';
+                                    slide.style.transform = movingForward ? 'translateX(100%)' : 'translateX(-100%)';
+                                    void slide.offsetWidth; // Force CSS reflow
+                                    slide.style.transition = '';
+                                    slide.style.transform = '';
+                                }
+                                slide.classList.add('active');
+                            } else if (i === currentSlide) {
+                                slide.classList.add(movingForward ? 'slide-prev-out' : 'slide-next-out');
+                            }
+                        } else {
+                            slide.classList.toggle('active', i === index);
+                        }
+                    });
                     
                     currentSlide = index;
 
@@ -4191,37 +4261,81 @@
                     showSlide(currentSlide + 1); // This restarts engine from 0
                 });
 
-                // --- TOUCH SWIPE LOGIC (MOBILE ONLY) ---
+                // --- TOUCH SWIPE LOGIC (MOBILE HORIZONTAL DRAG) ---
                 let touchStartX = 0;
-                let touchStartY = 0;
-                let touchEndX = 0;
-                let touchEndY = 0;
-                const SWIPE_THRESHOLD = 40; // Minimum distance (px) to register as intentional swipe
+                let touchCurrentX = 0;
+                let isDragging = false;
+                const SWIPE_THRESHOLD = 40;
 
                 slidesContainer.addEventListener('touchstart', (e) => {
-                    touchStartX = e.changedTouches[0].screenX;
-                    touchStartY = e.changedTouches[0].screenY;
+                    if (window.innerWidth >= 1024) {
+                        touchStartX = e.changedTouches[0].screenX;
+                        return; // Default mobile fallback tracking
+                    }
+                    stopSlider();
+                    isDragging = true;
+                    touchStartX = e.touches[0].clientX;
+                    touchCurrentX = touchStartX;
+                    slides.forEach(slide => slide.classList.add('is-dragging'));
+                }, { passive: true });
+
+                slidesContainer.addEventListener('touchmove', (e) => {
+                    if (!isDragging || window.innerWidth >= 1024) return;
+                    touchCurrentX = e.touches[0].clientX;
+                    const diffX = touchCurrentX - touchStartX;
+                    const winWidth = window.innerWidth;
+                    const prevIndex = (currentSlide - 1 + slides.length) % slides.length;
+                    const nextIndex = (currentSlide + 1) % slides.length;
+                    
+                    slides.forEach((slide, index) => {
+                        if (index === currentSlide) {
+                            slide.style.transform = `translateX(${diffX}px)`;
+                            slide.style.zIndex = '3';
+                        } else if (index === prevIndex && diffX > 0) {
+                            slide.style.transform = `translateX(${diffX - winWidth}px)`;
+                            slide.style.zIndex = '2';
+                        } else if (index === nextIndex && diffX < 0) {
+                            slide.style.transform = `translateX(${diffX + winWidth}px)`;
+                            slide.style.zIndex = '2';
+                        } else {
+                            slide.style.transform = `translateX(100%)`; // Keep others out of view
+                            slide.style.zIndex = '1';
+                        }
+                    });
                 }, { passive: true });
 
                 slidesContainer.addEventListener('touchend', (e) => {
-                    touchEndX = e.changedTouches[0].screenX;
-                    touchEndY = e.changedTouches[0].screenY;
-                    
-                    const diffX = touchStartX - touchEndX;
-                    const diffY = Math.abs(touchStartY - touchEndY);
-                    
-                    // Check if it's a clear horizontal swipe (ignores mostly vertical scrolling)
-                    if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(diffX) > diffY) {
-                        stopSlider(); // Reset timer engine smoothly
-                        if (diffX > 0) {
-                            // Swipe Left -> Go to Next Slide
-                            showSlide(currentSlide + 1);
-                        } else {
-                            // Swipe Right -> Go to Previous Slide
-                            showSlide(currentSlide - 1);
+                    if (window.innerWidth >= 1024) {
+                        // Desktop basic swipe logic
+                        const touchEndX = e.changedTouches[0].screenX;
+                        const diffX = touchStartX - touchEndX;
+                        if (Math.abs(diffX) > SWIPE_THRESHOLD) {
+                            stopSlider();
+                            if (diffX > 0) showSlide(currentSlide + 1);
+                            else showSlide(currentSlide - 1);
                         }
+                        return;
                     }
-                }, { passive: true });
+
+                    if (!isDragging) return;
+                    isDragging = false;
+                    
+                    const diffX = touchCurrentX - touchStartX;
+                    
+                    // Clear inline styles so CSS transitions take over
+                    slides.forEach(slide => {
+                        slide.classList.remove('is-dragging');
+                        slide.style.transform = '';
+                        slide.style.zIndex = '';
+                    });
+
+                    if (Math.abs(diffX) > SWIPE_THRESHOLD) {
+                        if (diffX < 0) showSlide(currentSlide + 1);
+                        else showSlide(currentSlide - 1);
+                    } else {
+                        showSlide(currentSlide); // Snap back if swipe was too short
+                    }
+                });
                 // --- END TOUCH SWIPE LOGIC ---
 
                 // Init
