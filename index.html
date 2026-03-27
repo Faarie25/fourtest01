@@ -889,8 +889,9 @@
         /* ===== HERO TYPOGRAPHY & CTA STYLING (FINAL FIX) ===== */
         .hero-slide h1 {
             /* 2. TYPOGRAPHY: Headline */
-            font-weight: 800 !important;
-            letter-spacing: -0.02em !important;
+            font-family: "Public Sans", system-ui, -apple-system, sans-serif !important;
+            font-weight: 500 !important; /* REVISED: Medium */
+            letter-spacing: 0.08em !important; /* REVISED: Slightly increased */
             line-height: 1.1 !important;
             color: #FFFFFF !important;
             
@@ -906,6 +907,23 @@
             .hero-slide h1 {
                 font-size: 60px !important; /* Desktop */
             }
+        }
+
+        /* NEW: Hero Sub-headline Styling */
+        .hero-slide .hero-sub {
+            font-family: "Public Sans", system-ui, -apple-system, sans-serif !important;
+            font-weight: 400 !important; /* REVISED: Regular */
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-size: 16px !important;
+            letter-spacing: 0.02em !important;
+            margin-top: 12px !important;
+            margin-bottom: 0 !important;
+        }
+        @media (min-width: 640px) {
+            .hero-slide .hero-sub { font-size: 18px !important; margin-top: 16px !important; }
+        }
+        @media (min-width: 1024px) {
+            .hero-slide .hero-sub { font-size: 20px !important; }
         }
 
         /* Sub-Headline styling removed/irrelevant since element is deleted */
@@ -1086,28 +1104,19 @@
                 height: auto !important;
                 display: flex !important;
                 align-items: center !important;
-                justify-content: space-between !important;
+                justify-content: center !important; /* REVISED: Center progress bar since arrows are removed */
                 padding: 0 16px !important;
                 gap: 12px !important;
             }
 
             /* 2. Arrows move into flow and become simple */
             .hero-arrow {
-                position: static !important; /* Remove absolute positioning */
-                transform: none !important;
-                width: auto !important;
-                height: auto !important;
-                background: transparent !important;
-                border: none !important;
-                backdrop-filter: none !important;
-                padding: 8px !important; /* Touch target */
-                margin: 0 !important;
+                display: none !important; /* REVISED: Hide arrows on mobile */
             }
             
             /* Override specific left/right positioning from desktop */
             .hero-prev, .hero-next {
-                left: auto !important;
-                right: auto !important;
+                display: none !important;
             }
 
             /* Make the icon simple/small */
@@ -3144,6 +3153,13 @@
 
         /* MOBILE HERO SWIPE ANIMATION */
         @media (max-width: 1023px) {
+            /* REVISED: Hero aspect ratio to 2:3 on mobile instead of fixed height */
+            #hero {
+                height: auto !important;
+                aspect-ratio: 2 / 3 !important;
+                width: 100% !important;
+            }
+            
             .hero-slide {
                 transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0s !important;
                 opacity: 1 !important; /* Force visible for slide effect */
@@ -3475,31 +3491,31 @@
             <div id="hero-slides-container" class="absolute inset-0">
                 <div class="hero-slide active" id="slide-1" style="background-image: url('https://i.imgur.com/Px9bCqx.png');">
                     <div class="slide-content relative z-30 text-center max-w-4xl px-4">
-                        <h1 id="hero-title" class="font-display">FOUR MagCore</h1>
-                        <!-- Removed Paragraph -->
-                        <a href="#" class="btn-hero-cta">Learn MagCore</a>
+                        <h1 id="hero-title" class="font-display">ENDUSSEE</h1>
+                        <p class="hero-sub">Elemental Series</p>
+                        <a href="#" class="btn-hero-cta">Learn More</a>
                     </div>
                 </div>
                 <!-- ... other slides ... -->
                 <div class="hero-slide" id="slide-2" style="background-image: url('https://placehold.co/1200x800/2D3A45/FFFFFF?text=Slide+2%0ADesk+Essentials');">
                     <div class="slide-content relative z-30 text-center max-w-4xl px-4">
-                        <h1 class="font-display">Out of Sight. Back in Control.</h1>
-                         <!-- Removed Paragraph -->
-                        <a href="#" class="btn-hero-cta">Learn MagCore</a>
+                        <h1 class="font-display">ENDUSSEE</h1>
+                        <p class="hero-sub">Extrait de Parfum — The River</p>
+                        <a href="#" class="btn-hero-cta">Learn More</a>
                     </div>
                 </div>
                 <div class="hero-slide" id="slide-3" style="background-image: url('https://placehold.co/1200x800/0A0A0A/C7C7C7?text=Slide+3%0AFOUR+Desk+Setup+System');">
                     <div class="slide-content relative z-30 text-center max-w-4xl px-4">
-                        <h1 class="font-display">Charge While You Work</h1>
-                         <!-- Removed Paragraph -->
-                        <a href="#" class="btn-hero-cta">Learn MagCore</a>
+                        <h1 class="font-display">ENDUSSEE</h1>
+                        <p class="hero-sub">Extrait de Parfum — The Forest</p>
+                        <a href="#" class="btn-hero-cta">Learn More</a>
                     </div>
                 </div>
                 <div class="hero-slide" id="slide-4" style="background-image: url('https://placehold.co/1200x800/C7C7C7/0A0A0A?text=Slide+4%0AFOUR+Modular+Storage');">
                     <div class="slide-content relative z-30 text-center max-w-4xl px-4">
-                        <h1 class="font-display">Designed to Disappear</h1>
-                         <!-- Removed Paragraph -->
-                        <a href="#" class="btn-hero-cta">Learn MagCore</a>
+                        <h1 class="font-display">ENDUSSEE</h1>
+                        <p class="hero-sub">Extrait de Parfum — The Sunset</p>
+                        <a href="#" class="btn-hero-cta">Learn More</a>
                     </div>
                 </div>
             </div>
@@ -4263,8 +4279,10 @@
 
                 // --- TOUCH SWIPE LOGIC (MOBILE HORIZONTAL DRAG) ---
                 let touchStartX = 0;
+                let touchStartY = 0;
                 let touchCurrentX = 0;
                 let isDragging = false;
+                let isHorizontalSwipe = null;
                 const SWIPE_THRESHOLD = 40;
 
                 slidesContainer.addEventListener('touchstart', (e) => {
@@ -4274,35 +4292,53 @@
                     }
                     stopSlider();
                     isDragging = true;
+                    isHorizontalSwipe = null;
                     touchStartX = e.touches[0].clientX;
+                    touchStartY = e.touches[0].clientY;
                     touchCurrentX = touchStartX;
                     slides.forEach(slide => slide.classList.add('is-dragging'));
                 }, { passive: true });
 
                 slidesContainer.addEventListener('touchmove', (e) => {
                     if (!isDragging || window.innerWidth >= 1024) return;
-                    touchCurrentX = e.touches[0].clientX;
-                    const diffX = touchCurrentX - touchStartX;
-                    const winWidth = window.innerWidth;
-                    const prevIndex = (currentSlide - 1 + slides.length) % slides.length;
-                    const nextIndex = (currentSlide + 1) % slides.length;
                     
-                    slides.forEach((slide, index) => {
-                        if (index === currentSlide) {
-                            slide.style.transform = `translateX(${diffX}px)`;
-                            slide.style.zIndex = '3';
-                        } else if (index === prevIndex && diffX > 0) {
-                            slide.style.transform = `translateX(${diffX - winWidth}px)`;
-                            slide.style.zIndex = '2';
-                        } else if (index === nextIndex && diffX < 0) {
-                            slide.style.transform = `translateX(${diffX + winWidth}px)`;
-                            slide.style.zIndex = '2';
-                        } else {
-                            slide.style.transform = `translateX(100%)`; // Keep others out of view
-                            slide.style.zIndex = '1';
+                    touchCurrentX = e.touches[0].clientX;
+                    const currentY = e.touches[0].clientY;
+                    const diffX = touchCurrentX - touchStartX;
+                    const diffY = currentY - touchStartY;
+                    
+                    // Determine dominant swipe direction early
+                    if (isHorizontalSwipe === null) {
+                        if (Math.abs(diffX) > 5 || Math.abs(diffY) > 5) {
+                            isHorizontalSwipe = Math.abs(diffX) > Math.abs(diffY);
                         }
-                    });
-                }, { passive: true });
+                    }
+                    
+                    // If it's a confirmed horizontal swipe, lock vertical scroll & perform slide drag
+                    if (isHorizontalSwipe) {
+                        e.preventDefault(); // Lock vertical scroll
+                        
+                        const winWidth = window.innerWidth;
+                        const prevIndex = (currentSlide - 1 + slides.length) % slides.length;
+                        const nextIndex = (currentSlide + 1) % slides.length;
+                        
+                        slides.forEach((slide, index) => {
+                            if (index === currentSlide) {
+                                slide.style.transform = `translateX(${diffX}px)`;
+                                slide.style.zIndex = '3';
+                            } else if (index === prevIndex && diffX > 0) {
+                                slide.style.transform = `translateX(${diffX - winWidth}px)`;
+                                slide.style.zIndex = '2';
+                            } else if (index === nextIndex && diffX < 0) {
+                                slide.style.transform = `translateX(${diffX + winWidth}px)`;
+                                slide.style.zIndex = '2';
+                            } else {
+                                slide.style.transform = `translateX(100%)`; // Keep others out of view
+                                slide.style.zIndex = '1';
+                            }
+                        });
+                    }
+                }, { passive: false }); // CHANGED: Set to false to allow e.preventDefault()
 
                 slidesContainer.addEventListener('touchend', (e) => {
                     if (window.innerWidth >= 1024) {
@@ -4320,8 +4356,6 @@
                     if (!isDragging) return;
                     isDragging = false;
                     
-                    const diffX = touchCurrentX - touchStartX;
-                    
                     // Clear inline styles so CSS transitions take over
                     slides.forEach(slide => {
                         slide.classList.remove('is-dragging');
@@ -4329,12 +4363,21 @@
                         slide.style.zIndex = '';
                     });
 
-                    if (Math.abs(diffX) > SWIPE_THRESHOLD) {
-                        if (diffX < 0) showSlide(currentSlide + 1);
-                        else showSlide(currentSlide - 1);
+                    // Only trigger slide change if it was an intentional horizontal swipe
+                    if (isHorizontalSwipe) {
+                        const diffX = touchCurrentX - touchStartX;
+                        if (Math.abs(diffX) > SWIPE_THRESHOLD) {
+                            if (diffX < 0) showSlide(currentSlide + 1);
+                            else showSlide(currentSlide - 1);
+                        } else {
+                            showSlide(currentSlide); // Snap back if swipe was too short
+                        }
                     } else {
-                        showSlide(currentSlide); // Snap back if swipe was too short
+                        // If vertical swipe or no dominant move, just restart auto-slide engine
+                        runProgressEngine();
                     }
+                    
+                    isHorizontalSwipe = null;
                 });
                 // --- END TOUCH SWIPE LOGIC ---
 
