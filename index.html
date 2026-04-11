@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#FFFFFF"> <!-- Premium mobile browser tint -->
-    <title>FOUR | Design That Organizes Life. Precision in Every Corner.</title>
+    <title>ENDUSSEE | Fragrance</title>
     <meta name="description" content="FOUR is a modern brand offering space organization solutions—dari bedroom ke workspace—combining minimalist design, maximum function, dan smart modularity.">
     <!-- OpenGraph/SEO placeholders -->
     <meta property="og:title" content="FOUR | Precision in Every Corner">
@@ -1623,6 +1623,47 @@
             background-color: var(--color-warm-white) !important;
             color: var(--color-matte-black) !important;
         }
+
+        /* --- Hamburger Clean Version --- */
+
+/* Parent button-nya harus dipastiin susunannya vertikal */
+.hamburger-btn {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 4px !important; /* <--- Jarak antar garis, atur di sini */
+    width: 40px; 
+    height: 40px;
+    padding: 0 !important;
+    background: transparent;
+    border: none;
+}
+
+/* Garisnya kita bikin simpel banget */
+.hamburger-line {
+    display: block !important;
+    width: 20px !important;     /* Panjang garis */
+    height: 1.5px !important;   /* KETEBALAN: Ganti 1px kalau mau lebih tipis */
+    background-color: currentColor; /* Ngikut warna asli */
+    transition: all 0.3s ease;
+    border-radius: 10px;
+}
+
+/* Warna pas header aktif (Tetep pakai kode lo) */
+#main-header.interaction-active .hamburger-line {
+    background-color: var(--color-matte-black) !important;
+}
+
+/* Cart Badge (Tetep pakai kode lo) */
+.header-cart-badge {
+    background-color: var(--color-matte-black) !important;
+    color: var(--color-warm-white) !important;
+}
+#main-header.is-top:not(.interaction-active) .header-cart-badge {
+    background-color: var(--color-warm-white) !important;
+    color: var(--color-matte-black) !important;
+}
         /* ===== END INTERACTION ACTIVE STATE ===== */
 
         /* FIX #2: Drawer/Dropdown Store (four-ugreen-menu) WAJIB tetap hitam/putih */
@@ -1975,10 +2016,14 @@
         }
 
         @media (min-width: 1024px) {
-            .logo-wrapper .logo-white,
-            /* REVISI: Ukuran Desktop diperbesar (+20% agar lebih dominan) */
-            .logo-wrapper .logo-black { height: 58px; } /* Desktop */
-        }
+    .logo-wrapper .logo-white,
+    .logo-wrapper .logo-black { 
+        height: 85px; 
+        margin-top: -15px !important;    
+        margin-bottom: -25px !important; 
+        display: block; /* Biar margin negatifnya bekerja sempurna */
+    } 
+}
 
         /* State Logic */
         /* Default (Scrolled/White Header): Show Black Logo */
@@ -3259,17 +3304,23 @@
       </div>
 
       <div class="cart-drawer__footer">
-        <div class="cart-drawer__subtotal-row">
-          <span class="cart-drawer__subtotal-label">SUBTOTAL</span>
-          <strong id="cartSubtotal" class="cart-drawer__subtotal-price">Rp 0</strong>
-        </div>
+  <div class="cart-drawer__subtotal-row">
+    <span class="cart-drawer__subtotal-label">SUBTOTAL</span>
+    <strong id="cartSubtotal" class="cart-drawer__subtotal-price">Rp 0</strong>
+  </div>
 
-        <button id="checkoutBtn" class="btn-checkout-full" type="button">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-          CHECK OUT
-        </button>
-        <div class="cart-drawer__note">Shipping, taxes, and discount codes are calculated at checkout</div>
-      </div>
+  <a href="endusseelogin.html" id="checkoutBtn" class="btn-checkout-full" style="text-decoration: none;">
+    <span id="checkoutBtnContent" class="flex items-center justify-center">
+        <svg id="checkoutLockIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        <span id="checkoutBtnText">CHECK OUT</span>
+    </span>
+</a>
+  
+  <div class="cart-drawer__note">Shipping, taxes, and discount codes are calculated at checkout</div>
+</div>
     </aside>
 
     <!-- MOBILE DRAWER OVERLAY - Rombakan UGREEN Style -->
@@ -3337,12 +3388,14 @@
                     </span>
                 </a>
                 
-                <a href="#" class="drawer-secondary-link border-b-0" data-nav="account" id="drawer-account-link">
-                    <span class="drawer-label text-base font-normal drawer-anim-text">Account</span>
-                    <span class="drawer-external">
-                        <svg class="drawer-external-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                    </span>
-                </a>
+                <a href="endusseelogin.html" class="drawer-secondary-link border-b-0 account-link">
+    <span class="drawer-label text-base font-normal drawer-anim-text">Account</span>
+    <span class="drawer-external">
+        <svg class="drawer-external-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+        </svg>
+    </span>
+</a>
                 
                 <!-- REVISI: Language Selector (United States + Icon Dunia) DIHAPUS -->
 
@@ -3369,10 +3422,10 @@
                         <span class="hamburger-line"></span>
                     </button>
                     <button id="openSearchMobile" class="p-2 rounded-full hover:bg-black/5 transition text-matte-black header-nav-link flex items-center justify-center" aria-label="Search">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="11" cy="11" r="7"></circle>
-                            <path d="M21 21l-4.3-4.3"></path>
-                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="11" cy="11" r="7"></circle>
+    <path d="M21 21l-4.3-4.3"></path>
+</svg>
                     </button>
                 </div>
                 <!-- Desktop Left Spacer (Keeps logo absolute centered) -->
@@ -3381,8 +3434,8 @@
                 <!-- CENTER SIDE (Logo) -->
                 <div class="flex-none flex justify-center items-center">
                     <a href="/" class="logo-wrapper flex items-center shrink-0 transition-opacity duration-300 hover:opacity-80" style="letter-spacing: 6px;">
-                        <img src="https://i.imgur.com/x57qrbV.png" alt="ENDUSSEE" class="logo-white" width="170" height="62">
-                        <img src="https://i.imgur.com/458prmy.png" alt="ENDUSSEE" class="logo-black" width="170" height="62">
+                        <img src="assets/img/endussee-logo-white.png" alt="ENDUSSEE" class="logo-white" width="170" height="62">
+                        <img src="assets/img/endussee-logo-black.png" alt="ENDUSSEE" class="logo-black" width="170" height="62">
                     </a>
                 </div>
 
@@ -3390,13 +3443,18 @@
                 <div class="flex flex-1 items-center justify-end">
                     <!-- Cart Button Mobile -->
                     <div class="lg:hidden flex justify-end">
-                        <button type="button" class="open-cart-btn p-2 rounded-full hover:bg-black/5 transition text-matte-black header-nav-link flex items-center justify-center relative" aria-label="Cart">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
-                            </svg>
-                            <span class="header-cart-badge absolute top-0 right-0 text-[9px] font-bold h-4 w-4 rounded-full flex items-center justify-center pointer-events-none">0</span>
-                        </button>
-                    </div>
+    <button type="button" class="open-cart-btn p-2 rounded-full hover:bg-black/5 transition text-matte-black header-nav-link flex items-center justify-center relative" aria-label="Cart">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 9h14a2 2 0 0 1 2 2v6a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4v-6a2 2 0 0 1 2-2z"></path>
+    
+    <path d="M8 12V7a4 4 0 0 1 8 0v5"></path>
+</svg>
+        
+        <span class="header-cart-badge absolute top-[8px] right-[2.5px] text-[8px] h-3 w-3 rounded-full flex items-center justify-center bg-black text-white pointer-events-none ring-[1.2px] ring-white" style="font-family: 'Public Sans', sans-serif; font-weight: 300; display: none;">
+    1
+</span>
+    </button>
+</div>
                 </div>
             </div>
 
@@ -3408,7 +3466,7 @@
                 <!-- Center Navigation -->
                 <nav class="flex-none flex items-center justify-center space-x-8">
                     <a href="#explore-lineup" class="header-nav-link">Explore</a>
-                    <a href="#signature-collections" class="header-nav-link">Collections</a>
+                    <a href="#signature-collections" class="header-nav-link">Match Your World</a>
                     <a href="#four-principles" class="header-nav-link">Principles</a>
                     <a href="#precision-design" class="header-nav-link">Driven</a>
                     <a href="#newsroom" class="header-nav-link">Newsroom</a>
@@ -3435,11 +3493,10 @@
                         <!-- REVISI PENTING: HAPUS CLASS 'hidden' DI SINI! -->
                         <!-- Biarkan CSS .four-ugreen-menu yang handle visibility via opacity agar animasi jalan -->
                         <div id="store-menu" class="four-ugreen-menu">
-                            <a class="four-ugreen-item open-cart-btn" href="#" rel="noopener">Shopping Cart <span class="four-ugreen-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></span></a>
-                            <a class="four-ugreen-item" href="#" rel="noopener">Checkout <span class="four-ugreen-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></span></a>
-                            <a class="four-ugreen-item" href="#" rel="noopener" data-nav="account">Account <span class="four-ugreen-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></span></a>
-                        </div>
-                    </div>
+    <a class="four-ugreen-item open-cart-btn" href="#" rel="noopener">Shopping Cart <span class="four-ugreen-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></span></a>
+    <a class="four-ugreen-item" href="checkout.html" rel="noopener">Checkout <span class="four-ugreen-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></span></a>
+    <a class="four-ugreen-item account-link" href="endusseelogin.html" rel="noopener">Account <span class="four-ugreen-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></span></a>
+</div>
 
                     <!-- REVISED: Cart Button Desktop REMOVED as requested -->
                 </div>
@@ -3549,7 +3606,7 @@
             <div id="lineup-container" class="lineup-container grid grid-cols-2 md:grid-cols-3 gap-8 lg:gap-16">
                 
                 <!-- PRODUCT 1: The River -->
-                <div class="marketplace-card group scroll-reveal card-reveal" onclick="window.location.href='#'">
+                <div class="marketplace-card group scroll-reveal card-reveal" onclick="window.location.href='productdetails.html'">
                     <div class="marketplace-media-wrap">
                         <span class="marketplace-badge">NEW ARRIVAL</span>
                         <!-- Main Image -->
@@ -3574,7 +3631,7 @@
                 </div>
 
                 <!-- PRODUCT 2: The Forest -->
-                <div class="marketplace-card group scroll-reveal card-reveal" onclick="window.location.href='#'">
+                <div class="marketplace-card group scroll-reveal card-reveal" onclick="window.location.href='productdetails.html'">
                     <div class="marketplace-media-wrap">
                         <span class="marketplace-badge">NEW ARRIVAL</span>
                         <!-- Main Image -->
@@ -3598,7 +3655,7 @@
                 </div>
 
                 <!-- PRODUCT 3: The Sunset -->
-                <div class="marketplace-card group scroll-reveal card-reveal" onclick="window.location.href='#'">
+                <div class="marketplace-card group scroll-reveal card-reveal" onclick="window.location.href='productdetails.html'">
                     <div class="marketplace-media-wrap">
                         <span class="marketplace-badge">NEW ARRIVAL</span>
                         <!-- Main Image -->
@@ -3625,7 +3682,7 @@
         </section>
 
         <!-- Lifestyle Section -->
-        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-30 text-center"> <!-- Reduced py-20 to py-10 -->
+        <section id="signature-collections" class="scroll-anchor max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-30 text-center">
             <h2 class="font-display text-3xl lg:text-5xl font-semibold mb-6 lg:mb-16 reveal-title standard-section-title">Made to Match Your World</h2> <!-- Reduced mb-16 to mb-6, text-4xl to text-3xl -->
             <div class="max-w-6xl mx-auto mt-6 lg:mt-16 space-y-6 lg:space-y-10"> <!-- Reduced mt-16 to mt-6, space-y-10 to space-y-6 -->
                 
@@ -3680,7 +3737,7 @@
         </section>
 
         <!-- Media Voices (REPLACED) -->
-        <section id="media-voices" class="mv-section max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="precision-design" class="scroll-anchor mv-section max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="mv-header">
             <h2 class="mv-title reveal-title standard-section-title">What Creators Are Saying</h2>
 
@@ -3702,31 +3759,51 @@
             <div class="mv-rail" id="mvRail">
               <!-- Placeholder cards (nanti link diganti user) -->
               <!-- FIX 2: Removed scroll-reveal and reveal-sub classes -->
-              <a class="mv-card" href="#" data-platform="youtube" aria-label="Open video 1">
-                <div class="mv-embed">
-                  <div class="mv-play"></div>
-                </div>
-              </a>
-
-              <a class="mv-card" href="#" data-platform="instagram" aria-label="Open video 2">
-                <div class="mv-embed">
-                  <div class="mv-play"></div>
-                </div>
-              </a>
-
-              <a class="mv-card" href="#" data-platform="tiktok" aria-label="Open video 3">
-                <div class="mv-embed">
-                  <div class="mv-play"></div>
-                </div>
-              </a>
-
-              <a class="mv-card" href="#" data-platform="youtube" aria-label="Open video 4">
-                <div class="mv-embed">
-                  <div class="mv-play"></div>
-                </div>
-              </a>
-            </div>
+              <a class="mv-card group relative cursor-pointer" href="javascript:void(0)">
+        <div class="mv-embed">
+          <video id="video1" src="assets/video/endussee-hero-v1.mp4" autoplay muted loop playsinline class="w-full h-full object-cover video-control"></video>
+          <div style="position: absolute; bottom: 12px; right: 12px; z-index: 50; background: rgba(0,0,0,0.4); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); pointer-events: none;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path id="path-video1" d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6"></path>
+            </svg>
           </div>
+        </div>
+      </a>
+
+      <a class="mv-card group relative cursor-pointer" href="javascript:void(0)">
+        <div class="mv-embed">
+          <video id="video2" src="assets/video/endussee-hero-v1.mp4" autoplay muted loop playsinline class="w-full h-full object-cover video-control"></video>
+          <div style="position: absolute; bottom: 12px; right: 12px; z-index: 50; background: rgba(0,0,0,0.4); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); pointer-events: none;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path id="path-video2" d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6"></path>
+            </svg>
+          </div>
+        </div>
+      </a>
+
+      <a class="mv-card group relative cursor-pointer" href="javascript:void(0)">
+        <div class="mv-embed">
+          <video id="video3" src="assets/video/endussee-hero-v1.mp4" autoplay muted loop playsinline class="w-full h-full object-cover video-control"></video>
+          <div style="position: absolute; bottom: 12px; right: 12px; z-index: 50; background: rgba(0,0,0,0.4); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); pointer-events: none;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path id="path-video3" d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6"></path>
+            </svg>
+          </div>
+        </div>
+      </a>
+
+      <a class="mv-card group relative cursor-pointer" href="javascript:void(0)">
+        <div class="mv-embed">
+          <video id="video4" src="assets/video/endussee-hero-v1.mp4" autoplay muted loop playsinline class="w-full h-full object-cover video-control"></video>
+          <div style="position: absolute; bottom: 12px; right: 12px; z-index: 50; background: rgba(0,0,0,0.4); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); pointer-events: none;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path id="path-video4" d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6"></path>
+            </svg>
+          </div>
+        </div>
+      </a>
+
+    </div>
         </section>
 
         <!-- Newsroom -->
@@ -3750,19 +3827,19 @@
             <div class="footer-benefits-wrap">
                 <div id="footerBenefits" class="footer-benefits-grid" aria-label="Store benefits">
                     <div class="benefit-item">
-                        <img src="https://i.imgur.com/h2xh4bU.png" alt="Fast Shipping" loading="lazy">
+                        <img src="assets/img/trusted-icon-fastshipping.png" alt="Fast Shipping" loading="lazy">
                         <span>Fast Shipping</span>
                     </div>
                     <div class="benefit-item">
-                        <img src="https://i.imgur.com/2kvmPGo.png" alt="30-Day Money-Back" loading="lazy">
-                        <span>30-Day Money-Back</span>
+                        <img src="assets/img/trusted-icon-longlasting.png" alt="30-Day Money-Back" loading="lazy">
+                        <span>Long Lasting</span>
                     </div>
                     <div class="benefit-item">
-                        <img src="https://i.imgur.com/ARYPTBw.png" alt="2-Year Warranty" loading="lazy">
-                        <span>2-Year Warranty</span>
+                        <img src="assets/img/trusted-icon-easyreturn.png" alt="2-Year Warranty" loading="lazy">
+                        <span>Easy Return</span>
                     </div>
                     <div class="benefit-item">
-                        <img src="https://i.imgur.com/Nmf7CcC.png" alt="5 Star Service" loading="lazy">
+                        <img src="assets/img/trusted-icon-5starservice.png" alt="5 Star Service" loading="lazy">
                         <span>5 Star Service</span>
                     </div>
                 </div>
@@ -3775,7 +3852,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-6 gap-10 lg:gap-16 pb-16 border-b border-soft-gray/20 pt-8">
                 <!-- Newsletter -->
                 <div class="lg:col-span-2">
-                    <h3 class="font-display text-3xl font-bold mb-4">Design That Organizes Life.</h3>
+                    <h3 class="font-display text-3xl font-semibold mb-4">Leave your scent. Show your Character.</h3>
                     <p class="text-sm mb-6">Get exclusive updates, product launches, special offers, and expert tips delivered straight to your inbox</p>
                     <form class="signup-form" action="#" method="post">
                         <div class="signup-wrap">
@@ -3784,14 +3861,14 @@
                         </div>
                         <label class="consent-row">
                             <input type="checkbox" class="form-checkbox bg-muted-navy border-soft-gray rounded text-soft-gold" required>
-                            <span>I agree to receive FOUR news, offers, and product updates via email.</span>
+                            <span>I agree to receive ENDUSSEE news, offers, and product updates via email.</span>
                         </label>
                     </form>
                     <div class="social-strip">
-                        <a href="https://www.facebook.com/share/17w3htrXKy/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" class="social-cell" aria-label="Facebook"><img src="https://i.imgur.com/3s9G8Go.png" alt="Facebook" class="social-img"></a>
-                        <a href="https://www.instagram.com/fourdesignco?igsh=MTdqMWI2Nzh1djdhMQ%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" class="social-cell" aria-label="Instagram"><img src="https://i.imgur.com/cGS0kEI.png" alt="Instagram" class="social-img"></a>
-                        <a href="https://www.tiktok.com/@fourdesignco?_r=1&_t=ZS-92apQdTPdgN" target="_blank" rel="noopener noreferrer" class="social-cell" aria-label="TikTok"><img src="https://i.imgur.com/BmvenkY.png" alt="TikTok" class="social-img"></a>
-                        <a href="https://x.com/fourdesignco?s=21" target="_blank" rel="noopener noreferrer" class="social-cell" aria-label="X"><img src="https://i.imgur.com/1gESkfk.png" alt="X" class="social-img"></a>
+                        <a href="https://www.facebook.com/share/17w3htrXKy/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" class="social-cell" aria-label="Facebook"><img src="assets/img/facebook-icon-white.png" alt="Facebook" class="social-img"></a>
+                        <a href="https://www.instagram.com/fourdesignco?igsh=MTdqMWI2Nzh1djdhMQ%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" class="social-cell" aria-label="Instagram"><img src="assets/img/instagram-icon-white.png" alt="Instagram" class="social-img"></a>
+                        <a href="https://www.tiktok.com/@fourdesignco?_r=1&_t=ZS-92apQdTPdgN" target="_blank" rel="noopener noreferrer" class="social-cell" aria-label="TikTok"><img src="assets/img/tiktok-icon-white.png" alt="TikTok" class="social-img"></a>
+                        <a href="https://x.com/fourdesignco?s=21" target="_blank" rel="noopener noreferrer" class="social-cell" aria-label="X"><img src="assets/img/twitter-icon-white.png" alt="X" class="social-img"></a>
                     </div>
                 </div>
 
@@ -3799,7 +3876,7 @@
                 <div>
                     <h4 class="text-sm font-semibold tracking-wider mb-4">Product</h4>
                     <ul class="space-y-2 text-sm font-light">
-                        <li><a href="#" class="transition duration-150">Wireless Chargers</a></li>
+                        <li><a href="#" class="transition duration-150">Extrait de Parfume</a></li>
                     </ul>
                 </div>
 
@@ -3807,7 +3884,7 @@
                 <div>
                     <h4 class="text-sm font-semibold tracking-wider mb-4">Series</h4>
                     <ul class="space-y-2 text-sm font-light">
-                        <li><a href="#" class="transition duration-150">MagCore Series</a></li>
+                        <li><a href="#" class="transition duration-150">Elemental Series</a></li>
                     </ul>
                 </div>
 
@@ -3815,7 +3892,7 @@
                 <div>
                     <h4 class="text-sm font-semibold tracking-wider mb-4">Company</h4>
                     <ul class="space-y-2 text-sm font-light">
-                        <li><a href="#" class="transition duration-150">About FOUR</a></li>
+                        <li><a href="#" class="transition duration-150">About ENDUSSEE</a></li>
                         <li><a href="#" class="transition duration-150">Contact</a></li>
                     </ul>
                 </div>
@@ -3830,7 +3907,7 @@
                 </div>
             </div>
             <div class="flex flex-col sm:flex-row justify-between items-center pt-8 text-sm">
-                <p class="mb-4 sm:mb-0">© 2025 FOUR. All rights reserved. | <a href="#" class="transition duration-150">Privacy Policy</a></p>
+                <p class="mb-4 sm:mb-0">© 2026 ENDUSSEE. All rights reserved. | <a href="#" class="transition duration-150">Privacy Policy</a></p>
                 <div class="hidden sm:block"></div>
             </div>
         </div>
@@ -3842,7 +3919,7 @@
     <!-- FIREBASE AND APP LOGIC (MODULE SCRIPT) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         
         const firebaseConfig = { apiKey: "YOUR_API_KEY", authDomain: "YOUR_PROJECT_ID.firebaseapp.com", projectId: "YOUR_PROJECT_ID", storageBucket: "YOUR_PROJECT_ID.appspot.com", messagingSenderId: "YOUR_MESSAGING_SENDER_ID", appId: "YOUR_APP_ID" };
         const app = initializeApp(firebaseConfig);
@@ -4405,7 +4482,7 @@
             accButtons.forEach((btn) => { btn.addEventListener("click", () => { const isOpen = btn.getAttribute("aria-expanded") === "true"; accButtons.forEach(other => { if (other !== btn) closeAccItem(other); }); if (!isOpen) openAccItem(btn); else closeAccItem(btn); }); });
             window.addEventListener("resize", () => { accButtons.forEach((btn) => { if (btn.getAttribute("aria-expanded") === "true") { btn.nextElementSibling.style.maxHeight = btn.nextElementSibling.scrollHeight + "px"; } }); });
 
-            const CART_KEY = "four_cart";
+            const CART_KEY = "cart";
             function getCart(){ try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; } catch { return []; } }
             function setCart(cart){ localStorage.setItem(CART_KEY, JSON.stringify(cart)); }
             function money(n){ return `Rp ${Number(n).toLocaleString('id-ID')}`; }
@@ -4421,7 +4498,20 @@
                 if(countEl) countEl.textContent = totalItems;
                 
                 // Update header badges
-                const headerBadges = document.querySelectorAll(".header-cart-badge");
+const headerBadges = document.querySelectorAll(".header-cart-badge");
+if (headerBadges.length) {
+    headerBadges.forEach(b => {
+        b.textContent = totalItems;
+        // Logic Muncul/Sembunyi: Jika totalItems > 0 maka flex, jika 0 maka none
+        b.style.display = totalItems > 0 ? "flex" : "none";
+    });
+}
+
+if(cart.length === 0){ 
+    itemsEl.innerHTML = `<div style="padding:40px 0;text-align:center;color:#999;font-size:14px;">Your cart is empty.</div>`; 
+    subtotalEl.textContent = money(0); 
+    return; 
+}
                 if (headerBadges.length) headerBadges.forEach(b => b.textContent = totalItems);
 
                 if(cart.length === 0){ 
@@ -4489,26 +4579,80 @@
             document.addEventListener("keydown", (e) => { if(e.key === "Escape") closeCartDrawer(); });
             
             // Add To Cart Function accessible globally for product cards
-            window.addToCartFromGrid = function(name, price, image) {
-                const cart = getCart();
-                const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-                const existing = cart.find(x => x.id === id);
-                if(existing) {
-                    existing.qty += 1;
-                } else {
-                    cart.push({
-                        id: id,
-                        name: name,
-                        variantId: id + '-default',
-                        variantName: 'Standard',
-                        price: price,
-                        qty: 1,
-                        image: image
-                    });
-                }
-                setCart(cart);
-                openCartDrawer();
-            };
+window.addToCartFromGrid = function(name, price, image) {
+    const cart = getCart(); // Mengambil data dari key "cart"
+    const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const existing = cart.find(x => x.id === id);
+    
+    if(existing) {
+        existing.qty += 1;
+    } else {
+        // Data yang dikirim cuma yang diminta oleh checkout.html
+        cart.push({
+            id: id,
+            name: name,
+            price: price,
+            qty: 1,
+            image: image
+        });
+    }
+    setCart(cart);
+    renderCartDrawer(); // Penting biar angka di laci kanan langsung update
+    openCartDrawer();
+};
+
+            // --- FIX Gembok Gak Ilang & Redirect Salah ---
+function updateCheckoutStatus(user) {
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    const lockIcon = document.getElementById('checkoutLockIcon');
+    const btnText = document.getElementById('checkoutBtnText');
+
+    if (!checkoutBtn) return;
+
+    if (user) {
+        // JIKA USER SUDAH LOGIN
+        console.log("Status: Logged In as", user.email);
+        checkoutBtn.href = "checkout.html"; // Pastikan link ke checkout
+        if (lockIcon) lockIcon.style.display = "none";
+        if (btnText) btnText.innerText = "PROCEED TO CHECKOUT";
+        
+        // Hapus fungsi onclick yang mungkin masih nge-link ke login page
+        checkoutBtn.onclick = null; 
+    } else {
+        // JIKA USER GUEST
+        console.log("Status: Guest");
+        checkoutBtn.href = "endusseelogin.html";
+        if (lockIcon) lockIcon.style.display = "inline-block";
+        if (btnText) btnText.innerText = "CHECK OUT";
+    }
+}
+
+// Pantau status login dengan jeda halus agar Firebase siap
+if (typeof auth !== 'undefined') {
+    auth.onAuthStateChanged((user) => {
+        updateCheckoutStatus(user);
+    });
+}
+
+// Pantau status login secara real-time
+// Pastikan variabel 'auth' sudah terdefinisi di atasnya
+if (typeof auth !== 'undefined') {
+    auth.onAuthStateChanged((user) => {
+        updateCheckoutStatus(user);
+    });
+}
+
+            // Panggil setelah DOM bener-bener siap dan Firebase sudah stabil
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    // Cek apakah Firebase Auth tersedia
+                    if (typeof auth !== 'undefined') {
+                        onAuthStateChanged(auth, (user) => {
+                            updateCheckoutStatus(user);
+                        });
+                    }
+                }, 1000); // Kasih nafas 1 detik biar stabil
+            });
             
             // Connect the newly added open cart buttons in header & menu
             document.querySelectorAll(".open-cart-btn").forEach(btn => {
@@ -4596,6 +4740,91 @@
           window.addEventListener('resize', updateButtons);
           updateButtons();
         })();
-    </script>
+    </script> <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+    <script>
+    // --- 1. FIREBASE AUTH LOGIC ---
+    (function() {
+        const firebaseConfig = {
+            apiKey: "AIzaSyByq4vH9QiY6qjCEweVMhty0E9K1LMxvoI",
+            authDomain: "endussee-login.firebaseapp.com",
+            projectId: "endussee-login",
+            storageBucket: "endussee-login.firebasestorage.app",
+            messagingSenderId: "604334930302",
+            appId: "1:604334930302:web:c59e690df4606d52fb9b2f"
+        };
+        
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+
+        firebase.auth().onAuthStateChanged((user) => {
+            const btn = document.getElementById('checkoutBtn');
+            const lock = document.getElementById('checkoutLockIcon');
+            const txt = document.getElementById('checkoutBtnText');
+            const accountLinks = document.querySelectorAll('.account-link');
+
+            if (user) {
+                if (btn) {
+                    btn.href = "checkout.html";
+                    btn.style.backgroundColor = "#70e99d"; 
+                    btn.style.borderColor = "#70e99d";
+                    btn.style.color = "#ffffff";
+                    if (lock) lock.style.setProperty('display', 'none', 'important');
+                    if (txt) txt.innerText = "CHECK OUT"; 
+                }
+                accountLinks.forEach(link => { link.href = "checkout.html"; });
+            } else {
+                if (btn) {
+                    btn.href = "endusseelogin.html";
+                    btn.style.backgroundColor = "#000000";
+                    if (lock) lock.style.setProperty('display', 'inline-block', 'important');
+                }
+                accountLinks.forEach(link => { link.href = "endusseelogin.html"; });
+            }
+        });
+    })();
+
+    // --- 2. VIDEO UNMUTE LOGIC (FIXED) ---
+    document.addEventListener('DOMContentLoaded', () => {
+    const videoCards = document.querySelectorAll('.mv-card');
+
+    videoCards.forEach(card => {
+        card.addEventListener('pointerdown', function(e) {
+            // Kita ambil video yang ada di dalam kartu yang di-klik
+            const currentVideo = this.querySelector('video');
+            const currentPath = this.querySelector('path[id^="path-video"]');
+
+            if (currentVideo) {
+                e.stopPropagation(); 
+
+                // --- BAGIAN SAKTI: Mute semua video lain ---
+                if (currentVideo.muted) {
+                    document.querySelectorAll('.mv-card video').forEach(v => {
+                        v.muted = true; // Mute semua video
+                        // Cari path icon video lain buat di-reset jadi 'X' (Muted)
+                        const otherPath = document.getElementById('path-' + v.id);
+                        if (otherPath) {
+                            otherPath.setAttribute('d', 'M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6');
+                        }
+                    });
+
+                    // Baru nyalain video yang di-klik
+                    currentVideo.muted = false;
+                    currentVideo.play();
+                    currentPath.setAttribute('d', 'M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07');
+                    console.log("Audio " + currentVideo.id + " ON, lainnya OFF.");
+                } else {
+                    // Kalau yang lagi bunyi di-klik lagi, ya jadi bisu
+                    currentVideo.muted = true;
+                    currentPath.setAttribute('d', 'M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6');
+                    console.log("Audio " + currentVideo.id + " MUTED.");
+                }
+            }
+        });
+    });
+});
+</script>
 </body>
 </html>
