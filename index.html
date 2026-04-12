@@ -56,6 +56,57 @@
     <!-- END MODIFICATION (PATCH A) -->
 
     <style>
+        /* ANNOUNCEMENT BAR - THE FINAL POLISH */
+        .top-bar-marquee {
+            background-color: #000000;
+            color: #FFFFFF;
+            height: 30px;
+            display: flex;
+            align-items: center; /* Center Vertikal Parent */
+            justify-content: center;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1001;
+            font-family: 'Public Sans', sans-serif;
+        }
+
+        .marquee-content {
+            display: flex;
+            white-space: nowrap;
+            animation: marquee 30s linear infinite;
+            /* Kita hilangkan height 100% di sini, kita ganti cara mainnya */
+            align-items: center; 
+            display: flex;
+        }
+
+        .marquee-item {
+            display: flex;
+            align-items: center; 
+            justify-content: center; /* Paksa konten item di tengah */
+            padding: 0 40px;
+            font-size: 10px;
+            line-height: 30px; /* SAKTI: Line-height disamain sama height bar hitam */
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            height: 30px; /* Paksa item setinggi bar */
+        }
+
+        .text-regular { font-weight: 400; } /* Regular for Highlight */
+        .text-light { font-weight: 300; opacity: 0.8; } /* Light for Supporting */
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Adjust Header Position agar tidak tertutup Top Bar */
+        #main-header {
+            top: 30px !important;
+        }
+        
         /* Custom Tailwind Configuration for the premium feel */
         :root {
             /* FOUR Design Tokens */
@@ -3401,6 +3452,27 @@
 
             </nav>
 
+        </div>
+    </div>
+    
+    <div class="top-bar-marquee">
+        <div class="marquee-content">
+            <div class="marquee-item">
+                <span class="text-regular">LIMITED 200 FREE SAMPLES</span>
+                <span class="text-light">&nbsp; — DISCOVER YOUR SCENT IDENTITY WITH ENDUSSEE &nbsp; • &nbsp;</span>
+                <span class="text-regular">FREE SHIPPING INCLUDED</span>
+                <span class="text-light">&nbsp; — FIND THE ONE THAT FEELS LIKE YOU &nbsp; • &nbsp;</span>
+                <span class="text-regular">CLAIM YOURS NOW</span>
+                <span class="text-light">&nbsp; — BEFORE IT’S GONE &nbsp; • &nbsp;</span>
+            </div>
+            <div class="marquee-item">
+                <span class="text-regular">LIMITED 200 FREE SAMPLES</span>
+                <span class="text-light">&nbsp; — DISCOVER YOUR SCENT IDENTITY WITH ENDUSSEE &nbsp; • &nbsp;</span>
+                <span class="text-regular">FREE SHIPPING INCLUDED</span>
+                <span class="text-light">&nbsp; — FIND THE ONE THAT FEELS LIKE YOU &nbsp; • &nbsp;</span>
+                <span class="text-regular">CLAIM YOURS NOW</span>
+                <span class="text-light">&nbsp; — BEFORE IT’S GONE &nbsp; • &nbsp;</span>
+            </div>
         </div>
     </div>
     
