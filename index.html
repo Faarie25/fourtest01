@@ -56,14 +56,13 @@
     <!-- END MODIFICATION (PATCH A) -->
 
     <style>
-        /* ANNOUNCEMENT BAR - THE FINAL POLISH */
+        /* ANNOUNCEMENT BAR - PRECISION ALIGNMENT */
         .top-bar-marquee {
             background-color: #000000;
             color: #FFFFFF;
             height: 30px;
             display: flex;
-            align-items: center; /* Center Vertikal Parent */
-            justify-content: center;
+            align-items: center;
             overflow: hidden;
             position: fixed;
             top: 0;
@@ -75,31 +74,42 @@
 
         .marquee-content {
             display: flex;
-            white-space: nowrap;
-            animation: marquee 30s linear infinite;
-            /* Kita hilangkan height 100% di sini, kita ganti cara mainnya */
-            align-items: center; 
-            display: flex;
+            width: max-content;
+            animation: marquee-scroll 50s linear infinite;
+            align-items: center;
+            /* KUNCI: Gap ini harus dijaga konsistensinya */
+            gap: 100px; 
+            padding-right: 100px; /* Tambahin ini biar pas loop gak 'kaget' */
         }
 
         .marquee-item {
             display: flex;
-            align-items: center; 
-            justify-content: center; /* Paksa konten item di tengah */
-            padding: 0 40px;
+            align-items: center;
+            gap: 20px; /* Jarak presisi antar teks dan simbol separator */
             font-size: 10px;
-            line-height: 30px; /* SAKTI: Line-height disamain sama height bar hitam */
-            letter-spacing: 0.15em;
+            letter-spacing: 0.18em;
             text-transform: uppercase;
-            height: 30px; /* Paksa item setinggi bar */
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
-        .text-regular { font-weight: 400; } /* Regular for Highlight */
-        .text-light { font-weight: 300; opacity: 0.8; } /* Light for Supporting */
+        /* Typography Rules */
+        .text-regular { font-weight: 400; color: #FFFFFF; }
+        .text-light { font-weight: 300; color: rgba(255,255,255,0.7); }
 
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+        /* Separator Style: Memastikan simbol ada di tengah-tengah teks */
+        .separator {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.5;
+            font-weight: 300;
+            padding-bottom: 1px; /* Micro-adjustment biar sejajar mata */
+        }
+
+        @keyframes marquee-scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
         }
 
         /* Adjust Header Position agar tidak tertutup Top Bar */
@@ -299,24 +309,26 @@
         /* Laci/Menu Utama - SLIDING LEFT (UGREEN Style: Full Width, Below Header) */
         #mobile-drawer {
             transform: translateX(-100vw);
-            transition: transform 0.3s ease-in-out; 
-            /* Dimensions (Full Width, Height below header) */
-            width: 100vw; /* FULL WIDTH */
+            transition: transform 0.3s ease-in-out, top 0.3s ease; /* Tambah transisi top */
+            width: 100vw; 
             max-width: none; 
-            height: calc(100vh - 4rem); /* 100vh minus h-16 (4rem) header height */
+            
+            /* POSISI AWAL (Bar 30px + Header 76px = 106px) */
+            top: 93px; 
+            
             background-color: var(--color-warm-white);
-            /* Positioning */
             position: fixed; 
-            top: 4rem; /* Start right below the 4rem (h-16) header */
             left: 0;
-            /* Layout */
             display: flex;
             flex-direction: column;
             overflow-y: auto;
-            /* Style */
-            box-shadow: none; /* Clean appearance */
+            
+            /* Tinggi layar dikurangi jarak dari atas */
+            height: calc(100vh - 106px); 
+            box-shadow: none; 
             border-radius: 0; 
-            z-index: 35; /* DI BAWAH header (z-40) */
+            z-index: 35; 
+            padding-top: 12px !important; 
         }
 
         /* State normal open */
@@ -2623,15 +2635,31 @@
           transition:opacity 220ms ease;
           z-index:998;
         }
-        #searchDropdown{
-          position:fixed;
-          top:4rem; left:0; right:0;
-          background:#fff;
-          border-bottom:1px solid rgba(0,0,0,.08);
-          transform:translateY(-18px);
-          opacity:0; pointer-events:none;
-          transition:transform 260ms cubic-bezier(.4,0,.2,1), opacity 220ms ease;
-          z-index:999;
+        #searchDropdown { 
+            position: fixed; 
+            /* Posisi Mobile (Bar + Header) */
+            top: 93px; 
+            left: 0; right: 0; 
+            background: #fff; 
+            border-bottom: 1px solid rgba(0,0,0,.08); 
+            transform: translateY(-10px); 
+            opacity: 0; pointer-events: none; 
+            transition: transform 300ms cubic-bezier(.4,0,.2,1), opacity 220ms ease, top 0.3s ease;
+            z-index: 999 !important; 
+            
+            /* --- PERUBAHAN DI SINI --- */
+            height: auto; /* Biar tingginya ngikutin konten */
+            max-height: 80vh; /* Batas maksimal 80% tinggi layar biar gak kebablasan */
+            overflow-y: auto; /* Kalau isi lewat dari 80vh, baru bisa di-scroll dalemnya */
+        }
+
+        /* Desktop Tetap Auto */
+        @media (min-width: 1024px) {
+            #searchDropdown {
+                top: 150px; 
+                height: auto;
+                max-height: 70vh; 
+            }
         }
         #searchDropdown.active{
           transform:translateY(0);
@@ -3457,23 +3485,34 @@
     
     <div class="top-bar-marquee">
         <div class="marquee-content">
-            <div class="marquee-item">
-                <span class="text-regular">LIMITED 200 FREE SAMPLES</span>
-                <span class="text-light">&nbsp; — DISCOVER YOUR SCENT IDENTITY WITH ENDUSSEE &nbsp; • &nbsp;</span>
-                <span class="text-regular">FREE SHIPPING INCLUDED</span>
-                <span class="text-light">&nbsp; — FIND THE ONE THAT FEELS LIKE YOU &nbsp; • &nbsp;</span>
-                <span class="text-regular">CLAIM YOURS NOW</span>
-                <span class="text-light">&nbsp; — BEFORE IT’S GONE &nbsp; • &nbsp;</span>
-            </div>
-            <div class="marquee-item">
-                <span class="text-regular">LIMITED 200 FREE SAMPLES</span>
-                <span class="text-light">&nbsp; — DISCOVER YOUR SCENT IDENTITY WITH ENDUSSEE &nbsp; • &nbsp;</span>
-                <span class="text-regular">FREE SHIPPING INCLUDED</span>
-                <span class="text-light">&nbsp; — FIND THE ONE THAT FEELS LIKE YOU &nbsp; • &nbsp;</span>
-                <span class="text-regular">CLAIM YOURS NOW</span>
-                <span class="text-light">&nbsp; — BEFORE IT’S GONE &nbsp; • &nbsp;</span>
-            </div>
-        </div>
+    <div class="marquee-item">
+        <span class="text-regular">LIMITED 200 FREE SAMPLES</span>
+        <span class="separator">—</span>
+        <span class="text-light">DISCOVER YOUR SCENT IDENTITY WITH ENDUSSEE</span>
+        <span class="separator">•</span>
+        <span class="text-regular">FREE SHIPPING INCLUDED</span>
+        <span class="separator">—</span>
+        <span class="text-light">FIND THE ONE THAT FEELS LIKE YOU</span>
+        <span class="separator">•</span>
+        <span class="text-regular">CLAIM YOURS NOW</span>
+        <span class="separator">—</span>
+        <span class="text-light">BEFORE IT’S GONE</span>
+    </div>
+    
+    <div class="marquee-item">
+        <span class="text-regular">LIMITED 200 FREE SAMPLES</span>
+        <span class="separator">—</span>
+        <span class="text-light">DISCOVER YOUR SCENT IDENTITY WITH ENDUSSEE</span>
+        <span class="separator">•</span>
+        <span class="text-regular">FREE SHIPPING INCLUDED</span>
+        <span class="separator">—</span>
+        <span class="text-light">FIND THE ONE THAT FEELS LIKE YOU</span>
+        <span class="separator">•</span>
+        <span class="text-regular">CLAIM YOURS NOW</span>
+        <span class="separator">—</span>
+        <span class="text-light">BEFORE IT’S GONE</span>
+    </div>
+</div>
     </div>
     
     <!-- ... Header, Main content, Footer, etc. are largely unchanged, skipping purely distinct content to stay concise where possible, but maintaining file integrity ... -->
