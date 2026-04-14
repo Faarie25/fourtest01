@@ -1204,105 +1204,166 @@
         /* END MODIFICATION: Hero Slider UI */
 
 
-        /* ===== MARKETPLACE PRODUCT GRID STYLE (SECTION A) ===== */
+        /* =======================================================
+            MARKETPLACE PRODUCT CARD - ULTIMATE DESIGN SYSTEM
+           ======================================================= */
         .marketplace-card {
+            position: relative !important;
+            width: 100%;
+            aspect-ratio: 4 / 5 !important;
+            background: #FFFFFF !important;
+            border: 1px solid #EDEDED;
+            overflow: hidden;
+            cursor: pointer;
             display: flex !important;
             flex-direction: column !important;
-            justify-content: flex-start !important;
-            align-items: center !important; /* REVISED: Center alignment */
-            text-align: center !important; /* REVISED: Center alignment */
-            background: transparent !important;
-            border: 1px solid #e0e0e0 !important; /* REVISED: Added thin grey outline */
-            border-radius: 0 !important; /* REVISED: Sharp edges */
-            width: 100% !important;
-            height: auto !important;
-            padding: 0 !important;
-            box-shadow: none !important;
-            transition: all .2s ease;
-            cursor: pointer !important;
-            position: relative;
         }
 
+        /* MEDIA WRAPPER (SQUARE 1:1) */
         .marketplace-media-wrap {
             width: 100%;
-            aspect-ratio: 4 / 5;
+            aspect-ratio: 1 / 1 !important;
             position: relative;
             background: #F8F8F8;
             overflow: hidden;
-            border-radius: 0 !important; /* REVISED: Removed 8px to keep sharp edges */
-            margin-bottom: 16px;
+            flex-shrink: 0;
+            z-index: 1;
         }
 
-        .marketplace-img-primary,
+        /* IMAGE HOVER SYSTEM */
+        .marketplace-img-primary {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            z-index: 2;
+        }
+
         .marketplace-img-hover {
             position: absolute;
             inset: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .marketplace-img-hover {
             opacity: 0;
-            z-index: 2;
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
         }
 
-        .marketplace-card:hover .marketplace-img-primary {
-            opacity: 0;
-            transform: scale(1.05);
-        }
+        .marketplace-card:hover .marketplace-img-primary { opacity: 0; }
+        .marketplace-card:hover .marketplace-img-hover { opacity: 1; }
 
-        .marketplace-card:hover .marketplace-img-hover {
-            opacity: 1;
-            transform: scale(1.05);
-        }
-
-        .marketplace-badge {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(4px);
-            color: var(--color-matte-black);
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            padding: 4px 10px;
-            border-radius: 9999px;
-            z-index: 3;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        .marketplace-cart-btn {
-            position: absolute;
+        /* FLOATING TEXT (BOTTOM LEFT OVER IMAGE) */
+        .floating-info {
+            position: absolute !important;
             bottom: 12px;
-            right: 12px;
-            width: 40px;
-            height: 40px;
-            background: #FFFFFF;
-            color: var(--color-matte-black);
-            border: 1px solid rgba(0,0,0,0.05);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 4;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.1);
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            left: 20px;
+            z-index: 10;
+            text-align: left;
+            pointer-events: none;
         }
 
-        .marketplace-card:hover .marketplace-cart-btn {
-            opacity: 1;
-            transform: translateY(0);
+        /* TYPOGRAPHY SPECIFICATION */
+        .marketplace-badge {
+            display: block;
+            font-family: 'Public Sans', sans-serif !important;
+            font-weight: 400 !important;
+            font-size: 14px !important;
+            color: #000000 !important;
+            letter-spacing: 0.05em !important;
+            margin-bottom: 4px !important;
+        }
+
+        .marketplace-title {
+            font-family: 'Public Sans', sans-serif !important;
+            font-weight: 600 !important;
+            font-size: 20px !important;
+            color: #000000 !important;
+            line-height: 1.3 !important;
+            margin-bottom: 2px !important;
+        }
+
+        .marketplace-subtext {
+            font-family: 'Public Sans', sans-serif !important;
+            font-weight: 400 !important;
+            font-size: 14px !important;
+            color: #A0A0A0 !important;
+            line-height: 1.4 !important;
+        }
+
+        /* ACTION AREA (SHAPE #F9F9F9) */
+        .marketplace-info {
+            flex-grow: 1;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 0 20px !important;
+            background: #F9F9F9 !important; /* Update Warna */
+        }
+
+        .marketplace-price-row {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            width: 100%;
+            background: transparent !important;
+            border: none !important;
+        }
+
+        .price-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .marketplace-price-label {
+            font-family: 'Public Sans', sans-serif !important;
+            font-weight: 300 !important;
+            font-size: 12px !important;
+            color: #A0A0A0 !important;
+            margin-right: 4px;
+        }
+
+        /* "To" Label adjustment */
+        .price-stack div:last-child .marketplace-price-label {
+            color: #000000 !important;
+            font-weight: 400 !important;
+        }
+
+        .marketplace-price-old {
+            font-family: 'Public Sans', sans-serif !important;
+            font-weight: 400 !important;
+            font-size: 13px !important;
+            color: #B0B0B0 !important;
+            text-decoration: line-through !important;
+        }
+
+        .marketplace-price {
+            font-family: 'Public Sans', sans-serif !important;
+            font-weight: 600 !important;
+            font-size: 14px !important;
+            color: #000000 !important;
+        }
+
+        /* BUTTON STYLE */
+        .marketplace-cart-btn {
+            background: #000000 !important;
+            color: #FFFFFF !important;
+            border: 1px solid #000000 !important;
+            border-radius: 999px !important;
+            padding: 8px 20px !important;
+            font-family: 'Public Sans', sans-serif !important;
+            font-weight: 500 !important;
+            font-size: 12px !important;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            cursor: pointer;
         }
 
         .marketplace-cart-btn:hover {
-            background: var(--color-matte-black);
-            color: #FFFFFF;
-            transform: scale(1.05) translateY(0);
+            background: #FFFFFF !important;
+            color: #000000 !important;
         }
 
         .marketplace-info {
@@ -3710,81 +3771,69 @@
 
         <!-- Sections A-I (kept intact, just summarizing structure) -->
         <section id="explore-lineup" class="scroll-anchor max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-30">
-            <!-- UPDATED TITLE -->
             <h2 class="font-display text-4xl lg:text-5xl font-semibold mb-16 text-center reveal-title standard-section-title">Choose Your Character</h2>
             
-            <!-- INCREASED SPACING & ADJUSTED TO 3 COLS -->
-            <div id="lineup-container" class="lineup-container grid grid-cols-2 md:grid-cols-3 gap-8 lg:gap-16">
+            <div id="lineup-container" class="lineup-container grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
                 
-                <!-- PRODUCT 1: The River -->
                 <div class="marketplace-card group scroll-reveal card-reveal" onclick="window.location.href='productdetails.html'">
                     <div class="marketplace-media-wrap">
-                        <span class="marketplace-badge">NEW ARRIVAL</span>
-                        <!-- Main Image -->
-                        <img src="https://placehold.co/600x750/F8F8F8/0A0A0A?text=The+River" alt="Extrait de Parfum - The River" class="marketplace-img-primary" loading="lazy">
-                        <!-- Hover Image -->
-                        <img src="https://placehold.co/600x750/EAEAEA/0A0A0A?text=The+River+Lifestyle" alt="The River Lifestyle" class="marketplace-img-hover" loading="lazy">
-                        
-                        <!-- Cart Action Button -->
-                        <button class="marketplace-cart-btn" aria-label="Add to cart" onclick="event.stopPropagation(); window.addToCartFromGrid('Extrait de Parfum - The River', 299000, 'https://placehold.co/150x150/F8F8F8/0A0A0A?text=The+River');">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-                        </button>
+                        <div class="floating-info">
+                            <span class="marketplace-badge">New Arrival</span>
+                            <h3 class="marketplace-title">ENDUSSEE The River</h3>
+                            <p class="marketplace-subtext">Eau De Parfume - 100ml</p>
+                        </div>
+                        <img src="https://placehold.co/800x800/F8F8F8/0A0A0A?text=The+River" class="marketplace-img-primary" loading="lazy">
+                        <img src="https://placehold.co/800x800/EAEAEA/0A0A0A?text=Lifestyle+River" class="marketplace-img-hover" loading="lazy">
                     </div>
                     <div class="marketplace-info">
-                        <h3 class="marketplace-title">Extrait de Parfum - The River</h3>
                         <div class="marketplace-price-row">
-                            <span class="marketplace-price-label">From</span>
-                            <span class="marketplace-price-old">Rp 499.000</span>
-                            <span class="marketplace-price-label ml-1">To</span>
-                            <span class="marketplace-price">Rp 299.000</span>
+                            <div class="price-stack">
+                                <div class="flex items-center gap-1"><span class="marketplace-price-label">From</span><span class="marketplace-price-old">Rp 399.000,-</span></div>
+                                <div class="flex items-center gap-1"><span class="marketplace-price-label">To</span><span class="marketplace-price">Rp 299.000,-</span></div>
+                            </div>
+                            <button class="marketplace-cart-btn" onclick="event.stopPropagation(); window.addToCartFromGrid('ENDUSSEE The River', 299000, '...');">Add Cart</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- PRODUCT 2: The Forest -->
                 <div class="marketplace-card group scroll-reveal card-reveal" onclick="window.location.href='productdetails.html'">
                     <div class="marketplace-media-wrap">
-                        <span class="marketplace-badge">NEW ARRIVAL</span>
-                        <!-- Main Image -->
-                        <img src="https://placehold.co/600x750/F8F8F8/0A0A0A?text=The+Forest" alt="Extrait de Parfum - The Forest" class="marketplace-img-primary" loading="lazy">
-                        <!-- Hover Image -->
-                        <img src="https://placehold.co/600x750/EAEAEA/0A0A0A?text=The+Forest+Lifestyle" alt="The Forest Lifestyle" class="marketplace-img-hover" loading="lazy">
-                        
-                        <button class="marketplace-cart-btn" aria-label="Add to cart" onclick="event.stopPropagation(); window.addToCartFromGrid('Extrait de Parfum - The Forest', 299000, 'https://placehold.co/150x150/F8F8F8/0A0A0A?text=The+Forest');">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-                        </button>
+                        <div class="floating-info">
+                            <span class="marketplace-badge">New Arrival</span>
+                            <h3 class="marketplace-title">ENDUSSEE The Forest</h3>
+                            <p class="marketplace-subtext">Eau De Parfume - 100ml</p>
+                        </div>
+                        <img src="https://placehold.co/800x800/F8F8F8/0A0A0A?text=The+Forest" class="marketplace-img-primary" loading="lazy">
+                        <img src="https://placehold.co/800x800/EAEAEA/0A0A0A?text=Lifestyle+Forest" class="marketplace-img-hover" loading="lazy">
                     </div>
                     <div class="marketplace-info">
-                        <h3 class="marketplace-title">Extrait de Parfum - The Forest</h3>
                         <div class="marketplace-price-row">
-                            <span class="marketplace-price-label">From</span>
-                            <span class="marketplace-price-old">Rp 499.000</span>
-                            <span class="marketplace-price-label ml-1">To</span>
-                            <span class="marketplace-price">Rp 299.000</span>
+                            <div class="price-stack">
+                                <div class="flex items-center gap-1"><span class="marketplace-price-label">From</span><span class="marketplace-price-old">Rp 399.000,-</span></div>
+                                <div class="flex items-center gap-1"><span class="marketplace-price-label">To</span><span class="marketplace-price">Rp 299.000,-</span></div>
+                            </div>
+                            <button class="marketplace-cart-btn" onclick="event.stopPropagation(); window.addToCartFromGrid('ENDUSSEE The Forest', 299000, '...');">Add Cart</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- PRODUCT 3: The Sunset -->
                 <div class="marketplace-card group scroll-reveal card-reveal" onclick="window.location.href='productdetails.html'">
                     <div class="marketplace-media-wrap">
-                        <span class="marketplace-badge">NEW ARRIVAL</span>
-                        <!-- Main Image -->
-                        <img src="https://placehold.co/600x750/F8F8F8/0A0A0A?text=The+Sunset" alt="Extrait de Parfum - The Sunset" class="marketplace-img-primary" loading="lazy">
-                        <!-- Hover Image -->
-                        <img src="https://placehold.co/600x750/EAEAEA/0A0A0A?text=The+Sunset+Lifestyle" alt="The Sunset Lifestyle" class="marketplace-img-hover" loading="lazy">
-                        
-                        <button class="marketplace-cart-btn" aria-label="Add to cart" onclick="event.stopPropagation(); window.addToCartFromGrid('Extrait de Parfum - The Sunset', 299000, 'https://placehold.co/150x150/F8F8F8/0A0A0A?text=The+Sunset');">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-                        </button>
+                        <div class="floating-info">
+                            <span class="marketplace-badge">New Arrival</span>
+                            <h3 class="marketplace-title">ENDUSSEE The Sunset</h3>
+                            <p class="marketplace-subtext">Eau De Parfume - 100ml</p>
+                        </div>
+                        <img src="https://placehold.co/800x800/F8F8F8/0A0A0A?text=The+Sunset" class="marketplace-img-primary" loading="lazy">
+                        <img src="https://placehold.co/800x800/EAEAEA/0A0A0A?text=Lifestyle+Sunset" class="marketplace-img-hover" loading="lazy">
                     </div>
                     <div class="marketplace-info">
-                        <h3 class="marketplace-title">Extrait de Parfum - The Sunset</h3>
                         <div class="marketplace-price-row">
-                            <span class="marketplace-price-label">From</span>
-                            <span class="marketplace-price-old">Rp 499.000</span>
-                            <span class="marketplace-price-label ml-1">To</span>
-                            <span class="marketplace-price">Rp 299.000</span>
+                            <div class="price-stack">
+                                <div class="flex items-center gap-1"><span class="marketplace-price-label">From</span><span class="marketplace-price-old">Rp 399.000,-</span></div>
+                                <div class="flex items-center gap-1"><span class="marketplace-price-label">To</span><span class="marketplace-price">Rp 299.000,-</span></div>
+                            </div>
+                            <button class="marketplace-cart-btn" onclick="event.stopPropagation(); window.addToCartFromGrid('ENDUSSEE The Sunset', 299000, '...');">Add Cart</button>
                         </div>
                     </div>
                 </div>
