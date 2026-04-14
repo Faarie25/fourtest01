@@ -1205,24 +1205,25 @@
 
 
         /* =======================================================
-            MARKETPLACE PRODUCT CARD - ULTIMATE DESIGN SYSTEM
+            MARKETPLACE PRODUCT CARD - 4:5 IMAGE RATIO
            ======================================================= */
         .marketplace-card {
             position: relative !important;
             width: 100%;
-            aspect-ratio: 4 / 5 !important;
+            /* Card total otomatis menyesuaikan isi (Gambar 4:5 + Shape Harga) */
+            display: flex !important;
+            flex-direction: column !important;
             background: #FFFFFF !important;
             border: 1px solid #EDEDED;
             overflow: hidden;
             cursor: pointer;
-            display: flex !important;
-            flex-direction: column !important;
+            transition: transform 0.3s ease;
         }
 
-        /* MEDIA WRAPPER (SQUARE 1:1) */
+        /* MEDIA WRAPPER (SEKARANG 4:5) */
         .marketplace-media-wrap {
             width: 100%;
-            aspect-ratio: 1 / 1 !important;
+            aspect-ratio: 4 / 5 !important; /* REVISI: Balik ke 4:5 */
             position: relative;
             background: #F8F8F8;
             overflow: hidden;
@@ -1257,14 +1258,14 @@
         /* FLOATING TEXT (BOTTOM LEFT OVER IMAGE) */
         .floating-info {
             position: absolute !important;
-            bottom: 12px;
+            bottom: 15px; /* Sedikit penyesuaian jarak */
             left: 20px;
             z-index: 10;
             text-align: left;
             pointer-events: none;
         }
 
-        /* TYPOGRAPHY SPECIFICATION */
+        /* TYPOGRAPHY */
         .marketplace-badge {
             display: block;
             font-family: 'Public Sans', sans-serif !important;
@@ -1292,14 +1293,15 @@
             line-height: 1.4 !important;
         }
 
-        /* ACTION AREA (SHAPE #F9F9F9) */
+        /* ACTION AREA (SHAPE #F2F2F2 TETAP SAMA) */
         .marketplace-info {
-            flex-grow: 1;
+            width: 100%;
+            min-height: 80px; /* Jaga konsistensi tinggi box bawah */
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
             padding: 0 20px !important;
-            background: #F9F9F9 !important; /* Update Warna */
+            background: #F2F2F2 !important;
         }
 
         .marketplace-price-row {
@@ -1325,7 +1327,7 @@
             margin-right: 4px;
         }
 
-        /* "To" Label adjustment */
+        /* "To" Label Hitam */
         .price-stack div:last-child .marketplace-price-label {
             color: #000000 !important;
             font-weight: 400 !important;
@@ -1346,7 +1348,6 @@
             color: #000000 !important;
         }
 
-        /* BUTTON STYLE */
         .marketplace-cart-btn {
             background: #000000 !important;
             color: #FFFFFF !important;
@@ -3782,8 +3783,8 @@
                             <h3 class="marketplace-title">ENDUSSEE The River</h3>
                             <p class="marketplace-subtext">Eau De Parfume - 100ml</p>
                         </div>
-                        <img src="https://placehold.co/800x800/F8F8F8/0A0A0A?text=The+River" class="marketplace-img-primary" loading="lazy">
-                        <img src="https://placehold.co/800x800/EAEAEA/0A0A0A?text=Lifestyle+River" class="marketplace-img-hover" loading="lazy">
+                        <img src="https://placehold.co/800x1000/F8F8F8/0A0A0A?text=The+River+4:5" class="marketplace-img-primary" loading="lazy">
+                        <img src="https://placehold.co/800x1000/EAEAEA/0A0A0A?text=Lifestyle+River+4:5" class="marketplace-img-hover" loading="lazy">
                     </div>
                     <div class="marketplace-info">
                         <div class="marketplace-price-row">
@@ -3803,8 +3804,8 @@
                             <h3 class="marketplace-title">ENDUSSEE The Forest</h3>
                             <p class="marketplace-subtext">Eau De Parfume - 100ml</p>
                         </div>
-                        <img src="https://placehold.co/800x800/F8F8F8/0A0A0A?text=The+Forest" class="marketplace-img-primary" loading="lazy">
-                        <img src="https://placehold.co/800x800/EAEAEA/0A0A0A?text=Lifestyle+Forest" class="marketplace-img-hover" loading="lazy">
+                        <img src="https://placehold.co/800x1000/F8F8F8/0A0A0A?text=The+Forest+4:5" class="marketplace-img-primary" loading="lazy">
+                        <img src="https://placehold.co/800x1000/EAEAEA/0A0A0A?text=Lifestyle+Forest+4:5" class="marketplace-img-hover" loading="lazy">
                     </div>
                     <div class="marketplace-info">
                         <div class="marketplace-price-row">
@@ -3824,8 +3825,8 @@
                             <h3 class="marketplace-title">ENDUSSEE The Sunset</h3>
                             <p class="marketplace-subtext">Eau De Parfume - 100ml</p>
                         </div>
-                        <img src="https://placehold.co/800x800/F8F8F8/0A0A0A?text=The+Sunset" class="marketplace-img-primary" loading="lazy">
-                        <img src="https://placehold.co/800x800/EAEAEA/0A0A0A?text=Lifestyle+Sunset" class="marketplace-img-hover" loading="lazy">
+                        <img src="https://placehold.co/800x1000/F8F8F8/0A0A0A?text=The+Sunset+4:5" class="marketplace-img-primary" loading="lazy">
+                        <img src="https://placehold.co/800x1000/EAEAEA/0A0A0A?text=Lifestyle+Sunset+4:5" class="marketplace-img-hover" loading="lazy">
                     </div>
                     <div class="marketplace-info">
                         <div class="marketplace-price-row">
