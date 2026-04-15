@@ -1813,15 +1813,21 @@
         /* --- Hamburger Clean Version --- */
 
 /* =======================================================
-           HAMBURGER MENU ICON FIX (1.5px - SAFARI SAFE & ANIMATION SAFE)
+           HAMBURGER MENU FIX - THE "IDEAL GAP" METHOD
            ======================================================= */
         .hamburger-btn {
             display: flex !important;
             flex-direction: column !important;
-            justify-content: center !important;
+            justify-content: center !important; 
             align-items: center !important;
+            
+            /* INI DIA GAP IDEALNYA */
+            gap: 5px !important; 
+            
             width: 24px; 
-            height: 24px; 
+            /* RAHASIA: Pakai min-height, jangan height! Biar gap-nya gak dipaksa melar */
+            min-height: 24px; 
+            
             background: transparent !important;
             border: none !important;
             cursor: pointer;
@@ -1831,10 +1837,13 @@
         .hamburger-line {
             display: block;
             width: 20px; 
-            height: 1.5px !important; /* Ketebalan 1.5px tetap dipertahankan */
+            height: 1.5px !important; /* Ketebalan tetep 1.5px sesuai kemauan lo */
             background-color: #000000 !important; 
             border-radius: 2px; 
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Trik kunci tambahan biar Safari makin nurut */
+            transform: translateZ(0); 
             -webkit-font-smoothing: antialiased;
         }
 
