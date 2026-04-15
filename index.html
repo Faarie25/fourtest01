@@ -1813,15 +1813,13 @@
         /* --- Hamburger Clean Version --- */
 
 /* =======================================================
-           HAMBURGER MENU ICON FIX (1.5px PREMIUM STYLE)
+           HAMBURGER MENU ICON FIX (1.5px - SAFARI SAFE & ANIMATION SAFE)
            ======================================================= */
         .hamburger-btn {
             display: flex !important;
             flex-direction: column !important;
             justify-content: center !important;
             align-items: center !important;
-            /* WAJIB ANGKA BULAT: biar 1.5px gak jatuh di koordinat desimal yang bikin blur */
-            gap: 5px !important; 
             width: 24px; 
             height: 24px; 
             background: transparent !important;
@@ -1832,18 +1830,18 @@
 
         .hamburger-line {
             display: block;
-            width: 20px; /* Panjang garis */
-            height: 1.5px !important; /* Ketebalan elegan 1.5px sesuai request */
+            width: 20px; 
+            height: 1.5px !important; /* Ketebalan 1.5px tetap dipertahankan */
             background-color: #000000 !important; 
             border-radius: 2px; 
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-origin: center;
-            
-            /* Anti-aliasing hack: Paksa GPU rendering biar 1.5px tetep tajam setajam silet */
-            will-change: transform;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            transform: translateZ(0); 
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Ganti sistem GAP dengan MARGIN murni biar Safari nggak error ngitung pixelnya */
+        .hamburger-line:nth-child(1),
+        .hamburger-line:nth-child(2) {
+            margin-bottom: 4.5px !important; 
         }
 
 /* Warna pas header aktif (Tetep pakai kode lo) */
