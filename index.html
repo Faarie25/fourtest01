@@ -1232,84 +1232,88 @@
         }
 
         /* =======================================================
-           IMAGE SLIDER (MOBILE) & HOVER SYSTEM (DESKTOP)
+           IMAGE SLIDER (MOBILE) & HOVER SYSTEM (DESKTOP) - V2
            ======================================================= */
         .marketplace-image-slider {
             display: flex;
             width: 100%;
             height: 100%;
             overflow-x: auto;
+            overflow-y: hidden;
             scroll-snap-type: x mandatory;
-            scrollbar-width: none; /* Hide scrollbar Firefox */
-            -ms-overflow-style: none; /* Hide scrollbar IE/Edge */
+            scrollbar-width: none; 
+            -ms-overflow-style: none; 
+            touch-action: pan-x pan-y; 
         }
         
         .marketplace-image-slider::-webkit-scrollbar {
-            display: none; /* Hide scrollbar Chrome/Safari */
+            display: none; 
         }
 
-        .marketplace-img-primary,
-        .marketplace-img-hover {
+        .marketplace-slide {
             flex: 0 0 100%;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            scroll-snap-align: start;
+            scroll-snap-align: start; 
             position: relative;
-            opacity: 1;
         }
 
-        /* SWIPE INDICATOR (Garis Hitam Mobile) */
+        .marketplace-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            -webkit-user-drag: none; 
+            user-select: none;
+        }
+
+        /* SWIPE INDICATOR (Full Horizontal Bawah) */
         .swipe-indicator-wrap {
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 100%;
+            width: 100%; /* Membentang penuh dari kiri ke kanan */
             display: flex;
-            justify-content: center;
-            gap: 6px; /* Jarak antar garis */
-            padding-bottom: 8px;
+            gap: 2px; /* Jarak pemisah tipis antar slide biar kelihatan pisahannya */
             z-index: 10;
             pointer-events: none;
         }
 
         .swipe-indicator {
-            width: 24px; /* Panjang garis diperpendek karena sekarang ada dua */
-            height: 3px;
-            background-color: #E0E0E0; /* Warna abu-abu muda (pasif) */
-            border-radius: 10px;
+            flex: 1; /* Ajaibnya di sini: Otomatis bagi rata memanjang sesuai jumlah slide */
+            height: 4px; /* Ketebalan garis, bisa lo sesuaikan (misal 3px atau 5px) */
+            background-color: #E0E0E0; /* Abu-abu muda untuk yang belum aktif */
             transition: background-color 0.3s ease;
+            border-radius: 0; /* Pastikan kotaknya tajam nempel ke sudut */
         }
 
         .swipe-indicator.active {
-            background-color: #000000; /* Warna hitam (aktif) */
+            background-color: #000000; /* Hitam Solid untuk slide yang sedang dilihat */
         }
 
         /* DESKTOP VIEW (Kembali ke Hover Effect) */
         @media (min-width: 769px) {
             .marketplace-image-slider {
-                display: block;
+                display: block; 
                 overflow: hidden;
             }
-            .marketplace-img-primary {
+            .marketplace-slide:nth-child(1) {
                 position: relative;
                 z-index: 2;
-                transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+                opacity: 1;
+                transition: opacity 0.5s ease;
             }
-            .marketplace-img-hover {
+            .marketplace-slide:nth-child(2) {
                 position: absolute;
                 inset: 0;
-                opacity: 0;
                 z-index: 1;
-                transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+                opacity: 0;
+                transition: opacity 0.5s ease;
             }
-            .marketplace-card:hover .marketplace-img-primary { opacity: 0; }
-            .marketplace-card:hover .marketplace-img-hover { opacity: 1; }
             
-            /* Sembunyikan garis hitam di Desktop */
-            .swipe-indicator-wrap {
-                display: none;
-            }
+            .marketplace-card:hover .marketplace-slide:nth-child(1) { opacity: 0; }
+            .marketplace-card:hover .marketplace-slide:nth-child(2) { opacity: 1; }
+            
+            .swipe-indicator-wrap { display: none; }
         }
 
         /* FLOATING TEXT (BOTTOM LEFT OVER IMAGE) */
@@ -1808,29 +1812,39 @@
 
         /* --- Hamburger Clean Version --- */
 
-/* Parent button-nya harus dipastiin susunannya vertikal */
-.hamburger-btn {
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 4px !important; /* <--- Jarak antar garis, atur di sini */
-    width: 40px; 
-    height: 40px;
-    padding: 0 !important;
-    background: transparent;
-    border: none;
-}
+/* =======================================================
+           HAMBURGER MENU ICON FIX (1.5px PREMIUM STYLE)
+           ======================================================= */
+        .hamburger-btn {
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+            align-items: center !important;
+            /* WAJIB ANGKA BULAT: biar 1.5px gak jatuh di koordinat desimal yang bikin blur */
+            gap: 5px !important; 
+            width: 24px; 
+            height: 24px; 
+            background: transparent !important;
+            border: none !important;
+            cursor: pointer;
+            padding: 0 !important;
+        }
 
-/* Garisnya kita bikin simpel banget */
-.hamburger-line {
-    display: block !important;
-    width: 20px !important;     /* Panjang garis */
-    height: 1.5px !important;   /* KETEBALAN: Ganti 1px kalau mau lebih tipis */
-    background-color: currentColor; /* Ngikut warna asli */
-    transition: all 0.3s ease;
-    border-radius: 10px;
-}
+        .hamburger-line {
+            display: block;
+            width: 20px; /* Panjang garis */
+            height: 1.5px !important; /* Ketebalan elegan 1.5px sesuai request */
+            background-color: #000000 !important; 
+            border-radius: 2px; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: center;
+            
+            /* Anti-aliasing hack: Paksa GPU rendering biar 1.5px tetep tajam setajam silet */
+            will-change: transform;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            transform: translateZ(0); 
+        }
 
 /* Warna pas header aktif (Tetep pakai kode lo) */
 #main-header.interaction-active .hamburger-line {
@@ -3832,83 +3846,110 @@
             <h2 class="font-display text-4xl lg:text-5xl font-semibold mb-16 text-center reveal-title standard-section-title">Choose Your Character</h2>
             
             <div id="lineup-container" class="lineup-container grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
-                
-                <div class="marketplace-card group scroll-reveal card-reveal" onclick="window.location.href='productdetails.html'">
-                    <div class="marketplace-media-wrap">
-                        <div class="floating-info">
-                            <span class="marketplace-badge">New Arrival</span>
-                            <h3 class="marketplace-title">ENDUSSEE The River</h3>
-                            <p class="marketplace-subtext">Eau De Parfume - 100ml</p>
-                        </div>
-                        <div class="marketplace-image-slider">
-                            <img src="https://placehold.co/800x1000/F8F8F8/0A0A0A?text=The+River+4:5" class="marketplace-img-primary" loading="lazy">
-                            <img src="https://placehold.co/800x1000/EAEAEA/0A0A0A?text=Lifestyle+River+4:5" class="marketplace-img-hover" loading="lazy">
-                        </div>
-                        <div class="swipe-indicator-wrap">
-                            <div class="swipe-indicator active"></div> <div class="swipe-indicator"></div> </div>
-                    </div>
-                    <div class="marketplace-info">
-                        <div class="marketplace-price-row">
-                            <div class="price-stack">
-                                <div class="flex items-center gap-1"><span class="marketplace-price-label">From</span><span class="marketplace-price-old">Rp 399.000,-</span></div>
-                                <div class="flex items-center gap-1"><span class="marketplace-price-label">To</span><span class="marketplace-price">Rp 299.000,-</span></div>
-                            </div>
-                            <button class="marketplace-cart-btn" onclick="event.stopPropagation(); window.addToCartFromGrid('ENDUSSEE The River', 299000, '...');">Add Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="marketplace-card group scroll-reveal card-reveal" onclick="window.location.href='productdetails.html'">
-                    <div class="marketplace-media-wrap">
-                        <div class="floating-info">
-                            <span class="marketplace-badge">New Arrival</span>
-                            <h3 class="marketplace-title">ENDUSSEE The Forest</h3>
-                            <p class="marketplace-subtext">Eau De Parfume - 100ml</p>
-                        </div>
-                        <div class="marketplace-image-slider">
-                            <img src="https://placehold.co/800x1000/F8F8F8/0A0A0A?text=The+Forest+4:5" class="marketplace-img-primary" loading="lazy">
-                            <img src="https://placehold.co/800x1000/EAEAEA/0A0A0A?text=Lifestyle+Forest+4:5" class="marketplace-img-hover" loading="lazy">
-                        </div>
-                        <div class="swipe-indicator-wrap">
-                            <div class="swipe-indicator active"></div> <div class="swipe-indicator"></div> </div>
-                    </div>
-                    <div class="marketplace-info">
-                        <div class="marketplace-price-row">
-                            <div class="price-stack">
-                                <div class="flex items-center gap-1"><span class="marketplace-price-label">From</span><span class="marketplace-price-old">Rp 399.000,-</span></div>
-                                <div class="flex items-center gap-1"><span class="marketplace-price-label">To</span><span class="marketplace-price">Rp 299.000,-</span></div>
-                            </div>
-                            <button class="marketplace-cart-btn" onclick="event.stopPropagation(); window.addToCartFromGrid('ENDUSSEE The Forest', 299000, '...');">Add Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="marketplace-card group scroll-reveal card-reveal" onclick="window.location.href='productdetails.html'">
-                    <div class="marketplace-media-wrap">
-                        <div class="floating-info">
-                            <span class="marketplace-badge">New Arrival</span>
-                            <h3 class="marketplace-title">ENDUSSEE The Sunset</h3>
-                            <p class="marketplace-subtext">Eau De Parfume - 100ml</p>
-                        </div>
-                        <div class="marketplace-image-slider">
-                            <img src="https://placehold.co/800x1000/F8F8F8/0A0A0A?text=The+Sunset+4:5" class="marketplace-img-primary" loading="lazy">
-                            <img src="https://placehold.co/800x1000/EAEAEA/0A0A0A?text=Lifestyle+Sunset+4:5" class="marketplace-img-hover" loading="lazy">
-                        </div>
-                        <div class="swipe-indicator-wrap">
-                            <div class="swipe-indicator active"></div> <div class="swipe-indicator"></div> </div>
-                    </div>
-                    <div class="marketplace-info">
-                        <div class="marketplace-price-row">
-                            <div class="price-stack">
-                                <div class="flex items-center gap-1"><span class="marketplace-price-label">From</span><span class="marketplace-price-old">Rp 399.000,-</span></div>
-                                <div class="flex items-center gap-1"><span class="marketplace-price-label">To</span><span class="marketplace-price">Rp 299.000,-</span></div>
-                            </div>
-                            <button class="marketplace-cart-btn" onclick="event.stopPropagation(); window.addToCartFromGrid('ENDUSSEE The Sunset', 299000, '...');">Add Cart</button>
-                        </div>
-                    </div>
-                </div>
-
+    
+    <div class="marketplace-card group scroll-reveal card-reveal" onclick="window.location.href='productdetails.html'">
+        <div class="marketplace-media-wrap">
+            <div class="floating-info">
+                <span class="marketplace-badge">New Arrival</span>
+                <h3 class="marketplace-title">ENDUSSEE The River</h3>
+                <p class="marketplace-subtext">Eau De Parfume - 100ml</p>
             </div>
+            
+            <div class="marketplace-image-slider">
+                <div class="marketplace-slide">
+                    <img src="https://placehold.co/800x1000/F8F8F8/0A0A0A?text=The+River+4:5" class="marketplace-img" loading="lazy">
+                </div>
+                <div class="marketplace-slide">
+                    <img src="https://placehold.co/800x1000/EAEAEA/0A0A0A?text=Lifestyle+River+4:5" class="marketplace-img" loading="lazy">
+                </div>
+            </div>
+
+            <div class="swipe-indicator-wrap">
+                <div class="swipe-indicator active"></div>
+                <div class="swipe-indicator"></div>
+            </div>
+        </div>
+        
+        <div class="marketplace-info">
+            <div class="marketplace-price-row">
+                <div class="price-stack">
+                    <div class="flex items-center gap-1"><span class="marketplace-price-label">From</span><span class="marketplace-price-old">Rp 399.000,-</span></div>
+                    <div class="flex items-center gap-1"><span class="marketplace-price-label">To</span><span class="marketplace-price">Rp 299.000,-</span></div>
+                </div>
+                <button class="marketplace-cart-btn" onclick="event.stopPropagation(); window.addToCartFromGrid('ENDUSSEE The River', 299000, '...');">Add Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="marketplace-card group scroll-reveal card-reveal" onclick="window.location.href='productdetails.html'">
+        <div class="marketplace-media-wrap">
+            <div class="floating-info">
+                <span class="marketplace-badge">New Arrival</span>
+                <h3 class="marketplace-title">ENDUSSEE The Forest</h3>
+                <p class="marketplace-subtext">Eau De Parfume - 100ml</p>
+            </div>
+            
+            <div class="marketplace-image-slider">
+                <div class="marketplace-slide">
+                    <img src="https://placehold.co/800x1000/F8F8F8/0A0A0A?text=The+Forest+4:5" class="marketplace-img" loading="lazy">
+                </div>
+                <div class="marketplace-slide">
+                    <img src="https://placehold.co/800x1000/EAEAEA/0A0A0A?text=Lifestyle+Forest+4:5" class="marketplace-img" loading="lazy">
+                </div>
+            </div>
+
+            <div class="swipe-indicator-wrap">
+                <div class="swipe-indicator active"></div>
+                <div class="swipe-indicator"></div>
+            </div>
+        </div>
+        
+        <div class="marketplace-info">
+            <div class="marketplace-price-row">
+                <div class="price-stack">
+                    <div class="flex items-center gap-1"><span class="marketplace-price-label">From</span><span class="marketplace-price-old">Rp 399.000,-</span></div>
+                    <div class="flex items-center gap-1"><span class="marketplace-price-label">To</span><span class="marketplace-price">Rp 299.000,-</span></div>
+                </div>
+                <button class="marketplace-cart-btn" onclick="event.stopPropagation(); window.addToCartFromGrid('ENDUSSEE The Forest', 299000, '...');">Add Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="marketplace-card group scroll-reveal card-reveal" onclick="window.location.href='productdetails.html'">
+        <div class="marketplace-media-wrap">
+            <div class="floating-info">
+                <span class="marketplace-badge">New Arrival</span>
+                <h3 class="marketplace-title">ENDUSSEE The Sunset</h3>
+                <p class="marketplace-subtext">Eau De Parfume - 100ml</p>
+            </div>
+            
+            <div class="marketplace-image-slider">
+                <div class="marketplace-slide">
+                    <img src="https://placehold.co/800x1000/F8F8F8/0A0A0A?text=The+Sunset+4:5" class="marketplace-img" loading="lazy">
+                </div>
+                <div class="marketplace-slide">
+                    <img src="https://placehold.co/800x1000/EAEAEA/0A0A0A?text=Lifestyle+Sunset+4:5" class="marketplace-img" loading="lazy">
+                </div>
+            </div>
+
+            <div class="swipe-indicator-wrap">
+                <div class="swipe-indicator active"></div>
+                <div class="swipe-indicator"></div>
+            </div>
+        </div>
+        
+        <div class="marketplace-info">
+            <div class="marketplace-price-row">
+                <div class="price-stack">
+                    <div class="flex items-center gap-1"><span class="marketplace-price-label">From</span><span class="marketplace-price-old">Rp 399.000,-</span></div>
+                    <div class="flex items-center gap-1"><span class="marketplace-price-label">To</span><span class="marketplace-price">Rp 299.000,-</span></div>
+                </div>
+                <button class="marketplace-cart-btn" onclick="event.stopPropagation(); window.addToCartFromGrid('ENDUSSEE The Sunset', 299000, '...');">Add Cart</button>
+            </div>
+        </div>
+    </div>
+
+</div>
         </section>
 
         <!-- Lifestyle Section -->
@@ -5055,50 +5096,39 @@ if (typeof auth !== 'undefined') {
         });
     });
 });
+</script>
 <script>
-    // SCRIPT FINAL PENYELESAIAN SWIPE INDICATOR
-    window.onload = function() {
-        const cards = document.querySelectorAll('.marketplace-card');
+    document.addEventListener("DOMContentLoaded", function() {
+        // Ambil semua pembungkus gambar (media wrap)
+        const mediaWraps = document.querySelectorAll('.marketplace-media-wrap');
 
-        cards.forEach(card => {
-            const slider = card.querySelector('.marketplace-image-slider');
-            const indicators = card.querySelectorAll('.swipe-indicator');
+        mediaWraps.forEach(wrap => {
+            const slider = wrap.querySelector('.marketplace-image-slider');
+            const indicators = wrap.querySelectorAll('.swipe-indicator');
             
             if (!slider || indicators.length === 0) return;
 
-            // Fungsi inti untuk ganti warna
-            const setIndikatorWarna = () => {
-                const lebarSlider = slider.clientWidth;
-                // Cegah perhitungan kalau ukuran belum beres ke-load
-                if (lebarSlider === 0) return; 
-                
+            // Dengerin pas slider digeser
+            slider.addEventListener('scroll', () => {
                 const posisiScroll = slider.scrollLeft;
-                const indexAktif = Math.round(posisiScroll / lebarSlider);
+                const lebarGambar = slider.clientWidth;
                 
-                indicators.forEach((garis, i) => {
-                    if (i === indexAktif) {
-                        garis.style.backgroundColor = '#000000'; // Aktif (Hitam)
-                        garis.style.opacity = '1';
+                if (lebarGambar === 0) return; // Cegah error kalau layar belum beres loading
+
+                // Cek gambar mana yang lagi tampil
+                const indexAktif = Math.round(posisiScroll / lebarGambar);
+
+                // Ubah warna garis
+                indicators.forEach((garis, index) => {
+                    if (index === indexAktif) {
+                        garis.classList.add('active');
                     } else {
-                        garis.style.backgroundColor = '#E0E0E0'; // Pasif (Abu-abu)
-                        garis.style.opacity = '1';
+                        garis.classList.remove('active');
                     }
                 });
-            };
-
-            // 1. Dideteksi saat gambar sedang asyik digeser
-            slider.addEventListener('scroll', setIndikatorWarna);
-            
-            // 2. Dideteksi setelah sentuhan layar dilepas (Penting buat efek Snap!)
-            slider.addEventListener('touchend', () => {
-                setTimeout(setIndikatorWarna, 100);
-                setTimeout(setIndikatorWarna, 300); // Tunggu sampai gambar berhenti nge-snap
-            });
-
-            // 3. Panggil saat pertama kali web dibuka biar warnanya langsung benar
-            setIndikatorWarna();
+            }, { passive: true }); // passive: true bikin scroll di HP makin smooth
         });
-    };
+    });
 </script>
 </body>
 </html>
