@@ -1231,29 +1231,86 @@
             z-index: 1;
         }
 
-        /* IMAGE HOVER SYSTEM */
-        .marketplace-img-primary {
+        /* =======================================================
+           IMAGE SLIDER (MOBILE) & HOVER SYSTEM (DESKTOP)
+           ======================================================= */
+        .marketplace-image-slider {
+            display: flex;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            z-index: 2;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none; /* Hide scrollbar Firefox */
+            -ms-overflow-style: none; /* Hide scrollbar IE/Edge */
+        }
+        
+        .marketplace-image-slider::-webkit-scrollbar {
+            display: none; /* Hide scrollbar Chrome/Safari */
         }
 
+        .marketplace-img-primary,
         .marketplace-img-hover {
-            position: absolute;
-            inset: 0;
+            flex: 0 0 100%;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0;
-            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1;
+            scroll-snap-align: start;
+            position: relative;
+            opacity: 1;
         }
 
-        .marketplace-card:hover .marketplace-img-primary { opacity: 0; }
-        .marketplace-card:hover .marketplace-img-hover { opacity: 1; }
+        /* SWIPE INDICATOR (Garis Hitam Mobile) */
+        .swipe-indicator-wrap {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 6px; /* Jarak antar garis */
+            padding-bottom: 8px;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .swipe-indicator {
+            width: 24px; /* Panjang garis diperpendek karena sekarang ada dua */
+            height: 3px;
+            background-color: #E0E0E0; /* Warna abu-abu muda (pasif) */
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .swipe-indicator.active {
+            background-color: #000000; /* Warna hitam (aktif) */
+        }
+
+        /* DESKTOP VIEW (Kembali ke Hover Effect) */
+        @media (min-width: 769px) {
+            .marketplace-image-slider {
+                display: block;
+                overflow: hidden;
+            }
+            .marketplace-img-primary {
+                position: relative;
+                z-index: 2;
+                transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .marketplace-img-hover {
+                position: absolute;
+                inset: 0;
+                opacity: 0;
+                z-index: 1;
+                transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .marketplace-card:hover .marketplace-img-primary { opacity: 0; }
+            .marketplace-card:hover .marketplace-img-hover { opacity: 1; }
+            
+            /* Sembunyikan garis hitam di Desktop */
+            .swipe-indicator-wrap {
+                display: none;
+            }
+        }
 
         /* FLOATING TEXT (BOTTOM LEFT OVER IMAGE) */
         .floating-info {
@@ -3783,8 +3840,12 @@
                             <h3 class="marketplace-title">ENDUSSEE The River</h3>
                             <p class="marketplace-subtext">Eau De Parfume - 100ml</p>
                         </div>
-                        <img src="https://placehold.co/800x1000/F8F8F8/0A0A0A?text=The+River+4:5" class="marketplace-img-primary" loading="lazy">
-                        <img src="https://placehold.co/800x1000/EAEAEA/0A0A0A?text=Lifestyle+River+4:5" class="marketplace-img-hover" loading="lazy">
+                        <div class="marketplace-image-slider">
+                            <img src="https://placehold.co/800x1000/F8F8F8/0A0A0A?text=The+River+4:5" class="marketplace-img-primary" loading="lazy">
+                            <img src="https://placehold.co/800x1000/EAEAEA/0A0A0A?text=Lifestyle+River+4:5" class="marketplace-img-hover" loading="lazy">
+                        </div>
+                        <div class="swipe-indicator-wrap">
+                            <div class="swipe-indicator active"></div> <div class="swipe-indicator"></div> </div>
                     </div>
                     <div class="marketplace-info">
                         <div class="marketplace-price-row">
@@ -3804,8 +3865,12 @@
                             <h3 class="marketplace-title">ENDUSSEE The Forest</h3>
                             <p class="marketplace-subtext">Eau De Parfume - 100ml</p>
                         </div>
-                        <img src="https://placehold.co/800x1000/F8F8F8/0A0A0A?text=The+Forest+4:5" class="marketplace-img-primary" loading="lazy">
-                        <img src="https://placehold.co/800x1000/EAEAEA/0A0A0A?text=Lifestyle+Forest+4:5" class="marketplace-img-hover" loading="lazy">
+                        <div class="marketplace-image-slider">
+                            <img src="https://placehold.co/800x1000/F8F8F8/0A0A0A?text=The+Forest+4:5" class="marketplace-img-primary" loading="lazy">
+                            <img src="https://placehold.co/800x1000/EAEAEA/0A0A0A?text=Lifestyle+Forest+4:5" class="marketplace-img-hover" loading="lazy">
+                        </div>
+                        <div class="swipe-indicator-wrap">
+                            <div class="swipe-indicator active"></div> <div class="swipe-indicator"></div> </div>
                     </div>
                     <div class="marketplace-info">
                         <div class="marketplace-price-row">
@@ -3825,8 +3890,12 @@
                             <h3 class="marketplace-title">ENDUSSEE The Sunset</h3>
                             <p class="marketplace-subtext">Eau De Parfume - 100ml</p>
                         </div>
-                        <img src="https://placehold.co/800x1000/F8F8F8/0A0A0A?text=The+Sunset+4:5" class="marketplace-img-primary" loading="lazy">
-                        <img src="https://placehold.co/800x1000/EAEAEA/0A0A0A?text=Lifestyle+Sunset+4:5" class="marketplace-img-hover" loading="lazy">
+                        <div class="marketplace-image-slider">
+                            <img src="https://placehold.co/800x1000/F8F8F8/0A0A0A?text=The+Sunset+4:5" class="marketplace-img-primary" loading="lazy">
+                            <img src="https://placehold.co/800x1000/EAEAEA/0A0A0A?text=Lifestyle+Sunset+4:5" class="marketplace-img-hover" loading="lazy">
+                        </div>
+                        <div class="swipe-indicator-wrap">
+                            <div class="swipe-indicator active"></div> <div class="swipe-indicator"></div> </div>
                     </div>
                     <div class="marketplace-info">
                         <div class="marketplace-price-row">
@@ -4986,6 +5055,50 @@ if (typeof auth !== 'undefined') {
         });
     });
 });
+<script>
+    // SCRIPT FINAL PENYELESAIAN SWIPE INDICATOR
+    window.onload = function() {
+        const cards = document.querySelectorAll('.marketplace-card');
+
+        cards.forEach(card => {
+            const slider = card.querySelector('.marketplace-image-slider');
+            const indicators = card.querySelectorAll('.swipe-indicator');
+            
+            if (!slider || indicators.length === 0) return;
+
+            // Fungsi inti untuk ganti warna
+            const setIndikatorWarna = () => {
+                const lebarSlider = slider.clientWidth;
+                // Cegah perhitungan kalau ukuran belum beres ke-load
+                if (lebarSlider === 0) return; 
+                
+                const posisiScroll = slider.scrollLeft;
+                const indexAktif = Math.round(posisiScroll / lebarSlider);
+                
+                indicators.forEach((garis, i) => {
+                    if (i === indexAktif) {
+                        garis.style.backgroundColor = '#000000'; // Aktif (Hitam)
+                        garis.style.opacity = '1';
+                    } else {
+                        garis.style.backgroundColor = '#E0E0E0'; // Pasif (Abu-abu)
+                        garis.style.opacity = '1';
+                    }
+                });
+            };
+
+            // 1. Dideteksi saat gambar sedang asyik digeser
+            slider.addEventListener('scroll', setIndikatorWarna);
+            
+            // 2. Dideteksi setelah sentuhan layar dilepas (Penting buat efek Snap!)
+            slider.addEventListener('touchend', () => {
+                setTimeout(setIndikatorWarna, 100);
+                setTimeout(setIndikatorWarna, 300); // Tunggu sampai gambar berhenti nge-snap
+            });
+
+            // 3. Panggil saat pertama kali web dibuka biar warnanya langsung benar
+            setIndikatorWarna();
+        });
+    };
 </script>
 </body>
 </html>
